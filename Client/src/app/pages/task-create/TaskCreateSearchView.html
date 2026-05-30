@@ -1,0 +1,87 @@
+<div class="bg-dark-navy min-vh-100 text-white">
+  <!-- Top Bar -->
+  <header class="bg-secondary-bg border-bottom border-secondary d-flex align-items-center px-4 sticky-top" style="height: 64px;">
+    <button class="btn text-cyan p-2 rounded-circle hover-bg-navy" (click)="goBack()">
+      <i class="bi bi-arrow-left fs-4"></i>
+    </button>
+    <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5">Create Task</h1>
+  </header>
+
+  <main class="container py-4" style="max-width: 800px; padding-bottom: 120px;">
+    <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
+      <!-- Task Title -->
+      <div class="mb-4">
+        <label class="form-label text-white small fw-bold">หัวข้องาน (Task Title)</label>
+        <input type="text" class="form-control card-custom border-secondary p-3 text-white focus-cyan" 
+               placeholder="ระบุหัวข้องาน" name="title" [(ngModel)]="task.title" required>
+      </div>
+
+      <!-- Category -->
+      <div class="mb-4">
+        <label class="form-label text-white small fw-bold">หมวดหมู่ (Category)</label>
+        <select class="form-select card-custom border-secondary p-3 text-white focus-cyan appearance-none" 
+                name="categoryId" [(ngModel)]="task.categoryId" required>
+          <option [ngValue]="null" disabled selected>เลือกหมวดหมู่</option>
+          @for (cat of categories; track cat.id) {
+            <option [ngValue]="cat.id">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Priority -->
+      <div class="mb-4">
+        <label class="form-label text-white small fw-bold mb-3">ความสำคัญ (Priority)</label>
+        <div class="row g-2">
+          @for (p of priorities; track p.value) {
+            <div class="col-6 col-md-3">
+              <input type="radio" class="btn-check" name="priority" [id]="p.value" [value]="p.value" [(ngModel)]="task.priority">
+              <label class="btn w-100 py-3 border-secondary card-custom text-white fw-bold transition-all" [for]="p.value">
+                {{ p.label }}
+              </label>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-4">
+        <label class="form-label text-white small fw-bold">รายละเอียด (Description)</label>
+        <textarea class="form-control card-custom border-secondary p-3 text-white focus-cyan" 
+                  rows="4" placeholder="ระบุรายละเอียดของงาน..." name="description" [(ngModel)]="task.description"></textarea>
+      </div>
+
+      <!-- Attachments -->
+      <div class="mb-4">
+        <label class="form-label text-white small fw-bold">แนบไฟล์ (Attachments)</label>
+        <div class="card card-custom border-secondary border-dashed border-2 p-5 text-center cursor-pointer hover-bg-navy transition-all"
+             (click)="fileInput.click()">
+          <i class="bi bi-cloud-upload fs-1 text-white mb-2"></i>
+          <p class="mb-1">คลิกเพื่ออัปโหลด หรือลากไฟล์มาวางที่นี่</p>
+          <small class="text-white">PNG, JPG, PDF (Max 10MB)</small>
+          <input type="file" #fileInput class="d-none" (change)="handleFileUpload($event)" multiple>
+        </div>
+      </div>
+
+      <!-- Reward Points -->
+      <div class="mb-4">
+        <label class="form-label text-white small fw-bold">คะแนนรางวัล (Reward Points) - <span class="fst-italic">Optional</span></label>
+        <div class="input-group card-custom border-secondary overflow-hidden">
+          <span class="input-group-text bg-transparent border-0 text-warning">
+            <i class="bi bi-star-fill"></i>
+          </span>
+          <input type="number" class="form-control bg-transparent border-0 text-white p-3 focus-none" 
+                 placeholder="0" name="points" [(ngModel)]="task.points">
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <!-- Bottom Action Bar -->
+    <div class="container d-flex justify-content-end gap-3" style="max-width: 800px;">
+      <button class="btn btn-outline-secondary px-4 py-3 fw-bold" (click)="goBack()">ยกเลิก (Cancel)</button>
+      <button class="btn btn-cyan px-4 py-3 fw-bold d-flex align-items-center gap-2" (click)="onSubmit()">
+        สร้างและแจ้งเตือน (Create & Notify)
+        <i class="bi bi-send-fill"></i>
+      </button>
+    </div>
+</div>

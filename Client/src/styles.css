@@ -1,0 +1,209 @@
+/* Global Styles */
+:root {
+  --primary-bg: #040911;      /* Midnight Base */
+  --secondary-bg: #0d1b2a;    /* Deep Navy */
+  --surface-bg: #1b263b;      /* Surface Elevated */
+  --accent-cyan: #00f2ff;     /* Status Progress / Cyan */
+  --text-main: #ffffff;       /* High contrast white for main text */
+  --text-secondary: #ffffff;  /* Changed from #e2e2e2 to pure white */
+  --text-muted: #ffffff;      /* Changed from #bac8dc to pure white */
+  --text-on-cyan: #040911;    /* Deep Navy on Cyan */
+  --status-done: #06D6A0;
+  --status-pending: #FFB703;
+  --status-error: #ffb4ab;
+}
+
+* {
+  font-family: 'Kanit', sans-serif !important;
+}
+
+body {
+  background-color: var(--primary-bg);
+  color: var(--text-main);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Background Utility Classes */
+.bg-dark-navy { background-color: var(--primary-bg) !important; }
+.bg-secondary-bg { background-color: var(--secondary-bg) !important; }
+.bg-surface-elevated { background-color: var(--surface-bg) !important; }
+
+/* Text Utility Classes */
+.text-cyan { color: var(--accent-cyan) !important; }
+.text-white-50 { color: var(--text-muted) !important; } /* Re-mapped to a lighter, more legible color */
+.text-on-surface { color: var(--text-main) !important; }
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  color: var(--text-main) !important;
+}
+p, span, div {
+  color: var(--text-secondary);
+}
+
+/* Button Utility Classes */
+.btn-cyan {
+  background-color: var(--accent-cyan) !important;
+  color: var(--text-on-cyan) !important;
+  font-weight: 600;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-cyan:hover {
+  background-color: #00d8e6 !important;
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-outline-cyan {
+  border: 1px solid var(--accent-cyan) !important;
+  color: var(--accent-cyan) !important;
+  background: transparent;
+}
+
+.btn-outline-cyan:hover {
+  background-color: rgba(0, 242, 255, 0.1) !important;
+}
+
+/* Card Customization */
+.card-custom {
+  background-color: var(--secondary-bg);
+  border: 1px solid rgba(142, 145, 150, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-elevated {
+  background-color: var(--surface-bg);
+  border: 1px solid rgba(142, 145, 150, 0.1);
+  border-radius: 12px;
+}
+
+/* Input Customization */
+.form-control, .form-select {
+  background-color: var(--primary-bg) !important;
+  border: 1px solid rgba(142, 145, 150, 0.3) !important;
+  color: var(--text-main) !important;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 0 0.25rem rgba(0, 242, 255, 0.1) !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--primary-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-bg);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Input Placeholder Customization */
+::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.7;
+}
+
+::-webkit-input-placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.7;
+}
+
+:-ms-input-placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.7;
+}
+
+/* SweetAlert2 Theme Override */
+.swal2-popup {
+  background-color: var(--secondary-bg) !important;
+  color: var(--text-main) !important;
+  border: 1px solid rgba(142, 145, 150, 0.2);
+  border-radius: 16px !important;
+}
+
+.swal2-title {
+  color: var(--accent-cyan) !important;
+  font-family: 'Kanit', sans-serif !important;
+}
+
+.swal2-html-container {
+  color: var(--text-secondary) !important;
+  font-family: 'Kanit', sans-serif !important;
+}
+
+.swal2-confirm {
+  background-color: var(--accent-cyan) !important;
+  color: var(--text-on-cyan) !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+}
+
+.swal2-cancel {
+  background-color: transparent !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--text-muted) !important;
+  border-radius: 8px !important;
+}
+
+.swal2-icon.swal2-success [class^='swal2-success-line'] {
+  background-color: var(--status-done) !important;
+}
+
+.swal2-icon.swal2-success {
+  border-color: var(--status-done) !important;
+  color: var(--status-done) !important;
+}
+
+/* Global Loading Spinner */
+.global-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(4, 9, 17, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.spinner-cyan {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 242, 255, 0.1);
+  border-top: 5px solid var(--accent-cyan);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-text {
+  margin-top: 15px;
+  color: var(--accent-cyan);
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* Responsive Utilities */
+@media (max-width: 768px) {
+  .display-5 { font-size: 1.75rem; }
+  .h1, h1 { font-size: 1.5rem; }
+  .h2, h2 { font-size: 1.25rem; }
+}

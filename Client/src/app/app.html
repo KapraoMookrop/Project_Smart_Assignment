@@ -1,0 +1,92 @@
+<div class="app-container">
+  <!-- Global Loader -->
+  @if (loading$ | async) {
+    <div class="global-loader">
+      <div class="spinner-cyan"></div>
+      <p class="loader-text">กำลังโหลดข้อมูล...</p>
+    </div>
+  }
+
+  <!-- Main Content Area -->
+  <div class="content-wrapper">
+    <router-outlet></router-outlet>
+  </div>
+
+  <!-- Global Bottom Navbar (Mobile Only) -->
+  @if (!router.url.includes('/login')) {
+    <nav class="navbar fixed-bottom d-md-none border-top border-secondary py-2 shadow-lg" 
+         style="z-index: 2000; background-color: #040911 !important;">
+      <div class="container-fluid justify-content-around px-0">
+        <a class="nav-link d-flex flex-column align-items-center" routerLink="/dashboard" routerLinkActive="active-cyan">
+          <i class="bi bi-house-door fs-4"></i>
+          <span class="x-small">ภาพรวม</span>
+        </a>
+        <a class="nav-link d-flex flex-column align-items-center" routerLink="/categories" routerLinkActive="active-cyan">
+          <i class="bi bi-grid fs-4"></i>
+          <span class="x-small">หมวดหมู่</span>
+        </a>
+        <a class="nav-link d-flex flex-column align-items-center position-relative" routerLink="/tasks/create" routerLinkActive="active-cyan" style="top: -15px;">
+          <div class="bg-cyan rounded-circle d-flex align-items-center justify-content-center shadow-cyan" style="width: 55px; height: 55px; border: 4px solid #040911;">
+            <i class="bi bi-plus-lg fs-2 text-dark"></i>
+          </div>
+          <span class="x-small mt-1" style="position: absolute; bottom: -20px; width: max-content;">สร้างงาน</span>
+        </a>
+        <a class="nav-link d-flex flex-column align-items-center" routerLink="/companies" routerLinkActive="active-cyan">
+          <i class="bi bi-building fs-4"></i>
+          <span class="x-small">บริษัท</span>
+        </a>
+        <a class="nav-link d-flex flex-column align-items-center" routerLink="/profile" routerLinkActive="active-cyan">
+          <i class="bi bi-person fs-4"></i>
+          <span class="x-small">โปรไฟล์</span>
+        </a>
+      </div>
+    </nav>
+  }
+</div>
+
+<style>
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .content-wrapper {
+    flex: 1;
+    /* Extra padding at bottom for mobile to prevent content being covered by fixed navbar */
+    padding-bottom: 85px; 
+  }
+  @media (min-width: 768px) {
+    .content-wrapper {
+      padding-bottom: 0;
+    }
+  }
+  .nav-link {
+    color: #ffffff; /* Changed from #bac8dc to white */
+    transition: all 0.2s;
+    text-decoration: none;
+    flex: 1;
+    text-align: center;
+  }
+  .nav-link:hover {
+    color: #00f2ff;
+  }
+  .active-cyan {
+    color: #00f2ff !important;
+  }
+  .active-cyan i {
+    color: #00f2ff !important;
+  }
+  .x-small {
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+  .bg-cyan {
+    background-color: #00f2ff !important;
+  }
+  .text-dark {
+    color: #040911 !important;
+  }
+  .shadow-cyan {
+    box-shadow: 0 4px 15px rgba(0, 242, 255, 0.4);
+  }
+</style>

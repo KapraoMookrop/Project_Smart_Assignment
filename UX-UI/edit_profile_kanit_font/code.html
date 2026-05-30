@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Profile - TaskToGroup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#1e2020",
+                        "midnight-base": "#040911",
+                        "surface-tint": "#bac8dc",
+                        "background": "#121414",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-container": "#78839c",
+                        "surface-container-high": "#282a2b",
+                        "secondary-fixed": "#9cf0ff",
+                        "on-primary": "#243141",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#1a1c1c",
+                        "on-primary-fixed": "#0f1c2c",
+                        "on-secondary": "#00363d",
+                        "secondary": "#bdf4ff",
+                        "on-tertiary-fixed": "#101b30",
+                        "status-done": "#06D6A0",
+                        "surface-dim": "#121414",
+                        "tertiary-container": "#0f1a2e",
+                        "secondary-container": "#00e3fd",
+                        "outline": "#8e9196",
+                        "surface-container-highest": "#333535",
+                        "surface-bright": "#37393a",
+                        "surface-container-lowest": "#0c0f0f",
+                        "on-tertiary": "#263046",
+                        "outline-variant": "#44474c",
+                        "surface": "#121414",
+                        "inverse-primary": "#525f71",
+                        "on-surface-variant": "#c4c6cc",
+                        "secondary-fixed-dim": "#00daf3",
+                        "inverse-surface": "#e2e2e2",
+                        "inverse-on-surface": "#2f3131",
+                        "on-background": "#e2e2e2",
+                        "on-secondary-fixed": "#001f24",
+                        "on-tertiary-fixed-variant": "#3c475d",
+                        "status-progress": "#00E5FF",
+                        "primary-container": "#0d1b2a",
+                        "tertiary": "#bbc6e2",
+                        "primary-fixed": "#d6e4f9",
+                        "primary": "#bac8dc",
+                        "tertiary-fixed": "#d7e2ff",
+                        "on-surface": "#e2e2e2",
+                        "on-secondary-fixed-variant": "#004f58",
+                        "on-primary-fixed-variant": "#3a4859",
+                        "on-error": "#690005",
+                        "primary-fixed-dim": "#bac8dc",
+                        "on-primary-container": "#768497",
+                        "surface-elevated": "#1B263B",
+                        "status-pending": "#FFB703",
+                        "on-secondary-container": "#00616d",
+                        "surface-variant": "#333535",
+                        "tertiary-fixed-dim": "#bbc6e2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-tablet": "24px",
+                        "gutter": "16px",
+                        "container-max": "1024px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Kanit"],
+                        "headline-sm": ["Kanit"],
+                        "headline-md": ["Kanit"],
+                        "body-lg": ["Kanit"],
+                        "label-md": ["Kanit"],
+                        "headline-lg": ["Kanit"],
+                        "headline-lg-mobile": ["Kanit"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #00E5FF !important;
+            box-shadow: 0 0 0 1px #00E5FF !important;
+        }
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #040911; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1B263B; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #323F52; 
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-midnight-base text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-primary-container dark:bg-primary-container text-secondary-fixed dark:text-secondary-fixed font-headline-md text-headline-md border-b border-outline-variant flex justify-between items-center px-margin-mobile md:px-margin-tablet w-full h-16 sticky top-0 z-50">
+<button aria-label="Go Back" class="text-secondary-fixed hover:bg-surface-variant transition-colors duration-200 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-secondary-fixed truncate px-4">แก้ไขข้อมูลส่วนตัว</h1>
+<div class="w-10"></div> <!-- Placeholder for balance -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-tablet py-8">
+<form class="bg-surface-elevated rounded-xl border border-outline-variant/50 p-6 md:p-8 flex flex-col gap-6 max-w-2xl mx-auto shadow-sm">
+<!-- Profile Picture Section -->
+<div class="flex flex-col items-center gap-4 mb-2">
+<div class="relative group cursor-pointer">
+<div class="w-24 h-24 rounded-full bg-primary-container border-2 border-outline-variant overflow-hidden flex items-center justify-center">
+<!-- Placeholder Image -->
+<img alt="Current Profile Picture" class="w-full h-full object-cover" data-alt="A high-quality, professional headshot of an individual, serving as a profile picture placeholder. The image has a deep navy and sleek modern aesthetic, fitting for a corporate software platform. Soft, neutral lighting ensures clarity and approachability within a high-contrast dark mode environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4KYaL1u0NVN0GNo8u5AagWDphT9yUo1mcR8qEq8TE3sJUfagMnLZtgflaM2vaRfkIGsS9wUb7RhHr4RY3Z0esH4GxqTpFbzfdVM4Bu60MPpXdHmisJ9OIQ8ZqyOn_yKcLWOvXTTUoAVnhGY5CuumC-cWQlfrgi6NPGTK1yuaITH1TFBHMbZerDldGCPi0Elf4W8Pcv15jEgRa2RwtZfmn22v4hbrcp8InWS-DhESi9U23cHQTf5AUUEWY7JvxvFSe3lcxs6em-Ws"/>
+</div>
+<div class="absolute inset-0 bg-midnight-base/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="photo_camera">photo_camera</span>
+</div>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant">Tap to change profile picture</p>
+</div>
+<!-- Form Fields -->
+<div class="flex flex-col gap-5">
+<!-- Full Name -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant" for="fullName">Full Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-opacity-70 pointer-events-none" data-icon="person">person</span>
+<input class="w-full bg-midnight-base border border-outline-variant rounded-lg pl-10 pr-4 py-3 text-on-surface font-body-lg text-body-lg placeholder-on-surface-variant/50 transition-colors duration-200" id="fullName" name="fullName" placeholder="Enter your full name" type="text" value="Admin User"/>
+</div>
+</div>
+<!-- Email Address -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-opacity-70 pointer-events-none" data-icon="mail">mail</span>
+<input class="w-full bg-midnight-base border border-outline-variant rounded-lg pl-10 pr-4 py-3 text-on-surface font-body-lg text-body-lg placeholder-on-surface-variant/50 transition-colors duration-200" id="email" name="email" placeholder="Enter your email address" type="email" value="admin@globalenterprise.com"/>
+</div>
+</div>
+<!-- Phone Number -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant" for="phone">Phone Number</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-opacity-70 pointer-events-none" data-icon="phone">phone</span>
+<input class="w-full bg-midnight-base border border-outline-variant rounded-lg pl-10 pr-4 py-3 text-on-surface font-body-lg text-body-lg placeholder-on-surface-variant/50 transition-colors duration-200" id="phone" name="phone" placeholder="Enter your phone number" type="tel" value="+1 (555) 123-4567"/>
+</div>
+</div>
+<!-- Bio/Description -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant" for="bio">Bio / Description</label>
+<textarea class="w-full bg-midnight-base border border-outline-variant rounded-lg p-3 text-on-surface font-body-lg text-body-lg placeholder-on-surface-variant/50 transition-colors duration-200 resize-y" id="bio" name="bio" placeholder="Briefly describe your role or expertise..." rows="4"></textarea>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex flex-col-reverse sm:flex-row gap-3 sm:justify-end mt-4 pt-6 border-t border-outline-variant/30">
+<button class="w-full sm:w-auto px-6 py-3 rounded-lg border border-secondary-fixed text-secondary-fixed font-headline-sm text-headline-sm hover:bg-secondary-fixed/10 transition-colors duration-200 flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+                    Cancel
+                </button>
+<button class="w-full sm:w-auto px-6 py-3 rounded-lg bg-status-progress text-on-secondary-fixed font-headline-sm text-headline-sm font-bold hover:bg-secondary-fixed transition-colors duration-200 flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined" data-icon="save">save</span>
+                    Save Changes
+                </button>
+</div>
+</form>
+</main>
+<!-- Navigation Suppressed: Edit Profile is a transactional/task-focused screen -->
+</body></html>

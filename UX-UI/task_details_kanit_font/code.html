@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskToGroup - รายละเอียดงาน</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#00daf3",
+                        "primary": "#bac8dc",
+                        "on-secondary-fixed": "#001f24",
+                        "surface-elevated": "#1B263B",
+                        "status-done": "#06D6A0",
+                        "midnight-base": "#040911",
+                        "secondary-fixed": "#9cf0ff",
+                        "inverse-surface": "#e2e2e2",
+                        "surface-variant": "#333535",
+                        "on-tertiary-fixed": "#101b30",
+                        "outline-variant": "#44474c",
+                        "on-secondary-fixed-variant": "#004f58",
+                        "secondary-container": "#00e3fd",
+                        "inverse-primary": "#525f71",
+                        "inverse-on-surface": "#2f3131",
+                        "primary-fixed-dim": "#bac8dc",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#d7e2ff",
+                        "error": "#ffb4ab",
+                        "primary-fixed": "#d6e4f9",
+                        "surface-container-lowest": "#0c0f0f",
+                        "on-secondary": "#00363d",
+                        "on-error": "#690005",
+                        "on-primary-container": "#768497",
+                        "on-primary-fixed": "#0f1c2c",
+                        "status-pending": "#FFB703",
+                        "tertiary-fixed-dim": "#bbc6e2",
+                        "on-error-container": "#ffdad6",
+                        "status-progress": "#00E5FF",
+                        "surface-dim": "#121414",
+                        "surface-container": "#1e2020",
+                        "background": "#121414",
+                        "outline": "#8e9196",
+                        "on-primary-fixed-variant": "#3a4859",
+                        "surface-tint": "#bac8dc",
+                        "tertiary-container": "#0f1a2e",
+                        "on-surface": "#e2e2e2",
+                        "on-surface-variant": "#c4c6cc",
+                        "surface-container-high": "#282a2b",
+                        "on-tertiary-container": "#78839c",
+                        "surface": "#121414",
+                        "surface-container-low": "#1a1c1c",
+                        "on-tertiary-fixed-variant": "#3c475d",
+                        "on-background": "#e2e2e2",
+                        "primary-container": "#0d1b2a",
+                        "on-primary": "#243141",
+                        "surface-bright": "#37393a",
+                        "on-tertiary": "#263046",
+                        "surface-container-highest": "#333535",
+                        "on-secondary-container": "#00616d",
+                        "secondary": "#bdf4ff",
+                        "tertiary": "#bbc6e2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "margin-tablet": "24px",
+                        "margin-mobile": "16px",
+                        "gutter": "16px",
+                        "container-max": "1024px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Kanit", "sans-serif"],
+                        "headline-lg-mobile": ["Kanit", "sans-serif"],
+                        "label-md": ["Kanit", "sans-serif"],
+                        "body-lg": ["Kanit", "sans-serif"],
+                        "headline-lg": ["Kanit", "sans-serif"],
+                        "headline-md": ["Kanit", "sans-serif"],
+                        "headline-sm": ["Kanit", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #040911; /* Midnight Base */
+            color: #e2e2e2;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #040911;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #323F52;
+            border-radius: 10px;
+        }
+        .glass-panel {
+            background: rgba(27, 38, 59, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #323F52;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-secondary-container selection:text-on-secondary-fixed">
+<header class="fixed top-0 left-0 right-0 z-50 bg-primary-container h-16 flex items-center px-margin-mobile md:px-margin-tablet border-b border-outline-variant">
+<button class="mr-4 p-2 rounded-full hover:bg-surface-variant transition-colors" onclick="history.back()">
+<span class="material-symbols-outlined text-secondary-fixed">arrow_back</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm text-secondary-fixed truncate">รายละเอียดงาน: ระบบจัดการข้อมูลลูกค้า</h1>
+<div class="ml-auto flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">share</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-32 px-margin-mobile md:px-margin-tablet max-w-container-max mx-auto">
+<div class="flex flex-col md:grid md:grid-cols-12 gap-gutter">
+<div class="md:col-span-8 space-y-gutter">
+<div class="p-6 bg-surface-elevated border border-outline-variant rounded-xl overflow-hidden relative">
+<div class="absolute top-0 left-0 w-full h-1 bg-status-progress"></div>
+<div class="flex items-center gap-2 mb-4">
+<span class="px-3 py-1 bg-status-progress/20 text-status-progress text-label-md font-label-md rounded-full border border-status-progress/30">
+                            วิศวกรรมซอฟต์แวร์
+                        </span>
+<span class="px-3 py-1 bg-error/20 text-error text-label-md font-label-md rounded-full border border-error/30">
+                            เร่งด่วน
+                        </span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">อัปเดตโมดูลจัดการข้อมูลลูกค้า (CRM Sync)</h2>
+<p class="text-on-surface-variant font-body-lg text-body-lg mb-6 leading-relaxed">
+                        พัฒนาระบบเชื่อมต่อข้อมูลระหว่างฐานข้อมูลกลางและโมดูล CRM เพื่อให้ทีมขายสามารถเข้าถึงข้อมูลการซื้อขายล่าสุดได้แบบ Real-time โดยต้องรองรับการทำงานในสภาวะที่มีการเรียกใช้งานพร้อมกันสูง
+                    </p>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-outline-variant">
+<div>
+<span class="block text-on-surface-variant text-label-md mb-1 uppercase tracking-wider">ผู้สร้าง</span>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-bold">
+                                    AP
+                                </div>
+<span class="font-body-md text-on-surface">Admin Pathom</span>
+</div>
+</div>
+<div>
+<span class="block text-on-surface-variant text-label-md mb-1 uppercase tracking-wider">วันที่สร้าง</span>
+<span class="font-body-md text-on-surface">12 ต.ค. 2566, 14:30</span>
+</div>
+</div>
+</div>
+<div class="p-6 bg-surface-elevated border border-outline-variant rounded-xl">
+<h3 class="font-headline-sm text-headline-sm text-secondary-fixed mb-4">รายละเอียดเพิ่มเติม</h3>
+<ul class="space-y-4 text-on-surface-variant font-body-md">
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-status-progress shrink-0">check_circle</span>
+<span>ปรับปรุง API Endpoint สำหรับการรับค่า JSON จากระบบภายนอก</span>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-status-progress shrink-0">check_circle</span>
+<span>เพิ่มระบบ Retry Mechanism ในกรณีที่การเชื่อมต่อล้มเหลว</span>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-status-progress shrink-0">check_circle</span>
+<span>เขียนเอกสารประกอบการใช้งาน (API Documentation) บน Swagger</span>
+</li>
+</ul>
+</div>
+<div class="rounded-xl overflow-hidden border border-outline-variant h-48 relative">
+<img alt="Dashboard Statistics" class="w-full h-full object-cover" data-alt="A professional dark-themed software dashboard with glowing cyan and blue data visualizations, line charts, and digital metrics displayed on a large screen. The setting is a clean, modern corporate office environment with cool ambient lighting and a high-tech minimalist aesthetic, matching a deep navy and cyan color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3_hA6sMCo61HR4AjISlQPPKocprzbjtKSjdXtyKpW5XuG-K_j7WOzNz3ywtMQM9R9-E1ImWcJZxDB_MHV69XRJvnWzhfGd3bB5M1D29JCeSPJJi6qX2WmQjCECacLX5Iflbx39Zhv34uEJpTUfwkVVf7CwsBngS7qlpH3JlQCUC8b9n0mmH1XcVEGuMH6SL6H-h3k_rUj4DDu705DXUAzQ100pcrBdThgt7fH00q0WM_elXVogPrRY22sr7tklxB4Pzyht3MB7_w"/>
+<div class="absolute inset-0 bg-gradient-to-t from-midnight-base/80 to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<span class="text-label-md font-label-md text-secondary-fixed uppercase tracking-widest">บริบททางธุรกิจ</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 space-y-gutter">
+<div class="p-6 bg-surface-elevated border border-outline-variant rounded-xl">
+<h3 class="font-headline-sm text-headline-sm text-secondary-fixed mb-4">ข้อมูลเบื้องต้น</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center py-2 border-b border-outline-variant">
+<span class="text-on-surface-variant">รหัสงาน:</span>
+<span class="font-bold text-on-surface">TTG-44021</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant">
+<span class="text-on-surface-variant">สถานะ:</span>
+<span class="text-status-pending flex items-center gap-1 font-bold">
+<span class="w-2 h-2 rounded-full bg-status-pending animate-pulse"></span>
+                                รอดำเนินการ
+                            </span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant">
+<span class="text-on-surface-variant">ค่าตอบแทน:</span>
+<span class="text-secondary-fixed font-bold">2,500 Pts</span>
+</div>
+<div class="flex justify-between items-center py-2">
+<span class="text-on-surface-variant">เวลาที่เหลือ:</span>
+<span class="text-error font-bold">23 ชม. 45 นาที</span>
+</div>
+</div>
+</div>
+<div class="p-6 bg-secondary-container/10 border border-secondary-container/30 rounded-xl">
+<div class="flex items-center gap-3 mb-3">
+<span class="material-symbols-outlined text-secondary-container">info</span>
+<h4 class="font-headline-sm text-headline-sm text-secondary-container">ข้อกำหนดการรับงาน</h4>
+</div>
+<p class="text-on-primary-container font-body-md leading-relaxed">
+                        งานนี้จำกัดเฉพาะสมาชิกในกลุ่ม <strong class="text-secondary-fixed">Engineering Alpha</strong> เท่านั้น หากคุณรับงานแล้วไม่ส่งภายในเวลาที่กำหนด คะแนนความประพฤติจะถูกหัก 10 แต้ม
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<footer class="fixed bottom-0 left-0 right-0 p-margin-mobile md:px-margin-tablet pb-margin-mobile md:pb-8 bg-midnight-base/80 backdrop-blur-md border-t border-outline-variant z-50">
+<div class="max-w-container-max mx-auto">
+<button class="w-full h-14 bg-secondary-container text-on-secondary-fixed-variant font-headline-sm text-headline-sm flex items-center justify-center gap-2 rounded-lg hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-secondary-container/20 group">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform">task_alt</span>
+                รับงานนี้ (Claim Task)
+            </button>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for the claim button
+        const claimBtn = document.querySelector('footer button');
+        claimBtn.addEventListener('click', () => {
+            claimBtn.innerHTML = `
+                <span class="material-symbols-outlined animate-spin">progress_activity</span>
+                กำลังประมวลผล...
+            `;
+            setTimeout(() => {
+                claimBtn.classList.remove('bg-secondary-container');
+                claimBtn.classList.add('bg-status-done', 'text-on-secondary-fixed');
+                claimBtn.innerHTML = `
+                    <span class="material-symbols-outlined">check_circle</span>
+                    รับงานสำเร็จแล้ว!
+                `;
+            }, 1500);
+        });
+    </script>
+</body></html>

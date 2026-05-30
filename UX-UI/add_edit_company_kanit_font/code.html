@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Company - TaskToGroup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#9cf0ff",
+                        "inverse-primary": "#525f71",
+                        "on-surface": "#e2e2e2",
+                        "on-secondary-container": "#00616d",
+                        "on-primary-container": "#768497",
+                        "on-primary": "#243141",
+                        "on-tertiary-fixed-variant": "#3c475d",
+                        "surface-container-highest": "#333535",
+                        "surface-bright": "#37393a",
+                        "on-primary-fixed-variant": "#3a4859",
+                        "primary-fixed-dim": "#bac8dc",
+                        "on-primary-fixed": "#0f1c2c",
+                        "background": "#121414",
+                        "inverse-surface": "#e2e2e2",
+                        "surface-elevated": "#1B263B",
+                        "on-tertiary-fixed": "#101b30",
+                        "secondary-fixed-dim": "#00daf3",
+                        "on-error": "#690005",
+                        "on-background": "#e2e2e2",
+                        "surface-tint": "#bac8dc",
+                        "surface": "#121414",
+                        "on-error-container": "#ffdad6",
+                        "status-progress": "#00E5FF",
+                        "surface-container-high": "#282a2b",
+                        "error-container": "#93000a",
+                        "status-done": "#06D6A0",
+                        "outline": "#8e9196",
+                        "on-secondary-fixed": "#001f24",
+                        "primary-fixed": "#d6e4f9",
+                        "on-tertiary-container": "#78839c",
+                        "tertiary-fixed-dim": "#bbc6e2",
+                        "secondary-container": "#00e3fd",
+                        "secondary": "#bdf4ff",
+                        "surface-container-low": "#1a1c1c",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#263046",
+                        "surface-container-lowest": "#0c0f0f",
+                        "primary": "#bac8dc",
+                        "outline-variant": "#44474c",
+                        "on-surface-variant": "#c4c6cc",
+                        "midnight-base": "#040911",
+                        "surface-dim": "#121414",
+                        "inverse-on-surface": "#2f3131",
+                        "tertiary-container": "#0f1a2e",
+                        "on-secondary": "#00363d",
+                        "primary-container": "#0d1b2a",
+                        "surface-container": "#1e2020",
+                        "status-pending": "#FFB703",
+                        "surface-variant": "#333535",
+                        "tertiary": "#bbc6e2",
+                        "on-secondary-fixed-variant": "#004f58",
+                        "tertiary-fixed": "#d7e2ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-tablet": "24px",
+                        "margin-mobile": "16px",
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "container-max": "1024px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Kanit"],
+                        "label-md": ["Kanit"],
+                        "body-lg": ["Kanit"],
+                        "body-md": ["Kanit"],
+                        "headline-lg": ["Kanit"],
+                        "headline-sm": ["Kanit"],
+                        "headline-md": ["Kanit"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #040911; }
+        ::-webkit-scrollbar-thumb { background: #323F52; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #525f71; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-midnight-base text-on-surface font-body-lg min-h-screen flex flex-col md:flex-row antialiased">
+<!-- TopAppBar (Mobile Only - Transactional/Sub-page intent: Suppressed Shell on Sub-pages is standard, but keeping simplified top bar for 'Back' action) -->
+<header class="md:hidden flex justify-between items-center px-margin-mobile w-full h-16 bg-primary-container border-b border-outline-variant z-40 fixed top-0 left-0">
+<div class="flex items-center gap-2">
+<button aria-label="Go back" class="text-on-surface-variant hover:text-secondary-fixed transition-colors p-2 -ml-2">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-secondary-fixed tracking-tight">Edit Tenant</h1>
+</div>
+</header>
+<!-- NavigationDrawer (Desktop - Semantic Shell Suppressed for linear task, replaced with contextual 'Back' sidebar) -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 border-r border-outline-variant bg-primary-container p-unit gap-2 z-40">
+<div class="p-6">
+<h1 class="font-headline-md text-headline-md text-secondary-fixed font-bold tracking-tight mb-8">TaskToGroup</h1>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-secondary-fixed transition-colors duration-200 py-3 rounded-lg hover:bg-surface-variant px-4 -ml-4" href="#">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+<span class="font-body-lg text-body-lg">Back to Tenants</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 mt-16 md:mt-0 md:ml-64 p-margin-mobile md:p-margin-tablet lg:p-8 max-w-container-max mx-auto w-full">
+<div class="mb-8 hidden md:block">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Edit Tenant Details</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Manage settings and metadata for this organization.</p>
+</div>
+<form class="space-y-6 max-w-2xl">
+<!-- Company Info Card -->
+<section class="bg-surface-elevated rounded-xl border border-outline-variant p-6 shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-secondary-fixed mb-6 flex items-center gap-2 border-b border-outline-variant pb-4">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+                    Organization Profile
+                </h3>
+<div class="space-y-5">
+<!-- Company Name -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1 uppercase tracking-wider" for="companyName">Company Name</label>
+<input class="w-full bg-midnight-base border border-outline-variant rounded-lg px-4 py-3 font-body-lg text-body-lg text-on-surface focus:outline-none focus:ring-2 focus:ring-status-progress focus:border-transparent transition-all" id="companyName" placeholder="Enter organization name" type="text" value="Acme Corp Global"/>
+</div>
+<!-- Company Domain/ID (Read-only) -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1 uppercase tracking-wider flex items-center justify-between" for="companyId">
+<span>Tenant ID / Domain</span>
+<span class="text-[10px] bg-surface-variant px-2 py-0.5 rounded text-on-surface-variant">Read-only</span>
+</label>
+<input class="w-full bg-surface-variant border border-outline-variant rounded-lg px-4 py-3 font-body-lg text-body-lg text-on-surface-variant cursor-not-allowed opacity-70" id="companyId" readonly="" type="text" value="acme-corp-492"/>
+</div>
+<!-- Status Toggle -->
+<div class="flex items-center justify-between py-2 border-t border-b border-outline-variant/50 mt-4">
+<div>
+<span class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Tenant Status</span>
+<span class="font-body-md text-body-md text-status-done flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-status-done inline-block"></span> Active
+                            </span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-14 h-7 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-status-done/80"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Admin & Notes Card -->
+<section class="bg-surface-elevated rounded-xl border border-outline-variant p-6 shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-secondary-fixed mb-6 flex items-center gap-2 border-b border-outline-variant pb-4">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+                    Administration &amp; Details
+                </h3>
+<div class="space-y-5">
+<!-- Initial Admin Email -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1 uppercase tracking-wider" for="adminEmail">Primary Admin Email</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="mail">mail</span>
+</span>
+<input class="w-full bg-midnight-base border border-outline-variant rounded-lg pl-10 pr-4 py-3 font-body-lg text-body-lg text-on-surface focus:outline-none focus:ring-2 focus:ring-status-progress focus:border-transparent transition-all" id="adminEmail" placeholder="admin@company.com" type="email" value="admin@acmecorp.com"/>
+</div>
+<p class="font-body-md text-[12px] text-on-surface-variant mt-1">This user has full organizational control.</p>
+</div>
+<!-- Description or Notes -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-1 uppercase tracking-wider" for="tenantNotes">Internal Notes</label>
+<textarea class="w-full bg-midnight-base border border-outline-variant rounded-lg px-4 py-3 font-body-lg text-body-lg text-on-surface focus:outline-none focus:ring-2 focus:ring-status-progress focus:border-transparent transition-all resize-y" id="tenantNotes" placeholder="Add internal details or onboarding notes here..." rows="4">Enterprise tier client. Requires strict SLA compliance tracking.</textarea>
+</div>
+</div>
+</section>
+<!-- Action Buttons -->
+<div class="flex flex-col-reverse md:flex-row justify-end gap-4 pt-4 pb-12 md:pb-4">
+<button class="px-6 py-3 rounded-lg font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-white border border-outline-variant hover:bg-surface-variant transition-colors duration-200" type="button">
+                    Cancel
+                </button>
+<button class="px-6 py-3 rounded-lg font-label-md text-label-md uppercase tracking-wider bg-status-progress text-on-primary-fixed hover:bg-secondary-fixed-dim transition-colors duration-200 shadow-[0_0_15px_rgba(0,229,255,0.2)]" type="button">
+                    Save Changes
+                </button>
+</div>
+</form>
+</main>
+</body></html>

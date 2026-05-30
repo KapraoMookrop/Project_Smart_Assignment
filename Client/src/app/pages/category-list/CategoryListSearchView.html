@@ -1,0 +1,70 @@
+<div class="container-fluid p-0 d-flex flex-column flex-md-row min-vh-screen">
+  <main class="flex-grow-1 p-4">
+    <header class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary">
+      <h1 class="fw-bold text-cyan h3 mb-0">จัดการหมวดหมู่ (Categories)</h1>
+      <div class="d-flex gap-2">
+        <button class="btn btn-cyan rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+          <i class="bi bi-plus-lg fs-5"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="mb-4">
+      <div class="input-group card-custom border-secondary px-3 py-1">
+        <span class="input-group-text bg-transparent border-0 text-white">
+          <i class="bi bi-search"></i>
+        </span>
+        <input type="text" class="form-control bg-transparent border-0 text-white focus-none" 
+               placeholder="ค้นหาหมวดหมู่..." (input)="onSearchChange($event)">
+      </div>
+    </div>
+
+    <!-- Categories Grid -->
+    <div class="row g-4">
+      @for (category of categories; track category.id) {
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-custom h-100 border-0 overflow-hidden hover-glow transition-all">
+            <div [style.background-color]="category.color" style="height: 4px; width: 100%;"></div>
+            <div class="card-body p-4">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div class="d-flex align-items-center">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center me-3" 
+                       [style.background-color]="category.color + '22'" 
+                       [style.color]="category.color"
+                       style="width: 50px; height: 50px;">
+                    <i class="bi {{ category.icon }} fs-4"></i>
+                  </div>
+                  <div>
+                    <h4 class="fw-bold mb-0">{{ category.name }}</h4>
+                    <small class="text-white">{{ category.members }} Members</small>
+                  </div>
+                </div>
+                <button class="btn btn-link text-white p-0 hover-danger" (click)="deleteCategory(category.id)">
+                  <i class="bi bi-trash fs-5"></i>
+                </button>
+              </div>
+              
+              <div class="d-flex justify-content-end gap-2 mt-4">
+                <button class="btn btn-outline-cyan btn-sm px-3">แก้ไข</button>
+                <button class="btn btn-cyan btn-sm px-3">สมาชิก</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Add New Card -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card card-custom h-100 border-secondary border-dashed border-2 d-flex align-items-center justify-content-center cursor-pointer hover-bg-navy transition-all py-5">
+          <div class="text-center">
+            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-3 mx-auto" style="width: 60px; height: 60px;">
+              <i class="bi bi-plus-lg fs-2 text-white"></i>
+            </div>
+            <span class="text-white fw-bold">เพิ่มหมวดหมู่ใหม่</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

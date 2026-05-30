@@ -1,0 +1,112 @@
+<div class="bg-dark-navy min-vh-100 text-white flex flex-column">
+  <!-- Header -->
+  <header class="bg-secondary-bg border-bottom border-secondary d-flex align-items-center px-4 sticky-top shadow-sm" style="height: 64px; z-index: 1050;">
+    <button class="btn text-cyan p-2 rounded-circle hover-bg-navy" (click)="goBack()">
+      <i class="bi bi-arrow-left fs-4"></i>
+    </button>
+    <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5">Manage Members</h1>
+    <button class="btn btn-link text-cyan text-decoration-none fw-bold text-uppercase" (click)="goBack()">Done</button>
+  </header>
+
+  <main class="flex-grow-1 overflow-auto">
+    <div class="container py-4" style="max-width: 1000px;">
+      <!-- Context & Search -->
+      <div class="mb-4">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="badge bg-secondary-bg border border-secondary text-cyan px-3 py-2 fw-normal">{{ categoryName }}</span>
+          <span class="text-white small">· Category Assignment</span>
+        </div>
+        <div class="input-group card-custom border-secondary px-3 py-1 shadow-sm">
+          <span class="input-group-text bg-transparent border-0 text-white">
+            <i class="bi bi-search"></i>
+          </span>
+          <input type="text" class="form-control bg-transparent border-0 text-white focus-none" 
+                 placeholder="Search employees by name or role...">
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Current Members -->
+        <div class="col-lg-6">
+          <div class="card card-custom border-secondary h-100 shadow-sm overflow-hidden">
+            <div class="card-header bg-secondary-bg border-bottom border-secondary p-3 d-flex justify-content-between align-items-center">
+              <div>
+                <h2 class="h6 fw-bold mb-0 d-flex align-items-center gap-2">
+                  <i class="bi bi-shield-check text-success"></i>
+                  Current Members
+                </h2>
+                <small class="text-white">{{ currentMembers.length }} Active Members</small>
+              </div>
+            </div>
+            <div class="card-body p-2 overflow-auto" style="max-height: 500px;">
+              <div class="list-group list-group-flush">
+                @for (member of currentMembers; track member.id) {
+                  <div class="list-group-item bg-transparent border-0 d-flex justify-content-between align-items-center p-3 rounded hover-bg-navy transition-all mb-1">
+                    <div class="d-flex align-items-center gap-3">
+                      @if (member.avatar) {
+                        <img [src]="member.avatar" class="rounded-circle border border-secondary" style="width: 40px; height: 40px; object-fit: cover;">
+                      } @else {
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px;">
+                          {{ member.name.substring(0, 1) }}
+                        </div>
+                      }
+                      <div>
+                        <p class="mb-0 fw-bold">{{ member.name }}</p>
+                        <small class="text-cyan">{{ member.role }}</small>
+                      </div>
+                    </div>
+                    <button class="btn btn-outline-danger btn-sm px-3 rounded-pill border-opacity-50" (click)="removeMember(member.id)">
+                      <i class="bi bi-person-x me-1"></i> Remove
+                    </button>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Available Employees -->
+        <div class="col-lg-6">
+          <div class="card card-custom border-secondary h-100 shadow-sm overflow-hidden">
+            <div class="card-header bg-secondary-bg border-bottom border-secondary p-3 d-flex justify-content-between align-items-center">
+              <div>
+                <h2 class="h6 fw-bold mb-0 d-flex align-items-center gap-2">
+                  <i class="bi bi-person-search text-cyan"></i>
+                  Available Employees
+                </h2>
+                <small class="text-white">Suggested based on skills</small>
+              </div>
+              <button class="btn btn-link text-cyan text-decoration-none btn-sm">
+                <i class="bi bi-filter"></i> Filter
+              </button>
+            </div>
+            <div class="card-body p-2 overflow-auto" style="max-height: 500px;">
+              <div class="list-group list-group-flush">
+                @for (emp of availableEmployees; track emp.id) {
+                  <div class="list-group-item bg-transparent border-0 d-flex justify-content-between align-items-center p-3 rounded hover-bg-navy transition-all mb-1">
+                    <div class="d-flex align-items-center gap-3">
+                      @if (emp.avatar) {
+                        <img [src]="emp.avatar" class="rounded-circle border border-secondary" style="width: 40px; height: 40px; object-fit: cover;">
+                      } @else {
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px;">
+                          {{ emp.name.substring(0, 1) }}
+                        </div>
+                      }
+                      <div>
+                        <p class="mb-0 fw-bold">{{ emp.name }}</p>
+                        <small class="text-white">{{ emp.role }}</small>
+                      </div>
+                    </div>
+                    <button class="btn btn-cyan btn-sm px-4 rounded-pill fw-bold shadow-cyan" (click)="addMember(emp)">
+                      <i class="bi bi-person-plus me-1"></i> Add
+                    </button>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

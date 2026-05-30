@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskToGroup - เข้าสู่ระบบ</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#333535",
+                        "surface-container-high": "#282a2b",
+                        "surface-tint": "#bac8dc",
+                        "tertiary-fixed": "#d7e2ff",
+                        "status-progress": "#00E5FF",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c4c6cc",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed": "#0f1c2c",
+                        "tertiary": "#bbc6e2",
+                        "secondary-container": "#00e3fd",
+                        "on-tertiary": "#263046",
+                        "status-done": "#06D6A0",
+                        "inverse-on-surface": "#2f3131",
+                        "surface-container-low": "#1a1c1c",
+                        "secondary-fixed": "#9cf0ff",
+                        "on-secondary-fixed-variant": "#004f58",
+                        "surface-container-highest": "#333535",
+                        "background": "#121414",
+                        "on-background": "#e2e2e2",
+                        "surface-bright": "#37393a",
+                        "secondary": "#bdf4ff",
+                        "inverse-surface": "#e2e2e2",
+                        "on-secondary-fixed": "#001f24",
+                        "primary": "#bac8dc",
+                        "surface": "#121414",
+                        "on-primary": "#243141",
+                        "tertiary-container": "#0f1a2e",
+                        "primary-fixed-dim": "#bac8dc",
+                        "surface-elevated": "#1B263B",
+                        "tertiary-fixed-dim": "#bbc6e2",
+                        "outline": "#8e9196",
+                        "on-secondary": "#00363d",
+                        "on-primary-container": "#768497",
+                        "on-secondary-container": "#00616d",
+                        "on-tertiary-container": "#78839c",
+                        "error-container": "#93000a",
+                        "status-pending": "#FFB703",
+                        "surface-container": "#1e2020",
+                        "outline-variant": "#44474c",
+                        "secondary-fixed-dim": "#00daf3",
+                        "on-surface": "#e2e2e2",
+                        "on-tertiary-fixed-variant": "#3c475d",
+                        "surface-dim": "#121414",
+                        "primary-fixed": "#d6e4f9",
+                        "inverse-primary": "#525f71",
+                        "on-tertiary-fixed": "#101b30",
+                        "surface-container-lowest": "#0c0f0f",
+                        "on-primary-fixed-variant": "#3a4859",
+                        "primary-container": "#0d1b2a",
+                        "midnight-base": "#040911"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "container-max": "1024px",
+                        "margin-tablet": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-midnight-base text-on-surface min-h-screen flex flex-col items-center justify-center p-margin-mobile md:p-margin-tablet font-body-md relative overflow-hidden">
+<!-- Background Decoration -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none flex justify-center items-center">
+<div class="w-[800px] h-[800px] bg-secondary-container rounded-full blur-[150px]"></div>
+</div>
+<!-- Main Login Card -->
+<main class="w-full max-w-md bg-surface-elevated border border-[#323F52] rounded-xl shadow-2xl z-10 overflow-hidden flex flex-col">
+<!-- Header / Logo Area -->
+<header class="p-8 pb-4 flex flex-col items-center text-center">
+<img alt="TaskToGroup Logo" class="w-24 h-24 mb-6 rounded-lg object-contain bg-surface-container-high p-2 border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnCSRtyMstc-mclI7isNG9xkcuv0s9ra90voTqqotY19mvteqN2_EQb14eFb-BUJeR9oEy9LaJqS8CyxzoSdjjSmY_klnu4mbnSDnFGi16ROJQmSgZ7BlcG1pyzvpQlvWys4SbVxuZHTFTweFjwtKX6cf9pcvWrG3syTfUPNBc3o4IF3TA5D-V1i3Zpk5wHp1f9p-OqK6UrGmJI0QUMl3WQVS-nxoynh0cGQpF8hm6V_5Ei7AAEr9EKs0YkZtpGCxSm3u9K5y7jS0"/>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">TaskToGroup</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Intelligent routing for high-performing teams.</p>
+</header>
+<!-- Form Section -->
+<section class="p-8 pt-4">
+<form action="#" class="space-y-6" method="POST">
+<!-- Tenant ID -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface-variant uppercase" for="tenantId">Tenant ID / Company Domain</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">domain</span>
+<input class="w-full bg-surface-container-high border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface focus:outline-none focus:border-status-progress focus:ring-1 focus:ring-status-progress transition-colors placeholder:text-on-surface-variant/50 font-body-md text-body-md" id="tenantId" name="tenantId" placeholder="e.g. acmecorp" required="" type="text"/>
+</div>
+</div>
+<!-- Email -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface-variant uppercase" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">mail</span>
+<input class="w-full bg-surface-container-high border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface focus:outline-none focus:border-status-progress focus:ring-1 focus:ring-status-progress transition-colors placeholder:text-on-surface-variant/50 font-body-md text-body-md" id="email" name="email" placeholder="name@company.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="block font-label-md text-label-md text-on-surface-variant uppercase" for="password">Password</label>
+<a class="font-label-md text-label-md text-status-progress hover:text-secondary-fixed transition-colors" href="#">ลืมรหัสผ่าน? (Forgot Password)</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">lock</span>
+<input class="w-full bg-surface-container-high border border-outline-variant rounded-lg py-3 pl-10 pr-10 text-on-surface focus:outline-none focus:border-status-progress focus:ring-1 focus:ring-status-progress transition-colors placeholder:text-on-surface-variant/50 font-body-md text-body-md" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button aria-label="Toggle password visibility" class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-status-progress text-primary-container font-headline-sm text-headline-sm py-3 rounded-lg hover:bg-secondary-fixed transition-colors shadow-[0_0_15px_rgba(0,229,255,0.3)] hover:shadow-[0_0_25px_rgba(0,229,255,0.5)] flex justify-center items-center gap-2" type="submit">
+                    เข้าสู่ระบบ (Sign In)
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">login</span>
+</button>
+</form>
+</section>
+<!-- Footer / Contact Admin -->
+<footer class="p-6 bg-surface-container-high/50 border-t border-outline-variant/30 text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                ยังไม่มีบัญชีผู้ใช้? <br class="md:hidden"/>
+<a class="text-status-progress hover:underline" href="#">ติดต่อผู้ดูแลระบบของคุณ (Contact Admin)</a>
+</p>
+</footer>
+</main>
+<!-- App Version Footer -->
+<div class="mt-8 z-10 text-center">
+<p class="font-label-md text-label-md text-on-surface-variant/50">Powered by Smart Assignment • v2.4.1</p>
+</div>
+</body></html>

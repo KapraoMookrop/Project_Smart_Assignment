@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskToGroup - Manage Members</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#00daf3",
+                        "on-primary-container": "#768497",
+                        "surface-container-low": "#1a1c1c",
+                        "secondary": "#bdf4ff",
+                        "on-surface-variant": "#c4c6cc",
+                        "primary": "#bac8dc",
+                        "surface-bright": "#37393a",
+                        "primary-fixed": "#d6e4f9",
+                        "on-tertiary-container": "#78839c",
+                        "on-secondary-fixed-variant": "#004f58",
+                        "background": "#121414",
+                        "secondary-container": "#00e3fd",
+                        "on-background": "#e2e2e2",
+                        "surface-elevated": "#1B263B",
+                        "on-surface": "#e2e2e2",
+                        "outline-variant": "#44474c",
+                        "on-secondary-container": "#00616d",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#121414",
+                        "primary-fixed-dim": "#bac8dc",
+                        "surface-container": "#1e2020",
+                        "error-container": "#93000a",
+                        "tertiary": "#bbc6e2",
+                        "on-primary-fixed": "#0f1c2c",
+                        "surface-container-lowest": "#0c0f0f",
+                        "surface": "#121414",
+                        "on-tertiary-fixed-variant": "#3c475d",
+                        "surface-variant": "#333535",
+                        "surface-container-high": "#282a2b",
+                        "primary-container": "#0d1b2a",
+                        "tertiary-container": "#0f1a2e",
+                        "outline": "#8e9196",
+                        "surface-container-highest": "#333535",
+                        "on-error-container": "#ffdad6",
+                        "status-done": "#06D6A0",
+                        "on-primary-fixed-variant": "#3a4859",
+                        "inverse-on-surface": "#2f3131",
+                        "on-error": "#690005",
+                        "status-progress": "#00E5FF",
+                        "on-tertiary": "#263046",
+                        "on-secondary-fixed": "#001f24",
+                        "status-pending": "#FFB703",
+                        "on-secondary": "#00363d",
+                        "inverse-primary": "#525f71",
+                        "tertiary-fixed": "#d7e2ff",
+                        "midnight-base": "#040911",
+                        "inverse-surface": "#e2e2e2",
+                        "on-tertiary-fixed": "#101b30",
+                        "on-primary": "#243141",
+                        "secondary-fixed": "#9cf0ff",
+                        "tertiary-fixed-dim": "#bbc6e2",
+                        "surface-tint": "#bac8dc"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "margin-tablet": "24px",
+                        "container-max": "1024px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Kanit"],
+                        "headline-lg-mobile": ["Kanit"],
+                        "body-md": ["Kanit"],
+                        "headline-md": ["Kanit"],
+                        "headline-lg": ["Kanit"],
+                        "body-lg": ["Kanit"],
+                        "label-md": ["Kanit"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Kanit', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .icon-fill { font-variation-settings: 'FILL' 1; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-midnight-base text-on-surface h-screen flex flex-col overflow-hidden">
+<!-- Task-Focused Header: Suppresses standard navigation to focus on the immediate management task -->
+<header class="flex justify-between items-center px-margin-mobile md:px-margin-tablet w-full h-16 bg-primary-container border-b border-outline-variant shrink-0 z-10 shadow-sm relative">
+<button aria-label="Go Back" class="text-secondary-fixed hover:bg-surface-variant p-2 rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-secondary-fixed absolute left-1/2 -translate-x-1/2">Manage Members</h1>
+<button class="text-secondary-fixed font-label-md text-label-md uppercase tracking-wider hover:text-status-progress transition-colors px-4 py-2 rounded">Done</button>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto w-full">
+<div class="max-w-container-max mx-auto p-margin-mobile md:p-margin-tablet flex flex-col gap-6">
+<!-- Category Context & Search -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 bg-tertiary-container text-tertiary rounded text-label-md font-label-md border border-outline-variant">Engineering Team</span>
+<span class="text-on-surface-variant text-body-md font-body-md">· Category Assignment</span>
+</div>
+<div class="relative w-full group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-status-progress transition-colors">search</span>
+<input class="w-full bg-surface-elevated border border-outline-variant rounded py-3 pl-12 pr-4 text-on-surface focus:outline-none focus:border-status-progress focus:ring-1 focus:ring-status-progress transition-all placeholder:text-on-surface-variant font-body-md text-body-md shadow-sm" placeholder="Search employees by name or role..." type="text"/>
+</div>
+</div>
+<!-- Bento Grid Layout for Member Lists -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+<!-- Current Members Panel -->
+<section class="bg-surface-elevated rounded-lg border border-outline-variant overflow-hidden flex flex-col shadow-sm">
+<div class="px-5 py-4 border-b border-outline-variant bg-primary-container/50 flex justify-between items-center">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined icon-fill text-status-done text-[20px]">verified_user</span>
+                                Current Members
+                            </h2>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">3 Active Members</p>
+</div>
+</div>
+<ul class="flex flex-col p-2 gap-1 max-h-[530px] overflow-y-auto">
+<!-- Member Item -->
+<li class="flex items-center justify-between p-3 rounded hover:bg-surface-variant/50 transition-colors group">
+<div class="flex items-center gap-4">
+<img alt="Elena Rodriguez" class="w-10 h-10 rounded-full object-cover border border-outline-variant shrink-0" data-alt="A professional headshot of a mid-30s Hispanic female executive against a dark, minimalist slate background. She has dark hair tied back, wearing a sharp navy blazer over a light grey top. High-key studio lighting creates a crisp, authoritative corporate modern aesthetic, matching a high-performance software environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDigpG30t_baCiF-X0tIZLRnXD6Aita0oezWJDu9HqeQIMkVdnUTdp2RehL9ATB8BO92wIIEytDI2cUsoVH_muMUGuTs2SxYvqAP8HW5YLebFY_3P-kOBndeAWHZvnaE2EqP0MgpXv6Z46W2njCf32nHiu9ezS2Vb6RF0ibg_3zW3a-O7TM-B2fAJ-JsNfpD7ktlHpJW_Lw-tBdlCUrMr5QcXrprnoMGf8Z7YC48LTaRucArc8K8zRdjRVr20MzKS77WWkCqQ1kfvA"/>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface">Elena Rodriguez</span>
+<span class="font-label-md text-label-md text-status-progress mt-0.5">Lead Architect</span>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded border border-error text-error hover:bg-error/10 transition-colors font-label-md text-label-md flex items-center gap-1 opacity-80 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[16px]">person_remove</span> Remove
+                            </button>
+</li>
+<!-- Member Item -->
+<li class="flex items-center justify-between p-3 rounded hover:bg-surface-variant/50 transition-colors group">
+<div class="flex items-center gap-4">
+<img alt="Marcus Chen" class="w-10 h-10 rounded-full object-cover border border-outline-variant shrink-0" data-alt="A professional headshot of an Asian male in his late 20s against a dark studio backdrop. He wears a minimalist black turtleneck, conveying a sleek, modern tech worker vibe. Soft rim lighting highlights his features against the deep navy background, adhering to a high-contrast corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBAnF508ZWr37-2tSTy3epYg14RfCjVkrRZEsBKEuNgQF-j-2f-jSOkqbH-ufPTqiFsELDAmZr6hqZ5PBSRsX1HPtmQtvPDRac3NI5Eu84hkiS-lvECaXYrX6U6jbkl5CujQO2pdthz_f_I6nNKbojM1ASTbLgwyE-TgvbGu5TnZhKbR69Ku14hOgXgiY-QGRxf-TOS8YyFWxH0ScwbfwLthYYKb80ZGyncVJoIoiY-mnHnAnoN2J729V9WjGf48U0VfO9zZLnScQ"/>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface">Marcus Chen</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-0.5">Senior Developer</span>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded border border-error text-error hover:bg-error/10 transition-colors font-label-md text-label-md flex items-center gap-1 opacity-80 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[16px]">person_remove</span> Remove
+                            </button>
+</li>
+<!-- Member Item -->
+<li class="flex items-center justify-between p-3 rounded hover:bg-surface-variant/50 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border border-outline-variant bg-surface-container-high flex items-center justify-center shrink-0 text-on-surface font-headline-sm">
+                                    SJ
+                                </div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface">Sarah Jenkins</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-0.5">QA Specialist</span>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded border border-error text-error hover:bg-error/10 transition-colors font-label-md text-label-md flex items-center gap-1 opacity-80 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[16px]">person_remove</span> Remove
+                            </button>
+</li>
+</ul>
+</section>
+<!-- Suggested Members Panel -->
+<section class="bg-surface-elevated rounded-lg border border-outline-variant overflow-hidden flex flex-col shadow-sm">
+<div class="px-5 py-4 border-b border-outline-variant bg-primary-container/50 flex justify-between items-center">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-fixed text-[20px]">person_search</span>
+                                Available Employees
+                            </h2>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">Suggested based on skills</p>
+</div>
+<button class="text-secondary-fixed hover:text-status-progress text-label-md font-label-md flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[16px]">filter_list</span> Filter
+                        </button>
+</div>
+<ul class="flex flex-col p-2 gap-1 max-h-[530px] overflow-y-auto">
+<!-- Suggested Item -->
+<li class="flex items-center justify-between p-3 rounded hover:bg-surface-variant/50 transition-colors">
+<div class="flex items-center gap-4">
+<img alt="David Kim" class="w-10 h-10 rounded-full object-cover border border-outline-variant shrink-0" data-alt="A professional headshot of a young male with glasses, looking directly at the camera. The background is a very dark, near-black studio setting. He wears a dark, crisp collared shirt. The lighting is focused and dramatic, fitting a precise, high-efficiency corporate design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAJtmlqjcmHjLXvrI8nlYWrnLXwQPPcRgBcU_HIsJYq9iK_k_y2U-PZ6JBnHn7q03y2bF-Zo3fHE617A9UivdvYJ_FO3mLVGZM_yWQoi1sLgNMxT7B6FTSqFAgnWIWVrRIL75waIjn_uYqYcxjjafrZa3nOVIbEi39aUBJaY8cySe2EgdF_BkwcEor8iorRzI4BmcwlK6H5bLgCR7kMmEpkOF2wDrIGK5A4y1B3LtvyC0g3gC_dRrDMpVLzwHc_DXn4_YZdRaTL-U"/>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface">David Kim</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-0.5">Backend Engineer</span>
+</div>
+</div>
+<button class="px-4 py-1.5 rounded bg-status-progress text-primary-container font-label-md text-label-md font-bold hover:bg-secondary transition-colors flex items-center gap-1 shadow-[0_0_10px_rgba(0,229,255,0.2)]">
+<span class="material-symbols-outlined text-[18px]">person_add</span> Add
+                            </button>
+</li>
+<!-- Suggested Item -->
+<li class="flex items-center justify-between p-3 rounded hover:bg-surface-variant/50 transition-colors">
+<div class="flex items-center gap-4">
+<img alt="Aisha Patel" class="w-10 h-10 rounded-full object-cover border border-outline-variant shrink-0" data-alt="A clear, professional portrait of an Indian woman with dark hair, wearing a sleek, dark grey business dress. The background is an abstract, dark midnight blue, providing strong contrast. The lighting is sharp and modern, designed to look authoritative and highly legible within a dark-mode user interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNzbjVsStrJ1IjKnmm-NE4V3LeHR1wNTOd50pCKvLVO8ZXvxNNX3CbIk9wWTlPf7mzxGQBxgR566h9syTItVCNlBDZHduuMve3cVJ9GKKqPAk-9lORgaX0OTOH9pXvxem_NlSqbrRatizzt7mpyMvR7aZHvC95g6_YNI6IAP-n4nY3ObfOKficFTt3T7kJ8sWidqne0AvtE32jqMEpLBDcT3XGVaKetfZ7d3HieDQ7BVdJypxd_0i-_cmpHdk_T-C3xUGKuH_wryI"/>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface">Aisha Patel</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-0.5">UX Designer</span>
+</div>
+</div>
+<button class="px-4 py-1.5 rounded bg-status-progress text-primary-container font-label-md text-label-md font-bold hover:bg-secondary transition-colors flex items-center gap-1 shadow-[0_0_10px_rgba(0,229,255,0.2)]">
+<span class="material-symbols-outlined text-[18px]">person_add</span> Add
+                            </button>
+</li>
+<!-- Suggested Item -->
+<li class="flex items-center justify-between p-3 rounded hover:bg-surface-variant/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border border-outline-variant bg-surface-container-high flex items-center justify-center shrink-0 text-on-surface font-headline-sm">
+                                    TJ
+                                </div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface">Tom Jackson</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-0.5">DevOps Engineer</span>
+</div>
+</div>
+<button class="px-4 py-1.5 rounded bg-status-progress text-primary-container font-label-md text-label-md font-bold hover:bg-secondary transition-colors flex items-center gap-1 shadow-[0_0_10px_rgba(0,229,255,0.2)]">
+<span class="material-symbols-outlined text-[18px]">person_add</span> Add
+                            </button>
+</li>
+</ul>
+</section>
+</div>
+</div>
+</main>
+</body></html>
