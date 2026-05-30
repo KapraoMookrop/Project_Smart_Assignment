@@ -1,127 +1,116 @@
 <div class="bg-dark-navy min-vh-100 text-white selection-cyan">
-  <!-- Top Bar -->
-  <header class="bg-secondary-bg border-bottom border-secondary d-flex align-items-center px-4 sticky-top" style="height: 64px; z-index: 1050;">
-    <button class="btn text-cyan p-2 rounded-circle hover-bg-navy" (click)="goBack()">
-      <i class="bi bi-arrow-left fs-4"></i>
-    </button>
-    <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5 truncate">รายละเอียดงาน: {{ task.title }}</h1>
-  </header>
+  @if (task) {
+    <!-- Top Bar -->
+    <header class="bg-secondary-bg border-bottom border-secondary d-flex align-items-center px-4 sticky-top" style="height: 64px; z-index: 1050;">
+      <button class="btn text-cyan p-2 rounded-circle hover-bg-navy" (click)="goBack()">
+        <i class="bi bi-arrow-left fs-4"></i>
+      </button>
+      <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5 truncate">รายละเอียดงาน: {{ task.title }}</h1>
+    </header>
 
-  <main class="container py-4" style="max-width: 1000px; padding-bottom: 120px;">
-    <div class="row g-4">
-      <!-- Left Column: Content -->
-      <div class="col-lg-8">
-        <div class="card card-custom border-0 p-4 mb-4 position-relative overflow-hidden">
-          <div class="position-absolute top-0 start-0 w-100 bg-cyan" style="height: 4px;"></div>
-          
-          <div class="d-flex flex-wrap gap-2 mb-4">
-            <span class="badge rounded-pill bg-cyan bg-opacity-10 text-cyan border border-cyan border-opacity-25 px-3 py-2 fw-bold">
-              {{ task.category }}
-            </span>
-            <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2 fw-bold">
-              {{ task.priority }}
-            </span>
-          </div>
-
-          <h2 class="fw-bold mb-3">{{ task.title }}</h2>
-          <p class="text-white fs-5 mb-5 leading-relaxed">{{ task.description }}</p>
-
-          <div class="row g-4 pt-4 border-top border-secondary border-opacity-50">
-            <div class="col-6">
-              <small class="text-white d-block text-uppercase fw-bold mb-2">ผู้สร้าง</small>
-              <div class="d-flex align-items-center">
-                <div class="rounded-circle bg-cyan text-dark fw-bold d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px;">
-                  {{ task.creator.substring(0, 1) }}
-                </div>
-                <span>{{ task.creator }}</span>
-              </div>
-            </div>
-            <div class="col-6">
-              <small class="text-white d-block text-uppercase fw-bold mb-2">วันที่สร้าง</small>
-              <span>{{ task.createdAt }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Requirements Section -->
-        <div class="card card-custom border-0 p-4 mb-4">
-          <h3 class="h5 fw-bold text-cyan mb-4">รายละเอียดเพิ่มเติม</h3>
-          <ul class="list-unstyled mb-0">
-            @for (req of task.requirements; track req) {
-              <li class="d-flex gap-3 mb-3">
-                <i class="bi bi-check-circle-fill text-cyan"></i>
-                <span class="text-white">{{ req }}</span>
-              </li>
-            }
-          </ul>
-        </div>
-
-        <!-- Business Context Image -->
-        <div class="card card-custom border-0 overflow-hidden position-relative" style="height: 200px;">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3_hA6sMCo61HR4AjISlQPPKocprzbjtKSjdXtyKpW5XuG-K_j7WOzNz3ywtMQM9R9-E1ImWcJZxDB_MHV69XRJvnWzhfGd3bB5M1D29JCeSPJJi6qX2WmQjCECacLX5Iflbx39Zhv34uEJpTUfwkVVf7CwsBngS7qlpH3JlQCUC8b9n0mmH1XcVEGuMH6SL6H-h3k_rUj4DDu705DXUAzQ100pcrBdThgt7fH00q0WM_elXVogPrRY22sr7tklxB4Pzyht3MB7_w" 
-               class="w-100 h-100 object-fit-cover opacity-50" alt="Context">
-          <div class="position-absolute bottom-0 start-0 p-3 w-100 bg-gradient-dark">
-            <small class="text-cyan text-uppercase fw-bold ls-widest">บริบททางธุรกิจ</small>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Column: Sidebar Stats -->
-      <div class="col-lg-4">
-        <div class="card card-custom border-0 p-4 mb-4">
-          <h3 class="h5 fw-bold text-cyan mb-4">ข้อมูลเบื้องต้น</h3>
-          <div class="vstack gap-2">
-            <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-25">
-              <span class="text-white">รหัสงาน:</span>
-              <span class="fw-bold">{{ task.id }}</span>
-            </div>
-            <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-25">
-              <span class="text-white">สถานะ:</span>
-              <span [ngClass]="task.status === 'รอดำเนินการ' ? 'text-warning' : 'text-success'" class="fw-bold d-flex align-items-center gap-2">
-                <span class="pulse-dot" [ngClass]="task.status === 'รอดำเนินการ' ? 'bg-warning' : 'bg-success'"></span>
-                {{ task.status }}
+    <main class="container py-4" style="max-width: 1000px; padding-bottom: 120px;">
+      <div class="row g-4">
+        <!-- Left Column: Content -->
+        <div class="col-lg-8">
+          <div class="card card-custom border-0 p-4 mb-4 position-relative overflow-hidden">
+            <div class="position-absolute top-0 start-0 w-100 bg-cyan" style="height: 4px;"></div>
+            
+            <div class="d-flex flex-wrap gap-2 mb-4">
+              <span class="badge rounded-pill bg-cyan bg-opacity-10 text-cyan border border-cyan border-opacity-25 px-3 py-2 fw-bold">
+                {{ task.category_id.substring(0, 8) }}
+              </span>
+              <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2 fw-bold">
+                {{ task.priority }}
               </span>
             </div>
-            <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-25">
-              <span class="text-white">ค่าตอบแทน:</span>
-              <span class="text-cyan fw-bold">{{ task.points | number }} Pts</span>
+
+            <h2 class="fw-bold mb-3">{{ task.title }}</h2>
+            <p class="text-white fs-5 mb-5 leading-relaxed">{{ task.description }}</p>
+
+            <div class="row g-4 pt-4 border-top border-secondary border-opacity-50">
+              <div class="col-6">
+                <small class="text-white d-block text-uppercase fw-bold mb-2">ผู้สร้าง</small>
+                <div class="d-flex align-items-center">
+                  <div class="rounded-circle bg-cyan text-dark fw-bold d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px;">
+                    U
+                  </div>
+                  <span>{{ task.created_by.substring(0, 8) }}</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <small class="text-white d-block text-uppercase fw-bold mb-2">วันที่สร้าง</small>
+                <span>{{ task.created_at | date:'medium' }}</span>
+              </div>
             </div>
-            <div class="d-flex justify-content-between py-2">
-              <span class="text-white">เวลาที่เหลือ:</span>
-              <span class="text-danger fw-bold">{{ task.timeLeft }}</span>
+          </div>
+
+          <!-- Business Context Image -->
+          <div class="card card-custom border-0 overflow-hidden position-relative" style="height: 200px;">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3_hA6sMCo61HR4AjISlQPPKocprzbjtKSjdXtyKpW5XuG-K_j7WOzNz3ywtMQM9R9-E1ImWcJZxDB_MHV69XRJvnWzhfGd3bB5M1D29JCeSPJJi6qX2WmQjCECacLX5Iflbx39Zhv34uEJpTUfwkVVf7CwsBngS7qlpH3JlQCUC8b9n0mmH1XcVEGuMH6SL6H-h3k_rUj4DDu705DXUAzQ100pcrBdThgt7fH00q0WM_elXVogPrRY22sr7tklxB4Pzyht3MB7_w" 
+                 class="w-100 h-100 object-fit-cover opacity-50" alt="Context">
+            <div class="position-absolute bottom-0 start-0 p-3 w-100 bg-gradient-dark">
+              <small class="text-cyan text-uppercase fw-bold ls-widest">บริบททางธุรกิจ</small>
             </div>
           </div>
         </div>
 
-        <div class="card bg-cyan bg-opacity-10 border border-cyan border-opacity-25 p-4 rounded-4">
-          <div class="d-flex align-items-center gap-2 mb-3">
-            <i class="bi bi-info-circle-fill text-cyan fs-4"></i>
-            <h4 class="h6 fw-bold text-cyan mb-0">ข้อกำหนดการรับงาน</h4>
+        <!-- Right Column: Sidebar Stats -->
+        <div class="col-lg-4">
+          <div class="card card-custom border-0 p-4 mb-4">
+            <h3 class="h5 fw-bold text-cyan mb-4">ข้อมูลเบื้องต้น</h3>
+            <div class="vstack gap-2">
+              <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-25">
+                <span class="text-white">รหัสงาน:</span>
+                <span class="fw-bold">{{ task.task_id.substring(0, 8) }}</span>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-25">
+                <span class="text-white">สถานะ:</span>
+                <span [ngClass]="task.status === 'Pending' ? 'text-warning' : 'text-success'" class="fw-bold d-flex align-items-center gap-2">
+                  <span class="pulse-dot" [ngClass]="task.status === 'Pending' ? 'bg-warning' : 'bg-success'"></span>
+                  {{ task.status }}
+                </span>
+              </div>
+              <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-25">
+                <span class="text-white">ค่าตอบแทน:</span>
+                <span class="text-cyan fw-bold">{{ task.reward_points | number }} Pts</span>
+              </div>
+              <div class="d-flex justify-content-between py-2">
+                <span class="text-white">กำหนดส่ง:</span>
+                <span class="text-danger fw-bold">{{ task.deadline | date:'shortDate' }}</span>
+              </div>
+            </div>
           </div>
-          <p class="small text-white leading-relaxed mb-0">
-            งานนี้จำกัดเฉพาะสมาชิกในกลุ่ม <strong class="text-cyan">{{ task.groupRequirement }}</strong> เท่านั้น หากคุณรับงานแล้วไม่ส่งภายในเวลาที่กำหนด คะแนนความประพฤติจะถูกหัก 10 แต้ม
-          </p>
+
+          <div class="card bg-cyan bg-opacity-10 border border-cyan border-opacity-25 p-4 rounded-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <i class="bi bi-info-circle-fill text-cyan fs-4"></i>
+              <h4 class="h6 fw-bold text-cyan mb-0">ข้อกำหนดการรับงาน</h4>
+            </div>
+            <p class="small text-white leading-relaxed mb-0">
+              งานนี้จำกัดเฉพาะสมาชิกในกลุ่มที่เกี่ยวข้องเท่านั้น หากคุณรับงานแล้วไม่ส่งภายในเวลาที่กำหนด คะแนนความประพฤติจะถูกหัก
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
 
-  <!-- Bottom Action Button -->
-  <footer class="fixed-bottom bg-dark-navy bg-opacity-75 backdrop-blur border-top border-secondary p-4 shadow-lg">
-    <div class="container d-flex justify-content-center" style="max-width: 1000px;">
-      <button class="btn btn-cyan w-100 py-3 fw-bold fs-5 d-flex align-items-center justify-content-center gap-2 shadow-cyan"
-              [disabled]="isClaiming || isClaimed" (click)="claimTask()">
-        @if (!isClaiming && !isClaimed) {
-          <i class="bi bi-check2-circle fs-4"></i>
-        }
-        @if (isClaiming) {
-          <span class="spinner-border spinner-border-sm me-2"></span>
-        }
-        @if (isClaimed) {
-          <i class="bi bi-check-circle-fill fs-4"></i>
-        }
-        {{ isClaiming ? 'กำลังประมวลผล...' : (isClaimed ? 'รับงานสำเร็จแล้ว!' : 'รับงานนี้ (Claim Task)') }}
-      </button>
-    </div>
-  </footer>
+    <!-- Bottom Action Button -->
+    <footer class="fixed-bottom bg-dark-navy bg-opacity-75 backdrop-blur border-top border-secondary p-4 shadow-lg">
+      <div class="container d-flex justify-content-center" style="max-width: 1000px;">
+        <button class="btn btn-cyan w-100 py-3 fw-bold fs-5 d-flex align-items-center justify-content-center gap-2 shadow-cyan"
+                [disabled]="isClaiming || isClaimed" (click)="claimTask()">
+          @if (!isClaiming && !isClaimed) {
+            <i class="bi bi-check2-circle fs-4"></i>
+          }
+          @if (isClaiming) {
+            <span class="spinner-border spinner-border-sm me-2"></span>
+          }
+          @if (isClaimed) {
+            <i class="bi bi-check-circle-fill fs-4"></i>
+          }
+          {{ isClaiming ? 'กำลังประมวลผล...' : (isClaimed ? 'รับงานสำเร็จแล้ว!' : 'รับงานนี้ (Claim Task)') }}
+        </button>
+      </div>
+    </footer>
+  }
 </div>

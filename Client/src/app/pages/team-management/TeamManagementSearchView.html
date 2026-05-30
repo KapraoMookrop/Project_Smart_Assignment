@@ -25,19 +25,19 @@
         </div>
 
         <div class="row g-3">
-          @for (member of members; track member.id) {
+          @for (member of members; track member.user_id) {
             <div class="col-md-6">
               <div class="card card-custom h-100 border-0 position-relative hover-glow transition-all">
-                <div [style.background-color]="member.statusColor" style="height: 4px; width: 100%;"></div>
+                <div class="bg-cyan" style="height: 4px; width: 100%;"></div>
                 <div class="card-body p-4">
                   <div class="d-flex justify-content-between align-items-start mb-4">
                     <div class="d-flex align-items-center">
                       <div class="rounded-circle bg-secondary-bg border border-secondary d-flex align-items-center justify-content-center fw-bold text-white me-3" 
                            style="width: 48px; height: 48px; font-size: 1.1rem;">
-                        {{ member.initials }}
+                        {{ member.full_name?.substring(0, 1) }}
                       </div>
                       <div>
-                        <h5 class="fw-bold mb-0">{{ member.name }}</h5>
+                        <h5 class="fw-bold mb-0">{{ member.full_name }}</h5>
                         <small class="text-white">{{ member.role }}</small>
                       </div>
                     </div>
@@ -45,15 +45,14 @@
                   </div>
 
                   <div class="d-flex flex-wrap gap-2 mb-4">
-                    @for (cat of member.categories; track cat) {
-                      <span class="badge rounded-pill bg-cyan bg-opacity-10 text-cyan border border-cyan border-opacity-25 px-2 py-1 small fw-normal">
-                        {{ cat }}
-                      </span>
-                    }
+                    <!-- Categories would be a separate join/model in real app -->
+                    <span class="badge rounded-pill bg-cyan bg-opacity-10 text-cyan border border-cyan border-opacity-25 px-2 py-1 small fw-normal">
+                      Member
+                    </span>
                   </div>
 
                   <div class="d-flex gap-2 pt-3 border-top border-secondary border-opacity-25">
-                    <button class="btn btn-outline-secondary btn-sm flex-grow-1 py-2 fw-bold" (click)="editMember(member.id)">Edit</button>
+                    <button class="btn btn-outline-secondary btn-sm flex-grow-1 py-2 fw-bold" (click)="editMember(member.user_id)">Edit</button>
                     <button class="btn btn-outline-secondary btn-sm flex-grow-1 py-2 fw-bold">Manage Categories</button>
                   </div>
                 </div>
@@ -72,13 +71,13 @@
           </div>
 
           <div class="vstack gap-2">
-            @for (cat of categories; track cat.name) {
+            @for (cat of categories; track cat.category_id) {
               <div class="d-flex align-items-center justify-content-between p-3 rounded-3 hover-bg-navy cursor-pointer transition-all border border-transparent hover-border-secondary">
                 <div class="d-flex align-items-center gap-3">
                   <i class="bi {{ cat.icon }} text-white fs-5"></i>
                   <span class="fw-bold">{{ cat.name }}</span>
                 </div>
-                <span class="badge bg-secondary-bg border border-secondary text-white px-2 py-1">{{ cat.count }} Members</span>
+                <span class="badge bg-secondary-bg border border-secondary text-white px-2 py-1">Active</span>
               </div>
             }
           </div>

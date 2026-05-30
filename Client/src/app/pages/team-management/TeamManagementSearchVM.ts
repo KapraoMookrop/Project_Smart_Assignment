@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UserApiService } from '../../services/api/user-api.service';
+import { CategoryApiService } from '../../services/api/category-api.service';
+import { User, Category } from '../../models/app-models';
 
 @Component({
   selector: 'app-team-management',
@@ -8,28 +11,34 @@ import { CommonModule } from '@angular/common';
   templateUrl: './TeamManagementSearchView.html',
 })
 export class TeamManagementSearchVM implements OnInit {
-  members = [
-    { id: 1, name: 'Sarah Jenkins', role: 'Company Admin', initials: 'SJ', categories: ['Engineering', 'Product'], statusColor: '#00E5FF' },
-    { id: 2, name: 'Marcus Chen', role: 'Regular User', initials: 'MC', categories: ['Sales'], statusColor: '#8e9196' },
-    { id: 3, name: 'Elena Rossi', role: 'Regular User', initials: 'EL', categories: ['IT Support', 'Security'], statusColor: '#8e9196' }
-  ];
+  members: User[] = [];
+  categories: Category[] = [];
 
-  categories = [
-    { name: 'Engineering', count: 12, icon: 'bi-gear' },
-    { name: 'Sales', count: 8, icon: 'bi-shop' },
-    { name: 'IT Support', count: 5, icon: 'bi-headset' },
-    { name: 'Product', count: 4, icon: 'bi-lightbulb' }
-  ];
+  constructor(
+    private userApi: UserApiService,
+    private categoryApi: CategoryApiService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-  constructor() {}
+  ngOnInit(): void {
+    this.loadData();
+  }
 
-  ngOnInit(): void {}
+  async loadData() {
+    try {
+      this.members = await this.userApi.getUsers();
+      this.categories = await this.categoryApi.getCategories();
+      this.cdr.detectChanges();
+    } catch (error) {
+      console.error('Error loading team data:', error);
+    }
+  }
 
   async addMember() {
     console.log('Opening add member modal...');
   }
 
-  async editMember(id: number) {
+  async editMember(id: string) {
     console.log(`Editing member ${id}...`);
   }
 }

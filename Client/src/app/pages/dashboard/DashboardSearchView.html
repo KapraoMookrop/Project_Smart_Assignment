@@ -27,11 +27,11 @@
     <div class="mt-auto border-top border-secondary pt-3 px-2">
       <div class="d-flex align-items-center">
         <div class="rounded-circle bg-cyan text-dark d-flex align-items-center justify-content-center fw-bold me-3" style="width: 40px; height: 40px;">
-          AU
+          {{ userProfile?.full_name?.substring(0, 2)?.toUpperCase() || 'U' }}
         </div>
         <div class="overflow-hidden">
-          <p class="mb-0 fw-bold text-truncate">{{ userProfile.name }}</p>
-          <small class="text-white text-truncate d-block">{{ userProfile.company }}</small>
+          <p class="mb-0 fw-bold text-truncate">{{ userProfile?.full_name || 'User' }}</p>
+          <small class="text-white text-truncate d-block">{{ userProfile?.role }}</small>
         </div>
       </div>
     </div>
@@ -54,9 +54,9 @@
         <div class="d-none d-md-flex align-items-center ms-3">
           <div class="text-end me-3">
             <small class="text-white d-block">ยินดีต้อนรับกลับ</small>
-            <span class="fw-bold">{{ userProfile.name }}</span>
+            <span class="fw-bold">{{ userProfile?.full_name }}</span>
           </div>
-          <img [src]="userProfile.avatar" alt="Avatar" class="rounded-circle border border-secondary" style="width: 45px; height: 45px;">
+          <img [src]="userProfile?.profile_picture_url || 'https://via.placeholder.com/45'" alt="Avatar" class="rounded-circle border border-secondary" style="width: 45px; height: 45px;">
         </div>
       </div>
     </header>
@@ -120,16 +120,16 @@
         </div>
 
         <div class="row g-4">
-          @for (task of newTasks; track task.id) {
+          @for (task of newTasks; track task.task_id) {
             <div class="col-lg-4 col-md-6">
               <div class="card card-custom h-100 transition-all border-0 shadow-sm hover-glow">
-                <div [style.background-color]="task.categoryColor" style="height: 5px; width: 100%;"></div>
+                <div class="bg-cyan" style="height: 5px; width: 100%;"></div>
                 <div class="card-body p-4 d-flex flex-column">
                   <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="badge rounded-pill py-2 px-3 fw-bold" [style.background-color]="task.categoryColor + '33'" [style.color]="task.categoryColor">
-                      {{ task.category }}
+                    <span class="badge rounded-pill py-2 px-3 fw-bold bg-cyan bg-opacity-10 text-cyan">
+                      {{ task.category_id.substring(0, 8) }}
                     </span>
-                    <small class="text-white">{{ task.timeAgo }}</small>
+                    <small class="text-white">{{ task.created_at | date:'shortTime' }}</small>
                   </div>
                   <h4 class="card-title fw-bold mb-3">{{ task.title }}</h4>
                   <p class="card-text text-white line-clamp-2 mb-4">{{ task.description }}</p>
@@ -137,9 +137,9 @@
                   <div class="mt-auto">
                     <div class="d-flex align-items-center mb-4">
                       <i class="bi bi-clock text-white me-2"></i>
-                      <small class="text-white">ระยะเวลา: {{ task.duration }}</small>
+                      <small class="text-white">ระยะเวลา: {{ task.estimated_duration }}</small>
                     </div>
-                    <button class="btn btn-cyan w-100 py-3 d-flex align-items-center justify-content-center" (click)="claimTask(task.id)">
+                    <button class="btn btn-cyan w-100 py-3 d-flex align-items-center justify-content-center" (click)="claimTask(task.task_id)">
                       <i class="bi bi-hand-index-thumb me-2 fs-5"></i> รับงานนี้ (Claim Task)
                     </button>
                   </div>

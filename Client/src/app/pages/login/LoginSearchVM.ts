@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthApiService } from '../../services/api/auth-api.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -19,40 +21,45 @@ export class LoginSearchVM implements OnInit {
   isPasswordVisible: boolean = false;
   isLoading: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authApi: AuthApiService,
+    private notification: NotificationService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {}
 
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
+    this.cdr.detectChanges();
   }
 
   async onLogin() {
     try {
-      if (!this.loginData.tenantId || !this.loginData.email || !this.loginData.password) {
-        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+      if (!this.loginData.email || !this.loginData.password) {
+        this.notification.warning('ข้อมูลไม่ครบถ้วน', 'กรุณากรอกอีเมลและรหัสผ่าน');
         return;
       }
 
       this.isLoading = true;
+      this.cdr.detectChanges();
       console.log('Logging in with:', this.loginData);
 
-      // โครงสร้างการติดต่อ API ในอนาคต
-      // const response = await this.authService.login(this.loginData);
-      // if (response.status === 'success') {
-      //   // Save JWT and redirect
-      //   this.router.navigate(['/dashboard']);
-      // }
-
-      // Mock success
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      this.isLoading = false;
-      this.router.navigate(['/dashboard']);
+      const response = await this.authApi.login(this.loginData.email, this.loginData.password);
+      
+      if (response.token) {
+        this.isLoading = false;
+        this.cdr.detectChanges();
+        this.notification.success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
+        this.router.navigate(['/dashboard']);
+      }
 
     } catch (error) {
       this.isLoading = false;
+      this.cdr.detectChanges();
+      this.notification.error('เข้าสู่ระบบล้มเหลว', 'กรุณาตรวจสอบข้อมูลอีกครั้ง');
       console.error('Login error:', error);
-      alert('เข้าสู่ระบบล้มเหลว กรุณาตรวจสอบข้อมูลอีกครั้ง');
     }
   }
 }

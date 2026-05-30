@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CompanyApiService } from '../../services/api/company-api.service';
+import { NotificationService } from '../../services/notification.service';
+import { Company } from '../../models/app-models';
 
 @Component({
   selector: 'app-company-list',
@@ -8,15 +11,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './CompanyListSearchView.html',
 })
 export class CompanyListSearchVM implements OnInit {
-  companies = [
-    { id: 'TEN-8492', name: 'Acme Corp X', initial: 'AX', users: 1240, plan: 'Enterprise', status: 'Active' },
-    { id: 'TEN-1102', name: 'Global Logistics', initial: 'GL', users: 850, plan: 'Pro', status: 'Active' },
-    { id: 'TEN-9931', name: 'Nexus Ventures', initial: 'NX', users: 0, plan: 'Starter', status: 'Inactive' }
-  ];
-
+  companies: Company[] = [];
   searchQuery: string = '';
 
-  constructor() {}
+  constructor(
+    private companyApi: CompanyApiService,
+    private notification: NotificationService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadCompanies();
@@ -25,17 +27,30 @@ export class CompanyListSearchVM implements OnInit {
   async loadCompanies() {
     try {
       console.log('Loading companies...');
+      this.companies = await this.companyApi.getCompanies();
+      if (this.searchQuery) {
+        this.companies = this.companies.filter(c => 
+          c.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      }
+      this.cdr.detectChanges();
     } catch (error) {
+      this.notification.error('โหลดข้อมูลไม่สำเร็จ');
       console.error('Error loading companies:', error);
     }
   }
 
   async deleteCompany(id: string) {
-    if (confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบ Tenant ${id}?`)) {
+    const result = await this.notification.confirm('ยืนยันการลบ', `คุณแน่ใจหรือไม่ว่าต้องการลบ Tenant ${id}?`);
+    if (result.isConfirmed) {
       try {
         console.log(`Deleting company ${id}...`);
-        this.companies = this.companies.filter(c => c.id !== id);
+        await this.companyApi.deleteCompany(id);
+        this.companies = this.companies.filter(c => c.company_id !== id);
+        this.notification.success('ลบสำเร็จ');
+        this.cdr.detectChanges();
       } catch (error) {
+        this.notification.error('ลบไม่สำเร็จ');
         console.error('Error deleting company:', error);
       }
     }

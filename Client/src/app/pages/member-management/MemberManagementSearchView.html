@@ -40,22 +40,22 @@
             </div>
             <div class="card-body p-2 overflow-auto" style="max-height: 500px;">
               <div class="list-group list-group-flush">
-                @for (member of currentMembers; track member.id) {
+                @for (member of currentMembers; track member.user_id) {
                   <div class="list-group-item bg-transparent border-0 d-flex justify-content-between align-items-center p-3 rounded hover-bg-navy transition-all mb-1">
                     <div class="d-flex align-items-center gap-3">
-                      @if (member.avatar) {
-                        <img [src]="member.avatar" class="rounded-circle border border-secondary" style="width: 40px; height: 40px; object-fit: cover;">
+                      @if (member.profile_picture_url) {
+                        <img [src]="member.profile_picture_url" class="rounded-circle border border-secondary" style="width: 40px; height: 40px; object-fit: cover;">
                       } @else {
                         <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px;">
-                          {{ member.name.substring(0, 1) }}
+                          {{ member.full_name?.substring(0, 1) || 'U' }}
                         </div>
                       }
                       <div>
-                        <p class="mb-0 fw-bold">{{ member.name }}</p>
+                        <p class="mb-0 fw-bold">{{ member.full_name }}</p>
                         <small class="text-cyan">{{ member.role }}</small>
                       </div>
                     </div>
-                    <button class="btn btn-outline-danger btn-sm px-3 rounded-pill border-opacity-50" (click)="removeMember(member.id)">
+                    <button class="btn btn-outline-danger btn-sm px-3 rounded-pill border-opacity-50" (click)="removeMember(member.user_id)">
                       <i class="bi bi-person-x me-1"></i> Remove
                     </button>
                   </div>
@@ -82,18 +82,18 @@
             </div>
             <div class="card-body p-2 overflow-auto" style="max-height: 500px;">
               <div class="list-group list-group-flush">
-                @for (emp of availableEmployees; track emp.id) {
+                @for (emp of availableEmployees; track emp.user_id) {
                   <div class="list-group-item bg-transparent border-0 d-flex justify-content-between align-items-center p-3 rounded hover-bg-navy transition-all mb-1">
                     <div class="d-flex align-items-center gap-3">
-                      @if (emp.avatar) {
-                        <img [src]="emp.avatar" class="rounded-circle border border-secondary" style="width: 40px; height: 40px; object-fit: cover;">
+                      @if (emp.profile_picture_url) {
+                        <img [src]="emp.profile_picture_url" class="rounded-circle border border-secondary" style="width: 40px; height: 40px; object-fit: cover;">
                       } @else {
                         <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px;">
-                          {{ emp.name.substring(0, 1) }}
+                          {{ emp.full_name?.substring(0, 1) || 'E' }}
                         </div>
                       }
                       <div>
-                        <p class="mb-0 fw-bold">{{ emp.name }}</p>
+                        <p class="mb-0 fw-bold">{{ emp.full_name }}</p>
                         <small class="text-white">{{ emp.role }}</small>
                       </div>
                     </div>

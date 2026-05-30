@@ -20,10 +20,10 @@
       <div class="mb-4">
         <label class="form-label text-white small fw-bold">หมวดหมู่ (Category)</label>
         <select class="form-select card-custom border-secondary p-3 text-white focus-cyan appearance-none" 
-                name="categoryId" [(ngModel)]="task.categoryId" required>
-          <option [ngValue]="null" disabled selected>เลือกหมวดหมู่</option>
-          @for (cat of categories; track cat.id) {
-            <option [ngValue]="cat.id">{{ cat.name }}</option>
+                name="categoryId" [(ngModel)]="task.category_id" required>
+          <option value="" disabled selected>เลือกหมวดหมู่</option>
+          @for (cat of categories; track cat.category_id) {
+            <option [value]="cat.category_id">{{ cat.name }}</option>
           }
         </select>
       </div>
@@ -70,7 +70,7 @@
             <i class="bi bi-star-fill"></i>
           </span>
           <input type="number" class="form-control bg-transparent border-0 text-white p-3 focus-none" 
-                 placeholder="0" name="points" [(ngModel)]="task.points">
+                 placeholder="0" name="points" [(ngModel)]="task.reward_points">
         </div>
       </div>
     </form>

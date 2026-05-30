@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { UserApiService } from '../../services/api/user-api.service';
+import { AuthApiService } from '../../services/api/auth-api.service';
+import { NotificationService } from '../../services/notification.service';
+import { User } from '../../models/app-models';
 
 @Component({
   selector: 'app-profile-edit',
@@ -9,17 +13,20 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './ProfileEditSearchView.html',
 })
 export class ProfileEditSearchVM implements OnInit {
-  user = {
-    fullName: 'Admin User',
-    email: 'admin@globalenterprise.com',
-    phone: '+1 (555) 123-4567',
-    bio: '',
-    avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuK4KYaL1u0NVN0GNo8u5AagWDphT9yUo1mcR8qEq8TE3sJUfagMnLZtgflaM2vaRfkIGsS9wUb7RhHr4RY3Z0esH4GxqTpFbzfdVM4Bu60MPpXdHmisJ9OIQ8ZqyOn_yKcLWOvXTTUoAVnhGY5CuumC-cWQlfrgi6NPGTK1yuaITH1TFBHMbZerDldGCPi0Elf4W8Pcv15jEgRa2RwtZfmn22v4hbrcp8InWS-DhESi9U23cHQTf5AUUEWY7JvxvFSe3lcxs6em-Ws'
-  };
+  user: User | null = null;
 
-  constructor(private location: Location) {}
+  constructor(
+    private location: Location,
+    private userApi: UserApiService,
+    private authApi: AuthApiService,
+    private notification: NotificationService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    this.user = await this.authApi.getCurrentUser();
+    this.cdr.detectChanges();
+  }
 
   goBack() {
     this.location.back();
@@ -27,12 +34,15 @@ export class ProfileEditSearchVM implements OnInit {
 
   async saveProfile() {
     try {
-      console.log('Saving profile:', this.user);
-      // โครงสร้างการติดต่อ API ในอนาคต
-      // await this.apiService.updateProfile(this.user);
-      alert('แก้ไขข้อมูลส่วนตัวสำเร็จ!');
-      this.goBack();
+      if (this.user) {
+        console.log('Saving profile:', this.user);
+        await this.userApi.updateProfile(this.user.user_id, this.user);
+        this.notification.success('สำเร็จ', 'แก้ไขข้อมูลส่วนตัวเรียบร้อยแล้ว');
+        this.cdr.detectChanges();
+        this.goBack();
+      }
     } catch (error) {
+      this.notification.error('เกิดข้อผิดพลาด', 'ไม่สามารถบันทึกข้อมูลได้');
       console.error('Error saving profile:', error);
     }
   }

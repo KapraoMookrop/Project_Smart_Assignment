@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TaskApiService } from '../../services/api/task-api.service';
+import { CategoryApiService } from '../../services/api/category-api.service';
+import { NotificationService } from '../../services/notification.service';
+import { Task, Category } from '../../models/app-models';
 
 @Component({
   selector: 'app-task-create',
@@ -9,32 +13,44 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './TaskCreateSearchView.html',
 })
 export class TaskCreateSearchVM implements OnInit {
-  task = {
+  task: Partial<Task> = {
     title: '',
-    categoryId: null,
-    priority: 'medium',
+    category_id: '',
+    priority: undefined,
     description: '',
-    points: 0,
-    attachments: [] as any[]
+    reward_points: 0,
+    status: undefined
   };
 
-  categories = [
-    { id: 1, name: 'Engineering' },
-    { id: 2, name: 'Sales' },
-    { id: 3, name: 'IT Support' },
-    { id: 4, name: 'Product' }
-  ];
+  categories: Category[] = [];
 
   priorities = [
-    { value: 'low', label: 'Low', colorClass: 'btn-outline-secondary' },
-    { value: 'medium', label: 'Medium', colorClass: 'btn-outline-warning' },
-    { value: 'high', label: 'High', colorClass: 'btn-outline-orange' },
-    { value: 'urgent', label: 'Urgent', colorClass: 'btn-outline-danger' }
+    { value: 'Low', label: 'Low', colorClass: 'btn-outline-secondary' },
+    { value: 'Medium', label: 'Medium', colorClass: 'btn-outline-warning' },
+    { value: 'High', label: 'High', colorClass: 'btn-outline-orange' },
+    { value: 'Urgent', label: 'Urgent', colorClass: 'btn-outline-danger' }
   ];
 
-  constructor(private location: Location) {}
+  constructor(
+    private location: Location,
+    private taskApi: TaskApiService,
+    private categoryApi: CategoryApiService,
+    private notification: NotificationService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadCategories();
+  }
+
+  async loadCategories() {
+    try {
+      this.categories = await this.categoryApi.getCategories();
+      this.cdr.detectChanges();
+    } catch (error) {
+      this.notification.error('ไม่สามารถโหลดข้อมูลหมวดหมู่ได้');
+    }
+  }
 
   goBack() {
     this.location.back();
@@ -43,26 +59,22 @@ export class TaskCreateSearchVM implements OnInit {
   async onSubmit() {
     try {
       console.log('Submitting task:', this.task);
-      
-      if (!this.task.title || !this.task.categoryId) {
-        alert('กรุณากรอกข้อมูลหัวข้อและหมวดหมู่ให้ครบถ้วน');
+
+      if (!this.task.title || !this.task.category_id) {
+        this.notification.warning('ข้อมูลไม่ครบถ้วน', 'กรุณากรอกหัวข้องานและเลือกหมวดหมู่');
         return;
       }
 
-      // โครงสร้างการติดต่อ API ในอนาคต
-      // const response = await this.apiService.createTask(this.task);
-      // if (response.status === 'success') {
-      //   alert('สร้างงานและแจ้งเตือนสำเร็จ!');
-      //   this.goBack();
-      // }
-      
-      alert('สร้างงานและแจ้งเตือนสำเร็จ! (Mockup)');
+      await this.taskApi.createTask(this.task);
+      this.notification.success('สร้างงานสำเร็จ', 'ระบบได้ทำการส่งแจ้งเตือนไปยังสมาชิกกลุ่มแล้ว');
+      this.cdr.detectChanges();
       this.goBack();
     } catch (error) {
+      this.notification.error('สร้างงานไม่สำเร็จ');
       console.error('Error creating task:', error);
-      alert('เกิดข้อผิดพลาดในการสร้างงาน');
     }
   }
+
 
   handleFileUpload(event: any) {
     const files = event.target.files;

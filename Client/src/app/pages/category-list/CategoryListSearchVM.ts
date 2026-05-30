@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CategoryApiService } from '../../services/api/category-api.service';
+import { NotificationService } from '../../services/notification.service';
+import { Category } from '../../models/app-models';
 
 @Component({
   selector: 'app-category-list',
@@ -8,16 +11,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './CategoryListSearchView.html',
 })
 export class CategoryListSearchVM implements OnInit {
-  categories = [
-    { id: 1, name: 'Engineering', members: 24, icon: 'bi-gear', color: '#00E5FF' },
-    { id: 2, name: 'Marketing', members: 12, icon: 'bi-megaphone', color: '#06D6A0' },
-    { id: 3, name: 'Sales', members: 45, icon: 'bi-cart', color: '#FFB703' },
-    { id: 4, name: 'IT Support', members: 8, icon: 'bi-headset', color: '#00daf3' }
-  ];
-
+  categories: Category[] = [];
   searchQuery: string = '';
 
-  constructor() {}
+  constructor(
+    private categoryApi: CategoryApiService,
+    private notification: NotificationService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadCategories();
@@ -26,24 +27,30 @@ export class CategoryListSearchVM implements OnInit {
   async loadCategories() {
     try {
       console.log('Loading categories...');
-      // โครงสร้างการติดต่อ API ในอนาคต
-      // const response = await this.apiService.getCategories(this.searchQuery);
-      // if (response.status === 'success') {
-      //   this.categories = response.data;
-      // }
+      this.categories = await this.categoryApi.getCategories();
+      if (this.searchQuery) {
+        this.categories = this.categories.filter(c => 
+          c.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      }
+      this.cdr.detectChanges();
     } catch (error) {
+      this.notification.error('โหลดข้อมูลไม่สำเร็จ', 'ไม่สามารถโหลดรายการหมวดหมู่ได้');
       console.error('Error loading categories:', error);
     }
   }
 
-  async deleteCategory(id: number) {
-    if (confirm('คุณแน่ใจหรือไม่ว่าต้องการลบหมวดหมู่นี้?')) {
+  async deleteCategory(id: string) {
+    const result = await this.notification.confirm('คุณแน่ใจหรือไม่?', 'ต้องการลบหมวดหมู่นี้ใช่หรือไม่?');
+    if (result.isConfirmed) {
       try {
         console.log(`Deleting category ${id}...`);
-        // โครงสร้างการติดต่อ API ในอนาคต
-        // await this.apiService.deleteCategory(id);
-        this.categories = this.categories.filter(c => c.id !== id);
+        await this.categoryApi.deleteCategory(id);
+        this.categories = this.categories.filter(c => c.category_id !== id);
+        this.notification.success('ลบสำเร็จ', 'หมวดหมู่ถูกลบเรียบร้อยแล้ว');
+        this.cdr.detectChanges();
       } catch (error) {
+        this.notification.error('ลบไม่สำเร็จ');
         console.error('Error deleting category:', error);
       }
     }
