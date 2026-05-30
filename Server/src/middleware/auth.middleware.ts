@@ -1,0 +1,54 @@
+import { type Request, type Response, type NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { ENV } from "../config/env.js";
+import { UserRole } from "../module/app-models.js";
+import type { User } from "../module/app-models.js";
+
+export interface AuthenticatedRequest extends Request {
+  user?: User;
+}
+
+export const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader?.split(" ")[1];
+
+  if (!token) {
+    res.status(401).json({ message: "คุณยังไม่ได้เข้าสู่ระบบ" });
+    return;
+  }
+
+  jwt.verify(token, ENV.JWT_SECRET, (err: any, user: any) => {
+    if (err) {
+      res.status(401).json({ message: "กรุณาเข้าสู่ระบบอีกครั้ง" });
+      return;
+    }
+    
+    req.user = user as User;
+    next();
+  });
+};
+
+export const requireCompanyAdmin = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader?.split(" ")[1];
+
+    if (!token) {
+        res.status(401).json({ message: "คุณยังไม่ได้เข้าสู่ระบบ" });
+        return;
+    }
+
+    jwt.verify(token, ENV.JWT_SECRET, (err: any, user: any) => {
+        if (err || !user) {
+            res.status(401).json({ message: "กรุณาเข้าสู่ระบบอีกครั้ง" });
+            return;
+        }
+
+        if (user.role !== UserRole.CompanyAdmin && user.role !== UserRole.AppAdmin) {
+            res.status(403).json({ message: "คุณไม่มีสิทธิ์เข้าถึงหน้านี้" });
+            return;
+        }
+
+        req.user = user as User;
+        next();
+    });
+};

@@ -1,0 +1,15 @@
+import { Router } from "express";
+import * as companyController from "../controllers/company.controller.js";
+import { authenticateToken } from "../middleware/auth.middleware.js";
+
+const router = Router();
+
+router.use(authenticateToken as any);
+
+router.get("/", companyController.getCompanies as any);
+router.get("/:id", companyController.getCompanyById as any);
+router.post("/", companyController.saveCompany as any);
+router.put("/", companyController.saveCompany as any);
+router.delete("/:id", companyController.deleteCompany as any);
+
+export default router;
