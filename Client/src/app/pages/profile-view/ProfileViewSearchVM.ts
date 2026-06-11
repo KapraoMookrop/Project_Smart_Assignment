@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthApiService } from '../../services/api/auth-api.service';
+import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/app-models';
 
 @Component({
@@ -18,12 +18,12 @@ export class ProfileViewSearchVM implements OnInit {
   };
 
   constructor(
-    private authApi: AuthApiService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
-    this.user = await this.authApi.getCurrentUser();
+    this.user = this.authService.currentUser();
     this.cdr.detectChanges();
   }
 }

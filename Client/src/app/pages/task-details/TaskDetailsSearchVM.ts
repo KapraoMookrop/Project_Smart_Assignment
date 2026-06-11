@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { TaskApiService } from '../../services/api/task-api.service';
-import { AuthApiService } from '../../services/api/auth-api.service';
+import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { Task, User } from '../../models/app-models';
 
@@ -23,13 +23,13 @@ export class TaskDetailsSearchVM implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private taskApi: TaskApiService,
-    private authApi: AuthApiService,
+    private authService: AuthService,
     private notification: NotificationService,
     private cdr: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
-    this.currentUser = await this.authApi.getCurrentUser();
+    this.currentUser = this.authService.currentUser();
     const taskId = this.route.snapshot.paramMap.get('id');
     if (taskId) {
       this.loadTaskDetails(taskId);

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterModule, Router } from '@angular/router';
 import { LoadingService } from './services/loading.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { LoadingService } from './services/loading.service';
 export class AppComponent {
   title = 'Task-Assignment';
   loadingService = inject(LoadingService);
+  authService = inject(AuthService);
   loading$ = this.loadingService.loading$;
 
   constructor(public router: Router) {}

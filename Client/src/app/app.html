@@ -13,7 +13,7 @@
   </div>
 
   <!-- Global Bottom Navbar (Mobile Only) -->
-  @if (!router.url.includes('/login')) {
+  @if (authService.isLoggedIn()) {
     <nav class="navbar fixed-bottom d-md-none border-top border-secondary py-2 shadow-lg" 
          style="z-index: 2000; background-color: #040911 !important;">
       <div class="container-fluid justify-content-around px-0">

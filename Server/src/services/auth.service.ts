@@ -14,7 +14,7 @@ export async function login(username: string, password: string):Promise<{ token:
   );
 
   if (result.rows.length === 0) {
-    throw new AppError("ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง", 401);
+    throw new AppError("ไม่พบผู้ใช้งานนี้ในระบบ", 401);
   }
 
   const userRow = result.rows[0];
@@ -25,7 +25,7 @@ export async function login(username: string, password: string):Promise<{ token:
 
   const isPasswordValid = await bcrypt.compare(password, userRow.password_hash);
   if (!isPasswordValid) {
-    throw new AppError("ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง", 401);
+    throw new AppError("รหัสผ่านไม่ถูกต้อง", 401);
   }
 
   const user: User = {
@@ -42,7 +42,7 @@ export async function login(username: string, password: string):Promise<{ token:
     is_active: userRow.is_active
   };
 
-  const token = jwt.sign(user, ENV.JWT_SECRET, { expiresIn: "1d" });
+  const token = jwt.sign(user, ENV.JWT_SECRET, { expiresIn: "2h" });
 
   // Update last_login_at
   await pool.query("UPDATE sa.Users SET last_login_at = CURRENT_TIMESTAMP WHERE user_id = $1", [user.user_id]);

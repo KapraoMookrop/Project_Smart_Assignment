@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskApiService } from '../../services/api/task-api.service';
-import { AuthApiService } from '../../services/api/auth-api.service';
+import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { Task, User } from '../../models/app-models';
 
@@ -25,18 +25,18 @@ export class DashboardSearchVM implements OnInit {
 
   constructor(
     private taskApi: TaskApiService,
-    private authApi: AuthApiService,
+    private authService: AuthService,
     private notification: NotificationService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.userProfile = this.authService.currentUser();
     this.loadDashboardData();
   }
 
   async loadDashboardData() {
     try {
-      this.userProfile = await this.authApi.getCurrentUser();
       this.newTasks = await this.taskApi.getTasks();
       
       console.log('Dashboard data loaded');

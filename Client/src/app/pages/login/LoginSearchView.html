@@ -13,22 +13,10 @@
       <p class="text-white small mb-4">Intelligent routing for high-performing teams.</p>
 
       <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="text-start">
-        <!-- Tenant ID -->
-        <div class="mb-4">
-          <label class="form-label text-white x-small fw-bold text-uppercase ls-wide">Tenant ID / Company Domain</label>
-          <div class="input-group card-custom border-secondary px-2 overflow-hidden">
-            <span class="input-group-text bg-transparent border-0 text-white">
-              <i class="bi bi-building"></i>
-            </span>
-            <input type="text" class="form-control bg-transparent border-0 text-white p-3 focus-none" 
-                   name="tenantId" [(ngModel)]="loginData.tenantId" placeholder="e.g. acmecorp" required>
-          </div>
-        </div>
-
         <!-- Email -->
         <div class="mb-4">
           <label class="form-label text-white x-small fw-bold text-uppercase ls-wide">Email Address</label>
-          <div class="input-group card-custom border-secondary px-2 overflow-hidden">
+          <div class="input-group card-custom border-secondary overflow-hidden">
             <span class="input-group-text bg-transparent border-0 text-white">
               <i class="bi bi-envelope"></i>
             </span>
@@ -43,7 +31,7 @@
             <label class="form-label text-white x-small fw-bold text-uppercase ls-wide">Password</label>
             <a href="#" class="text-cyan text-decoration-none x-small fw-bold">ลืมรหัสผ่าน?</a>
           </div>
-          <div class="input-group card-custom border-secondary px-2 overflow-hidden">
+          <div class="input-group card-custom border-secondary overflow-hidden">
             <span class="input-group-text bg-transparent border-0 text-white">
               <i class="bi bi-lock"></i>
             </span>

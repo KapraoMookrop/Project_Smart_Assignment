@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserApiService } from '../../services/api/user-api.service';
-import { AuthApiService } from '../../services/api/auth-api.service';
+import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { User } from '../../models/app-models';
 
@@ -18,13 +18,13 @@ export class ProfileEditSearchVM implements OnInit {
   constructor(
     private location: Location,
     private userApi: UserApiService,
-    private authApi: AuthApiService,
+    private authService: AuthService,
     private notification: NotificationService,
     private cdr: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
-    this.user = await this.authApi.getCurrentUser();
+    this.user = JSON.parse(JSON.stringify(this.authService.currentUser())); // Deep copy for editing
     this.cdr.detectChanges();
   }
 
