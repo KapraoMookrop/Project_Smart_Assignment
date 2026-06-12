@@ -34,6 +34,7 @@ export interface Company {
   internal_notes?: string;
   created_at?: Date;
   updated_at?: Date;
+  employees_count?: number;
 }
 
 export interface User {
@@ -51,6 +52,8 @@ export interface User {
   is_active: boolean;
   created_at?: Date;
   updated_at?: Date;
+  category_id: string;
+  categoriy_name?: string;
 }
 
 export interface Category {
@@ -113,4 +116,24 @@ export interface ActivityLog {
   action: string;
   details?: any;
   created_at?: Date;
+}
+
+export class ApiResponse<T = any> {
+  status: "success" | "error";
+  data: T | null;
+  message: string;
+
+  constructor(status: "success" | "error", data: T | null, message: string) {
+    this.status = status;
+    this.data = data;
+    this.message = message;
+  }
+
+  static success<T>(data: T, message: string = "Success"): ApiResponse<T> {
+    return new ApiResponse("success", data, message);
+  }
+
+  static error(message: string = "Error", data: any = null): ApiResponse<null> {
+    return new ApiResponse("error", data, message);
+  }
 }

@@ -3,11 +3,12 @@ import { AppError } from "../utils/errors/AppError.js";
 import { TaskStatus } from "../module/app-models.js";
 import type { Task, TaskAttachment } from "../module/app-models.js";
 
-export async function getTasks(companyId: string): Promise<Task[]> {
+export async function getTasks(companyId: string, categoryId: string): Promise<Task[]> {
   const result = await pool.query(
-    "SELECT * FROM sa.Tasks WHERE company_id = $1 ORDER BY created_at DESC",
-    [companyId]
+    "SELECT * FROM sa.Tasks WHERE company_id = $1 AND category_id = $2 ORDER BY created_at DESC",
+    [companyId, categoryId]
   );
+
   return result.rows;
 }
 

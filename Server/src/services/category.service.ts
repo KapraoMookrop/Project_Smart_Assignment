@@ -10,6 +10,14 @@ export async function getCategories(companyId: string): Promise<Category[]> {
   return result.rows;
 }
 
+export async function getCategoriesByCompany(companyId: string): Promise<Category[]> {
+  const result = await pool.query(
+    "SELECT * FROM sa.Categories WHERE company_id = $1 ORDER BY created_at DESC",
+    [companyId]
+  );
+  return result.rows;
+}
+
 export async function getCategoryById(companyId: string, categoryId: string): Promise<Category> {
   const result = await pool.query(
     "SELECT * FROM sa.Categories WHERE company_id = $1 AND category_id = $2",

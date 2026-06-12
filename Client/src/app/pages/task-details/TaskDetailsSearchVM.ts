@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TaskApiService } from '../../services/api/task-api.service';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
@@ -22,6 +22,7 @@ export class TaskDetailsSearchVM implements OnInit {
   constructor(
     private location: Location,
     private route: ActivatedRoute,
+    private router: Router,
     private taskApi: TaskApiService,
     private authService: AuthService,
     private notification: NotificationService,
@@ -39,6 +40,12 @@ export class TaskDetailsSearchVM implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  editTask() {
+    if (this.task) {
+      this.router.navigate(['/tasks/edit', this.task.task_id]);
+    }
   }
 
   async loadTaskDetails(id: string) {
@@ -63,9 +70,8 @@ export class TaskDetailsSearchVM implements OnInit {
       try {
         this.isClaiming = true;
         this.cdr.detectChanges();
-        console.log(`Claiming task ${this.task.task_id}...`);
 
-        await this.taskApi.claimTask(this.task.task_id, this.currentUser.user_id);
+        await this.taskApi.claimTask(this.task.task_id);
 
         this.isClaimed = true;
         this.isClaiming = false;

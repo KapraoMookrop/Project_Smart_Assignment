@@ -1,86 +1,60 @@
 import { Injectable } from '@angular/core';
-import { Task, TaskAttachment, TaskPriority, TaskStatus } from '../../models/app-models';
+import { Task, TaskAttachment, ApiResponse } from '../../models/app-models';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskApiService {
-  constructor() {}
+  private baseUrl = `${environment.apiUrl}/tasks`;
+  constructor(private readonly http: HttpClient) {}
 
   async getTasks(): Promise<Task[]> {
-    return [
-      {
-        task_id: 't-001',
-        company_id: 'c-001',
-        category_id: 'cat-001',
-        title: 'ตรวจสอบระบบเครือข่ายชั้น 4',
-        description: 'แก้ไขปัญหาการเชื่อมต่อ Wi-Fi ไม่เสถียรในแผนกการเงิน และตรวจสอบการทำงานของ Access Point หมายเลข AP-402',
-        priority: TaskPriority.High,
-        reward_points: 500,
-        estimated_duration: '4 ชม.',
-        status: TaskStatus.Pending,
-        created_by: 'u-001',
-        created_at: new Date()
-      },
-      {
-        task_id: 't-002',
-        company_id: 'c-001',
-        category_id: 'cat-003',
-        title: 'ติดต่อประสานงานลูกค้า VIP',
-        description: 'ติดตามความคืบหน้าของใบเสนอราคาโครงการ Smart Factory 2.0 สำหรับลูกค้ารายใหญ่ และนัดหมายการประชุมสรุปสัญญา',
-        priority: TaskPriority.Medium,
-        reward_points: 1200,
-        estimated_duration: '1 วัน',
-        status: TaskStatus.Pending,
-        created_by: 'u-001',
-        created_at: new Date()
-      }
-    ];
+    const observable = this.http.get<ApiResponse<Task[]>>(this.baseUrl);
+    const response = await lastValueFrom(observable);
+    return response.data;
   }
 
-  async getTaskById(taskId: string): Promise<Task | null> {
-    return {
-      task_id: taskId,
-      company_id: 'c-001',
-      category_id: 'cat-001',
-      title: 'อัปเดตโมดูลจัดการข้อมูลลูกค้า (CRM Sync)',
-      description: 'พัฒนาระบบเชื่อมต่อข้อมูลระหว่างฐานข้อมูลกลางและโมดูล CRM เพื่อให้ทีมขายสามารถเข้าถึงข้อมูลการซื้อขายล่าสุดได้แบบ Real-time โดยต้องรองรับการทำงานในสภาวะที่มีการเรียกใช้งานพร้อมกันสูง',
-      priority: TaskPriority.Urgent,
-      reward_points: 2500,
-      estimated_duration: '23 ชม. 45 นาที',
-      status: TaskStatus.Pending,
-      created_by: 'u-001',
-      deadline: new Date(Date.now() + 86400000),
-      created_at: new Date()
-    };
+  async getTaskById(taskId: string): Promise<Task> {
+    const observable = this.http.get<ApiResponse<Task>>(`${this.baseUrl}/${taskId}`);
+    const response = await lastValueFrom(observable);
+    return response.data;
   }
 
   async createTask(task: Partial<Task>): Promise<Task> {
-    // Skeleton implementation
-    return task as Task;
+    const observable = this.http.post<ApiResponse<Task>>(`${this.baseUrl}/save`, task);
+    const response = await lastValueFrom(observable);
+    return response.data;
   }
 
   async updateTask(taskId: string, task: Partial<Task>): Promise<Task> {
-    // Skeleton implementation
-    return task as Task;
+    const observable = this.http.post<ApiResponse<Task>>(`${this.baseUrl}/update/${taskId}`, task);
+    const response = await lastValueFrom(observable);
+    return response.data;
   }
 
   async deleteTask(taskId: string): Promise<void> {
-    // Skeleton implementation
+    const observable = this.http.post<ApiResponse<void>>(`${this.baseUrl}/delete/${taskId}`, {});
+    await lastValueFrom(observable);
   }
 
-  async claimTask(taskId: string, userId: string): Promise<Task> {
-    // Skeleton implementation
-    return {} as Task;
+  async claimTask(taskId: string): Promise<Task> {
+    const observable = this.http.post<ApiResponse<Task>>(`${this.baseUrl}/${taskId}/claim`, {});
+    const response = await lastValueFrom(observable);
+    return response.data;
   }
 
   async getAttachments(taskId: string): Promise<TaskAttachment[]> {
-    // Skeleton implementation
-    return [];
+    const observable = this.http.get<ApiResponse<TaskAttachment[]>>(`${this.baseUrl}/${taskId}/attachments`);
+    const response = await lastValueFrom(observable);
+    return response.data;
   }
 
   async addAttachment(taskId: string, attachment: Partial<TaskAttachment>): Promise<TaskAttachment> {
-    // Skeleton implementation
-    return attachment as TaskAttachment;
+    const observable = this.http.post<ApiResponse<TaskAttachment>>(`${this.baseUrl}/${taskId}/attachments`, attachment);
+    const response = await lastValueFrom(observable);
+    return response.data;
   }
 }

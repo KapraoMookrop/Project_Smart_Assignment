@@ -14,7 +14,7 @@
           <input type="text" class="form-control bg-transparent border-0 text-white focus-none" 
                  placeholder="Search tenants..." (input)="onSearchChange($event)">
         </div>
-        <button class="btn btn-cyan d-flex align-items-center gap-2 px-4 shadow-cyan">
+        <button class="btn btn-cyan d-flex align-items-center gap-2 px-4 shadow-cyan" (click)="editCompany('new')">
           <i class="bi bi-plus-lg fw-bold"></i>
           <span class="d-none d-md-inline">Add Tenant</span>
         </button>
@@ -50,7 +50,7 @@
                 <div class="col-6">
                   <div class="bg-dark-navy bg-opacity-50 p-3 rounded-3 border border-secondary border-opacity-25">
                     <i class="bi bi-people text-white mb-1 d-block"></i>
-                    <h5 class="fw-bold mb-0">N/A</h5>
+                    <h5 class="fw-bold mb-0">{{ company.employees_count ?? 'N/A' }}</h5>
                     <small class="text-white x-small text-uppercase">Total Users</small>
                   </div>
                 </div>
@@ -64,7 +64,7 @@
               </div>
 
               <div class="d-flex justify-content-end gap-2 pt-3 border-top border-secondary border-opacity-25 mt-auto">
-                <button class="btn btn-link text-white p-2 rounded-3 hover-bg-navy transition-all" (click)="$event.stopPropagation()">
+                <button class="btn btn-link text-white p-2 rounded-3 hover-bg-navy transition-all" (click)="editCompany(company.company_id); $event.stopPropagation()">
                   <i class="bi bi-pencil fs-5"></i>
                 </button>
                 <button class="btn btn-link text-white p-2 rounded-3 hover-danger transition-all" (click)="deleteCompany(company.company_id); $event.stopPropagation()">

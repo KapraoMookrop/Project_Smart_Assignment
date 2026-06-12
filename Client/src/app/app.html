@@ -1,4 +1,4 @@
-<div class="app-container">
+<div class="app-container d-flex flex-column flex-md-row">
   <!-- Global Loader -->
   @if (loading$ | async) {
     <div class="global-loader">
@@ -7,8 +7,56 @@
     </div>
   }
 
+  <!-- Desktop Sidebar -->
+  @if (authService.isLoggedIn()) {
+    <aside class="sidebar d-none d-md-flex flex-column border-end border-secondary bg-dark-navy pt-4 pb-3" style="width: 260px; min-height: 100vh; position: sticky; top: 0;">
+      <div class="px-4 mb-5 text-center">
+        <h2 class="h4 fw-bold text-white mb-0">TaskToGroup</h2>
+        <small class="text-cyan fw-bold ls-wide">{{ currentRole }}</small>
+      </div>
+      
+      <nav class="nav flex-column gap-2 px-3 flex-grow-1">
+        @if (currentRole === UserRole.CompanyAdmin || currentRole === UserRole.User) {
+          <a class="nav-link-sidebar d-flex align-items-center gap-3 px-3 py-3 rounded-3 transition-all" routerLink="/dashboard" routerLinkActive="active-cyan-sidebar">
+            <i class="bi bi-house-door fs-5"></i>
+            <span class="fw-bold">ภาพรวม (Dashboard)</span>
+          </a>
+        }
+        
+        @if (currentRole === UserRole.CompanyAdmin) {
+          <a class="nav-link-sidebar d-flex align-items-center gap-3 px-3 py-3 rounded-3 transition-all" routerLink="/categories" routerLinkActive="active-cyan-sidebar">
+            <i class="bi bi-grid fs-5"></i>
+            <span class="fw-bold">หมวดหมู่ (Categories)</span>
+          </a>
+          <a class="nav-link-sidebar d-flex align-items-center gap-3 px-3 py-3 rounded-3 transition-all" routerLink="/employees" routerLinkActive="active-cyan-sidebar">
+            <i class="bi bi-people fs-5"></i>
+            <span class="fw-bold">พนักงาน (Employees)</span>
+          </a>
+        }
+
+        @if (currentRole === UserRole.AppAdmin) {
+          <a class="nav-link-sidebar d-flex align-items-center gap-3 px-3 py-3 rounded-3 transition-all" routerLink="/companies" routerLinkActive="active-cyan-sidebar">
+            <i class="bi bi-building fs-5"></i>
+            <span class="fw-bold">บริษัท (Companies)</span>
+          </a>
+        }
+      </nav>
+
+      <div class="px-3 mt-auto">
+        <a class="nav-link-sidebar d-flex align-items-center gap-3 px-3 py-3 rounded-3 transition-all" routerLink="/profile" routerLinkActive="active-cyan-sidebar">
+          <i class="bi bi-person fs-5"></i>
+          <span class="fw-bold">โปรไฟล์ (Profile)</span>
+        </a>
+        <button class="btn btn-link nav-link-sidebar d-flex align-items-center gap-3 px-3 py-3 rounded-3 transition-all text-decoration-none w-100 text-start mt-2" (click)="authService.logout()">
+          <i class="bi bi-box-arrow-left fs-5"></i>
+          <span class="fw-bold">ออกจากระบบ</span>
+        </button>
+      </div>
+    </aside>
+  }
+
   <!-- Main Content Area -->
-  <div class="content-wrapper">
+  <div class="content-wrapper flex-grow-1 w-100">
     <router-outlet></router-outlet>
   </div>
 
@@ -17,24 +65,31 @@
     <nav class="navbar fixed-bottom d-md-none border-top border-secondary py-2 shadow-lg" 
          style="z-index: 2000; background-color: #040911 !important;">
       <div class="container-fluid justify-content-around px-0">
-        <a class="nav-link d-flex flex-column align-items-center" routerLink="/dashboard" routerLinkActive="active-cyan">
-          <i class="bi bi-house-door fs-4"></i>
-          <span class="x-small">ภาพรวม</span>
-        </a>
-        <a class="nav-link d-flex flex-column align-items-center" routerLink="/categories" routerLinkActive="active-cyan">
-          <i class="bi bi-grid fs-4"></i>
-          <span class="x-small">หมวดหมู่</span>
-        </a>
-        <a class="nav-link d-flex flex-column align-items-center position-relative" routerLink="/tasks/create" routerLinkActive="active-cyan" style="top: -15px;">
-          <div class="bg-cyan rounded-circle d-flex align-items-center justify-content-center shadow-cyan" style="width: 55px; height: 55px; border: 4px solid #040911;">
-            <i class="bi bi-plus-lg fs-2 text-dark"></i>
-          </div>
-          <span class="x-small mt-1" style="position: absolute; bottom: -20px; width: max-content;">สร้างงาน</span>
-        </a>
-        <a class="nav-link d-flex flex-column align-items-center" routerLink="/companies" routerLinkActive="active-cyan">
-          <i class="bi bi-building fs-4"></i>
-          <span class="x-small">บริษัท</span>
-        </a>
+        @if (currentRole === UserRole.CompanyAdmin || currentRole === UserRole.User) {
+          <a class="nav-link d-flex flex-column align-items-center" routerLink="/dashboard" routerLinkActive="active-cyan">
+            <i class="bi bi-house-door fs-4"></i>
+            <span class="x-small">ภาพรวม</span>
+          </a>
+        }
+
+        @if (currentRole === UserRole.CompanyAdmin) {
+          <a class="nav-link d-flex flex-column align-items-center" routerLink="/categories" routerLinkActive="active-cyan">
+            <i class="bi bi-grid fs-4"></i>
+            <span class="x-small">หมวดหมู่</span>
+          </a>
+          <a class="nav-link d-flex flex-column align-items-center" routerLink="/employees" routerLinkActive="active-cyan">
+            <i class="bi bi-people fs-4"></i>
+            <span class="x-small">พนักงาน</span>
+          </a>
+        }
+
+        @if (currentRole === UserRole.AppAdmin) {
+          <a class="nav-link d-flex flex-column align-items-center" routerLink="/companies" routerLinkActive="active-cyan">
+            <i class="bi bi-building fs-4"></i>
+            <span class="x-small">บริษัท</span>
+          </a>
+        }
+
         <a class="nav-link d-flex flex-column align-items-center" routerLink="/profile" routerLinkActive="active-cyan">
           <i class="bi bi-person fs-4"></i>
           <span class="x-small">โปรไฟล์</span>
@@ -46,22 +101,40 @@
 
 <style>
   .app-container {
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
   }
   .content-wrapper {
-    flex: 1;
     /* Extra padding at bottom for mobile to prevent content being covered by fixed navbar */
     padding-bottom: 85px; 
+    min-width: 0; /* Prevents overflow issues in flex container */
   }
   @media (min-width: 768px) {
     .content-wrapper {
       padding-bottom: 0;
     }
   }
+  
+  /* Sidebar Styles */
+  .ls-wide { letter-spacing: 0.1em; }
+  .nav-link-sidebar {
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid transparent;
+  }
+  .nav-link-sidebar:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  .active-cyan-sidebar {
+    color: var(--accent-cyan) !important;
+    background-color: rgba(0, 242, 255, 0.08);
+    border-color: rgba(0, 242, 255, 0.2);
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.1);
+  }
+
+  /* Mobile Bottom Nav Styles */
   .nav-link {
-    color: #ffffff; /* Changed from #bac8dc to white */
+    color: #ffffff;
     transition: all 0.2s;
     text-decoration: none;
     flex: 1;

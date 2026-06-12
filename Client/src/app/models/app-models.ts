@@ -34,6 +34,7 @@ export interface Company {
   internal_notes?: string;
   created_at?: Date;
   updated_at?: Date;
+  employees_count?: number;
 }
 
 export interface User {
@@ -51,6 +52,8 @@ export interface User {
   is_active: boolean;
   created_at?: Date;
   updated_at?: Date;
+  category_id: string; 
+  category_name?: string;
 }
 
 export interface Category {
@@ -113,4 +116,10 @@ export interface ActivityLog {
   action: string;
   details?: any;
   created_at?: Date;
+}
+
+export interface ApiResponse<T = any> {
+  status: 'success' | 'error';
+  data: T;
+  message: string;
 }

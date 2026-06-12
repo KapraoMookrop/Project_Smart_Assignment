@@ -1,0 +1,91 @@
+<div class="bg-dark-navy min-vh-100 text-white">
+  <!-- Top Bar -->
+  <header class="bg-secondary-bg border-bottom border-secondary d-flex align-items-center px-4 sticky-top shadow-sm" style="height: 64px;">
+    <button class="btn text-cyan p-2 rounded-circle hover-bg-navy" (click)="goBack()">
+      <i class="bi bi-arrow-left fs-4"></i>
+    </button>
+    <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5">แก้ไขรายละเอียดงาน</h1>
+  </header>
+
+  <main class="container py-4" style="max-width: 800px; padding-bottom: 100px;">
+    <form (ngSubmit)="saveTask()" #taskForm="ngForm">
+      <div class="card card-custom p-4 mb-4 shadow-sm">
+        <!-- Task Title -->
+        <div class="mb-4">
+          <label class="form-label text-white small fw-bold">หัวข้องาน (Task Title)</label>
+          <input type="text" class="form-control p-3 text-white focus-cyan" 
+                 placeholder="ระบุหัวข้องาน" name="title" [(ngModel)]="task.title" required>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-4">
+          <label class="form-label text-white small fw-bold">หมวดหมู่ (Category)</label>
+          <select class="form-select p-3 text-white focus-cyan appearance-none" 
+                  name="categoryId" [(ngModel)]="task.category_id" required>
+            <option value="" disabled>เลือกหมวดหมู่</option>
+            @for (cat of categories; track cat.category_id) {
+              <option [value]="cat.category_id">{{ cat.name }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Priority -->
+        <div class="mb-4">
+          <label class="form-label text-white small fw-bold mb-3">ความสำคัญ (Priority)</label>
+          <div class="row g-2">
+            @for (p of priorities; track p.value) {
+              <div class="col-6 col-md-3">
+                <input type="radio" class="btn-check" name="priority" [id]="p.value" [value]="p.value" [(ngModel)]="task.priority">
+                <label class="btn w-100 py-3 border-secondary card-custom text-white fw-bold transition-all" [for]="p.value">
+                  {{ p.label }}
+                </label>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-4">
+          <label class="form-label text-white small fw-bold">รายละเอียด (Description)</label>
+          <textarea class="form-control p-3 text-white focus-cyan" 
+                    rows="5" placeholder="ระบุรายละเอียดของงาน..." name="description" [(ngModel)]="task.description"></textarea>
+        </div>
+
+        <!-- Reward Points -->
+        <div class="mb-2">
+          <label class="form-label text-white small fw-bold">คะแนนรางวัล (Reward Points)</label>
+          <div class="input-group overflow-hidden border border-secondary rounded-3">
+            <span class="input-group-text bg-transparent border-0 text-warning">
+              <i class="bi bi-star-fill"></i>
+            </span>
+            <input type="number" class="form-control bg-transparent border-0 text-white p-3 focus-none" 
+                   placeholder="0" name="points" [(ngModel)]="task.reward_points">
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column-reverse flex-sm-row gap-3 pt-3">
+        <button type="button" class="btn btn-outline-secondary w-100 w-sm-auto px-5 py-3 fw-bold" (click)="goBack()">ยกเลิก</button>
+        <button type="submit" class="btn btn-cyan w-100 w-sm-auto flex-grow-1 px-5 py-3 fw-bold shadow-cyan d-flex align-items-center justify-content-center gap-2">
+          <i class="bi bi-save-fill"></i>
+          บันทึกการแก้ไข
+        </button>
+      </div>
+    </form>
+  </main>
+</div>
+
+<style>
+  .focus-cyan:focus {
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 0 1px var(--accent-cyan);
+  }
+  .focus-none:focus { box-shadow: none; background: transparent; }
+  .shadow-cyan { box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); }
+  
+  .btn-check:checked + label {
+    border-color: var(--accent-cyan) !important;
+    background-color: rgba(0, 242, 255, 0.1) !important;
+    color: var(--accent-cyan) !important;
+  }
+</style>

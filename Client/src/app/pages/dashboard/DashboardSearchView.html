@@ -1,78 +1,21 @@
-<div class="container-fluid p-0 d-flex flex-column flex-md-row min-vh-screen">
-  <!-- Sidebar -->
-  <aside class="bg-dark-navy border-end border-secondary p-3 d-none d-md-flex flex-column" style="width: 260px; height: 100vh; position: fixed; z-index: 1000;">
-    <div class="d-flex align-items-center mb-4 px-2">
-      <img src="LOGO.png" alt="Logo" class="me-2" style="width: 40px;">
-      <h4 class="text-cyan mb-0 fw-bold">TaskToGroup</h4>
-    </div>
-
-    <nav class="nav flex-column flex-grow-1">
-      <a class="nav-link active text-dark bg-cyan rounded-pill mb-2 py-3 px-4 d-flex align-items-center fw-bold" href="#">
-        <i class="bi bi-speedometer2 me-3"></i> ภาพรวมระบบ
-      </a>
-      <a class="nav-link text-white hover-cyan mb-2 py-3 px-4 d-flex align-items-center" href="#">
-        <i class="bi bi-list-task me-3"></i> รายการงาน
-      </a>
-      <a class="nav-link text-white hover-cyan mb-2 py-3 px-4 d-flex align-items-center" href="#">
-        <i class="bi bi-people me-3"></i> จัดการทีม
-      </a>
-      <a class="nav-link text-white hover-cyan mb-2 py-3 px-4 d-flex align-items-center" href="#">
-        <i class="bi bi-graph-up me-3"></i> บทวิเคราะห์
-      </a>
-      <a class="nav-link text-white hover-cyan mb-2 py-3 px-4 d-flex align-items-center" href="#">
-        <i class="bi bi-gear me-3"></i> ตั้งค่า
-      </a>
-    </nav>
-
-    <div class="mt-auto border-top border-secondary pt-3 px-2">
-      <div class="d-flex align-items-center">
-        <div class="rounded-circle bg-cyan text-dark d-flex align-items-center justify-content-center fw-bold me-3" style="width: 40px; height: 40px;">
-          {{ userProfile?.full_name?.substring(0, 2)?.toUpperCase() || 'U' }}
-        </div>
-        <div class="overflow-hidden">
-          <p class="mb-0 fw-bold text-truncate">{{ userProfile?.full_name || 'User' }}</p>
-          <small class="text-white text-truncate d-block">{{ userProfile?.role }}</small>
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Main Content -->
-  <main class="flex-grow-1">
-    <!-- Top Bar -->
-    <header class="bg-dark-navy border-bottom border-secondary d-flex justify-content-between align-items-center px-4 sticky-top" style="height: 70px;">
-      <div class="d-md-none">
-        <button class="btn text-cyan">
-          <i class="bi bi-list fs-3"></i>
-        </button>
-      </div>
-      <div class="ms-auto d-flex align-items-center">
-        <button class="btn text-cyan position-relative me-3 p-2 rounded-circle hover-bg-navy">
-          <i class="bi bi-bell fs-5"></i>
-          <span class="position-absolute top-0 start-100 translate-middle p-1 bg-cyan border border-dark rounded-circle" style="width: 10px; height: 10px;"></span>
-        </button>
-        <div class="d-none d-md-flex align-items-center ms-3">
-          <div class="text-end me-3">
-            <small class="text-white d-block">ยินดีต้อนรับกลับ</small>
-            <span class="fw-bold">{{ userProfile?.full_name }}</span>
-          </div>
-          <img [src]="userProfile?.profile_picture_url || 'https://via.placeholder.com/45'" alt="Avatar" class="rounded-circle border border-secondary" style="width: 45px; height: 45px;">
-        </div>
-      </div>
-    </header>
-
-    <div class="p-4">
+<div class="position-relative" style="height: calc(100vh - 100px);">
+  <div style="height: calc(100vh - 70px); overflow: auto;">
+    <div class="container-fluid p-4 d-flex flex-column flex-md-row">
       <!-- Hero Section -->
       <section class="mb-5">
-        <div class="card card-custom border-0 p-4 p-md-5 overflow-hidden position-relative" style="background: linear-gradient(135deg, #112240 0%, #0a192f 100%);">
-          <div class="position-absolute top-0 end-0 bg-cyan opacity-10 blur-100" style="width: 200px; height: 200px; filter: blur(100px); border-radius: 50%;"></div>
+        <div class="card card-custom border-0 p-4 p-md-5 overflow-hidden position-relative"
+          style="background: linear-gradient(135deg, #112240 0%, #0a192f 100%);">
+          <div class="position-absolute top-0 end-0 bg-cyan opacity-10 blur-100"
+            style="width: 200px; height: 200px; filter: blur(100px); border-radius: 50%;"></div>
           <h1 class="display-5 fw-bold mb-3">ภาพรวมงานของคุณ</h1>
-          <p class="text-white mb-4 fs-5" style="max-width: 600px;">มีงานใหม่ในหมวดหมู่ที่คุณสนใจ และนี่คือสถานะปัจจุบันของคุณ</p>
-          
+          <p class="text-white mb-4 fs-5" style="max-width: 600px;">มีงานใหม่ในหมวดหมู่ที่คุณสนใจ
+            และนี่คือสถานะปัจจุบันของคุณ</p>
+
           <div class="row g-4">
             <div class="col-md-4">
               <div class="bg-dark-navy border border-secondary p-4 rounded-3 d-flex align-items-center">
-                <div class="rounded-circle bg-cyan bg-opacity-10 d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                <div class="rounded-circle bg-cyan bg-opacity-10 d-flex align-items-center justify-content-center me-3"
+                  style="width: 50px; height: 50px;">
                   <i class="bi bi-arrow-repeat text-cyan fs-4"></i>
                 </div>
                 <div>
@@ -83,7 +26,8 @@
             </div>
             <div class="col-md-4">
               <div class="bg-dark-navy border border-secondary p-4 rounded-3 d-flex align-items-center">
-                <div class="rounded-circle bg-info bg-opacity-10 d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                <div class="rounded-circle bg-info bg-opacity-10 d-flex align-items-center justify-content-center me-3"
+                  style="width: 50px; height: 50px;">
                   <i class="bi bi-bell-fill text-info fs-4"></i>
                 </div>
                 <div>
@@ -94,7 +38,9 @@
             </div>
             <div class="col-md-4">
               <div class="bg-dark-navy border border-secondary p-4 rounded-3 d-flex align-items-center">
-                <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                <div
+                  class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center me-3"
+                  style="width: 50px; height: 50px;">
                   <i class="bi bi-check-circle-fill text-success fs-4"></i>
                 </div>
                 <div>
@@ -114,38 +60,36 @@
             <h2 class="fw-bold mb-1">งานใหม่ในหมวดหมู่ของคุณ</h2>
             <p class="text-white mb-0">รีบรับงานเพื่อเริ่มต้นความสำเร็จของคุณวันนี้</p>
           </div>
-          <button class="btn btn-link text-cyan text-decoration-none fw-bold p-0">
-            ดูทั้งหมด <i class="bi bi-arrow-right ms-1"></i>
-          </button>
         </div>
 
         <div class="row g-4">
           @for (task of newTasks; track task.task_id) {
-            <div class="col-lg-4 col-md-6">
-              <div class="card card-custom h-100 transition-all border-0 shadow-sm hover-glow">
-                <div class="bg-cyan" style="height: 5px; width: 100%;"></div>
-                <div class="card-body p-4 d-flex flex-column">
-                  <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="badge rounded-pill py-2 px-3 fw-bold bg-cyan bg-opacity-10 text-cyan">
-                      {{ task.category_id.substring(0, 8) }}
-                    </span>
-                    <small class="text-white">{{ task.created_at | date:'shortTime' }}</small>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-custom h-100 transition-all border-0 shadow-sm hover-glow">
+              <div class="bg-cyan" style="height: 5px; width: 100%;"></div>
+              <div class="card-body p-4 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <span class="badge rounded-pill py-2 px-3 fw-bold bg-cyan bg-opacity-10 text-cyan">
+                    {{ task.category_id.substring(0, 8) }}
+                  </span>
+                  <small class="text-white">{{ task.created_at | date:'shortTime' }}</small>
+                </div>
+                <h4 class="card-title fw-bold mb-3">{{ task.title }}</h4>
+                <p class="card-text text-white line-clamp-2 mb-4">{{ task.description }}</p>
+
+                <div class="mt-auto">
+                  <div class="d-flex align-items-center mb-4">
+                    <i class="bi bi-clock text-white me-2"></i>
+                    <small class="text-white">ระยะเวลา: {{ task.estimated_duration }}</small>
                   </div>
-                  <h4 class="card-title fw-bold mb-3">{{ task.title }}</h4>
-                  <p class="card-text text-white line-clamp-2 mb-4">{{ task.description }}</p>
-                  
-                  <div class="mt-auto">
-                    <div class="d-flex align-items-center mb-4">
-                      <i class="bi bi-clock text-white me-2"></i>
-                      <small class="text-white">ระยะเวลา: {{ task.estimated_duration }}</small>
-                    </div>
-                    <button class="btn btn-cyan w-100 py-3 d-flex align-items-center justify-content-center" (click)="claimTask(task.task_id)">
-                      <i class="bi bi-hand-index-thumb me-2 fs-5"></i> รับงานนี้ (Claim Task)
-                    </button>
-                  </div>
+                  <button class="btn btn-cyan w-100 py-3 d-flex align-items-center justify-content-center"
+                    (click)="claimTask(task.task_id)">
+                    <i class="bi bi-hand-index-thumb me-2 fs-5"></i> รับงานนี้ (Claim Task)
+                  </button>
                 </div>
               </div>
             </div>
+          </div>
           }
         </div>
       </section>
@@ -156,17 +100,26 @@
           <h2 class="fw-bold mb-4 fs-4">กิจกรรมล่าสุดในทีม</h2>
           <div class="vstack gap-4">
             @for (activity of activities; track activity) {
-              <div class="d-flex gap-3">
-                <div class="rounded-pill" [ngClass]="activity.type === 'new' ? 'bg-cyan' : 'bg-white-50'" style="width: 4px; height: auto;"></div>
-                <div>
-                  <p class="mb-1" [ngClass]="activity.type === 'new' ? 'fw-bold' : ''">{{ activity.user }} {{ activity.action }}</p>
-                  <small class="text-white">{{ activity.time }}</small>
-                </div>
+            <div class="d-flex gap-3">
+              <div class="rounded-pill" [ngClass]="activity.type === 'new' ? 'bg-cyan' : 'bg-white-50'"
+                style="width: 4px; height: auto;"></div>
+              <div>
+                <p class="mb-1" [ngClass]="activity.type === 'new' ? 'fw-bold' : ''">{{ activity.user }} {{
+                  activity.action }}</p>
+                <small class="text-white">{{ activity.time }}</small>
               </div>
+            </div>
             }
           </div>
         </div>
       </section>
     </div>
-  </main>
+  </div>
+  <div class="position-fixed" style="right: 10px; bottom: 100px;">
+    <div class="bg-cyan rounded-circle d-flex align-items-center justify-content-center shadow-cyan"
+      routerLink="/tasks/create"
+      style="width: 55px; height: 55px; background-color: #00f2ff; box-shadow: 6px -1px 20px 1px rgba(0, 0, 0, 0.5);">
+      <i class="bi bi-plus-lg fs-2 fw-bold" style="color: #1b263b;"></i>
+    </div>
+  </div>
 </div>

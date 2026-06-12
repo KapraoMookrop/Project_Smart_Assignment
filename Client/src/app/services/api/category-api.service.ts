@@ -1,46 +1,58 @@
 import { Injectable } from '@angular/core';
-import { Category, User } from '../../models/app-models';
+import { Category, User, ApiResponse } from '../../models/app-models';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryApiService {
-  constructor() {}
+  private baseUrl = `${environment.apiUrl}/categories`;
+  constructor(private readonly http: HttpClient) {}
 
   async getCategories(): Promise<Category[]> {
-    return [
-      { category_id: 'cat-001', company_id: 'c-001', name: 'Engineering', icon: 'bi-gear', color_accent: '#00F2FF' },
-      { category_id: 'cat-002', company_id: 'c-001', name: 'Marketing', icon: 'bi-megaphone', color_accent: '#06D6A0' },
-      { category_id: 'cat-003', company_id: 'c-001', name: 'Sales', icon: 'bi-cart', color_accent: '#FFB703' },
-      { category_id: 'cat-004', company_id: 'c-001', name: 'IT Support', icon: 'bi-headset', color_accent: '#00daf3' }
-    ];
+    const observable = this.http.get<ApiResponse<Category[]>>(this.baseUrl);
+    const response = await lastValueFrom(observable);
+    return response.data;
   }
 
-  async getCategoryById(categoryId: string): Promise<Category | null> {
-    return { category_id: categoryId, company_id: 'c-001', name: 'Mock Category', icon: 'bi-star', color_accent: '#FFFFFF' };
+  async getCategoriesByCompany(companyId: string): Promise<Category[]> {
+    const observable = this.http.get<ApiResponse<Category[]>>(`${this.baseUrl}/company/${companyId}`);
+    const response = await lastValueFrom(observable);
+    return response.data;
+  }
+
+  async getCategoryById(categoryId: string): Promise<Category> {
+    const observable = this.http.get<ApiResponse<Category>>(`${this.baseUrl}/${categoryId}`);
+    const response = await lastValueFrom(observable);
+    return response.data;
   }
 
   async saveCategory(category: Partial<Category>): Promise<Category> {
-    // Skeleton implementation
-    return category as Category;
+    const observable = this.http.post<ApiResponse<Category>>(`${this.baseUrl}/save`, category);
+    const response = await lastValueFrom(observable);
+    return response.data;
   }
 
   async deleteCategory(categoryId: string): Promise<void> {
-    // Skeleton implementation
+    const observable = this.http.post<ApiResponse<void>>(`${this.baseUrl}/delete/${categoryId}`, {});
+    await lastValueFrom(observable);
   }
 
   async getCategoryMembers(categoryId: string): Promise<User[]> {
-    return [
-      { user_id: 'u-002', company_id: 'c-001', full_name: 'Elena Rodriguez', role: 'User', profile_picture_url: 'https://i.pravatar.cc/150?u=u-002' },
-      { user_id: 'u-003', company_id: 'c-001', full_name: 'Marcus Chen', role: 'User', profile_picture_url: 'https://i.pravatar.cc/150?u=u-003' }
-    ] as User[];
+    const observable = this.http.get<ApiResponse<User[]>>(`${this.baseUrl}/${categoryId}/members`);
+    const response = await lastValueFrom(observable);
+    return response.data;
   }
 
   async addMemberToCategory(categoryId: string, userId: string): Promise<void> {
-    // Skeleton implementation
+    const observable = this.http.post<ApiResponse<void>>(`${this.baseUrl}/${categoryId}/members/add/${userId}`, {});
+    await lastValueFrom(observable);
   }
 
   async removeMemberFromCategory(categoryId: string, userId: string): Promise<void> {
-    // Skeleton implementation
+    const observable = this.http.post<ApiResponse<void>>(`${this.baseUrl}/${categoryId}/members/remove/${userId}`, {});
+    await lastValueFrom(observable);
   }
 }

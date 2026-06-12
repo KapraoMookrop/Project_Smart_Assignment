@@ -7,11 +7,12 @@ const router = Router();
 router.use(authenticateToken as any);
 
 router.get("/", userController.getUsers as any);
+router.get("/category/:categoryId", userController.getUsersByCategory as any);
+router.get("/company/:companyId", userController.getUsersByCompany as any);
 router.get("/:id", userController.getUserById as any);
-router.post("/", userController.saveUser as any);
-router.put("/", userController.saveUser as any);
-router.delete("/:id", userController.deleteUser as any);
+router.post("/save", userController.saveUser as any);
+router.post("/delete/:id", userController.deleteUser as any);
 
-router.put("/:id/profile", userController.updateProfile as any);
+router.post("/profile/update/:id", userController.updateProfile as any);
 
 export default router;

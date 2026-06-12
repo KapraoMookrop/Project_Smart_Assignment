@@ -10,7 +10,7 @@ export class NotificationService {
     return Swal.fire({
       icon: 'success',
       title: title,
-      text: message,
+      html: message,
       timer: 3000,
       showConfirmButton: false
     });

@@ -2,15 +2,21 @@ import pool from "../config/database.js";
 import { AppError } from "../utils/errors/AppError.js";
 import type { Company } from "../module/app-models.js";
 
-export async function getCompanies(role: string, companyId: string): Promise<Company[]> {
-  // If app admin, can see all. If company admin/user, can only see their own company.
-  if (role === 'AppAdmin') {
-    const result = await pool.query("SELECT * FROM sa.Companies ORDER BY created_at DESC");
-    return result.rows;
-  } else {
-    const result = await pool.query("SELECT * FROM sa.Companies WHERE company_id = $1", [companyId]);
-    return result.rows;
-  }
+export async function getCompanies(role: string): Promise<Company[]> {
+  const sqlResult = await pool.query("SELECT * FROM sa.Companies ORDER BY created_at DESC");
+  const countEmployee = await pool.query(
+    `SELECT company_id, 
+      COUNT(*) as employees_count 
+    FROM sa.Users 
+    GROUP BY company_id`
+  );
+
+  const result = sqlResult.rows.map((company) => ({
+    ...company,
+    employees_count: countEmployee.rows.find((row) => row.company_id === company.company_id)?.employees_count || 0
+  }));
+
+  return result;
 }
 
 export async function getCompanyById(userCompanyId: string, companyId: string, role: string): Promise<Company> {

@@ -4,11 +4,12 @@ import { TaskApiService } from '../../services/api/task-api.service';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { Task, User } from '../../models/app-models';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './DashboardSearchView.html',
 })
 export class DashboardSearchVM implements OnInit {
@@ -28,7 +29,7 @@ export class DashboardSearchVM implements OnInit {
     private authService: AuthService,
     private notification: NotificationService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userProfile = this.authService.currentUser();
@@ -38,12 +39,9 @@ export class DashboardSearchVM implements OnInit {
   async loadDashboardData() {
     try {
       this.newTasks = await this.taskApi.getTasks();
-      
-      console.log('Dashboard data loaded');
       this.cdr.detectChanges();
     } catch (error) {
       this.notification.error('โหลดข้อมูลไม่สำเร็จ');
-      console.error('Error loading dashboard data:', error);
     }
   }
 
@@ -51,12 +49,11 @@ export class DashboardSearchVM implements OnInit {
     const confirm = await this.notification.confirm('ยืนยันการรับงาน', 'คุณต้องการรับงานนี้ไปดำเนินการใช่หรือไม่?');
     if (confirm.isConfirmed) {
       try {
-        console.log(`Claiming task ${taskId}...`);
         if (this.userProfile) {
-          await this.taskApi.claimTask(taskId, this.userProfile.user_id);
+          await this.taskApi.claimTask(taskId);
           const task = this.newTasks.find(t => t.task_id === taskId);
           if (task) {
-            this.notification.success('รับงานสำเร็จ', `คุณได้รับงาน "${task.title}" แล้ว`);
+            this.notification.success('รับงานสำเร็จ', `คุณได้รับงาน<br/>"${task.title}"`);
             this.loadDashboardData();
           }
         }

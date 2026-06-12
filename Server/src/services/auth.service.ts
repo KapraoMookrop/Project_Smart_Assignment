@@ -9,7 +9,11 @@ import type { User } from "../module/app-models.js";
 export async function login(username: string, password: string):Promise<{ token: string; user: User }> {
   // Allow login by either username or email
   const result = await pool.query(
-    "SELECT * FROM sa.Users WHERE username = $1 OR email = $1",
+    `SELECT * FROM sa.Users as u 
+    LEFT JOIN 
+      sa.Category_Members as cm ON 
+    u.user_id = cm.user_id 
+      WHERE u.username = $1 OR u.email = $1`,
     [username]
   );
 
@@ -39,7 +43,8 @@ export async function login(username: string, password: string):Promise<{ token:
     bio: userRow.bio,
     profile_picture_url: userRow.profile_picture_url,
     must_change_password: userRow.must_change_password,
-    is_active: userRow.is_active
+    is_active: userRow.is_active,
+    category_id: userRow.category_id
   };
 
   const token = jwt.sign(user, ENV.JWT_SECRET, { expiresIn: "2h" });
@@ -68,7 +73,8 @@ export async function getCurrentUser(userId: string): Promise<User> {
     bio: userRow.bio,
     profile_picture_url: userRow.profile_picture_url,
     must_change_password: userRow.must_change_password,
-    is_active: userRow.is_active
+    is_active: userRow.is_active,
+    category_id: userRow.category_id
   };
   return user;
 }

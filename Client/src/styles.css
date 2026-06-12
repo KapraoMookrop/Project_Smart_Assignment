@@ -6,7 +6,7 @@
   --accent-cyan: #00f2ff;     /* Status Progress / Cyan */
   --text-main: #ffffff;       /* High contrast white for main text */
   --text-secondary: #ffffff;  /* Changed from #e2e2e2 to pure white */
-  --text-muted: #ffffff;      /* Changed from #bac8dc to pure white */
+  --text-muted: #e0e0e0;      /* Changed from #bac8dc to pure white */
   --text-on-cyan: #040911;    /* Deep Navy on Cyan */
   --status-done: #06D6A0;
   --status-pending: #FFB703;

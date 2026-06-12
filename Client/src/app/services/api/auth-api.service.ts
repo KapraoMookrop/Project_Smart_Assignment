@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { User, UserRole } from '../../models/app-models';
+import { User, ApiResponse } from '../../models/app-models';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpContext } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class AuthApiService {
   constructor(private readonly http: HttpClient) {}
 
   async login(request: { username: string; password: string;}): Promise<{ token: string; user: User }> {
-    const observable = this.http.post<{ status: string; data: { token: string; user: User }; message: string }>(
+    const observable = this.http.post<ApiResponse<{ token: string; user: User }>>(
       `${this.baseUrl}/login`,
       request,
     );
@@ -22,6 +22,13 @@ export class AuthApiService {
   }
 
   async logout(): Promise<void> {
-    // Skeleton implementation
+    const observable = this.http.post<ApiResponse<void>>(`${this.baseUrl}/logout`, {});
+    await lastValueFrom(observable);
+  }
+
+  async getCurrentUser(): Promise<User> {
+    const observable = this.http.get<ApiResponse<User>>(`${this.baseUrl}/me`);
+    const response = await lastValueFrom(observable);
+    return response.data;
   }
 }

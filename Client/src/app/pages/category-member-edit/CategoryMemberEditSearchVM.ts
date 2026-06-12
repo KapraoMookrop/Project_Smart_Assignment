@@ -1,31 +1,53 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { CategoryApiService } from '../../services/api/category-api.service';
 import { UserApiService } from '../../services/api/user-api.service';
 import { User } from '../../models/app-models';
+import { NotificationService } from '../../services/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-member-management',
+  selector: 'app-category-member-edit',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './MemberManagementSearchView.html',
+  templateUrl: './CategoryMemberEditSearchView.html',
 })
-export class MemberManagementSearchVM implements OnInit {
-  categoryName: string = 'Engineering Team';
-  categoryId: string = ''; // Should be passed via route or state
+export class CategoryMemberEditSearchVM implements OnInit {
+  categoryName: string = '';
+  categoryId: string = ''; 
   
   currentMembers: User[] = [];
   availableEmployees: User[] = [];
 
   constructor(
     private location: Location,
+    private route: ActivatedRoute,
     private categoryApi: CategoryApiService,
     private userApi: UserApiService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private notification: NotificationService
   ) {}
 
   ngOnInit(): void {
-    this.loadMembers();
+    const id = this.route.snapshot.paramMap.get('categoryId');
+    if (id) {
+      this.categoryId = id;
+      this.loadCategoryDetails();
+      this.loadMembers();
+    }
+  }
+
+  async loadCategoryDetails() {
+    try {
+      const category = await this.categoryApi.getCategoryById(this.categoryId);
+      if (category) {
+        this.categoryName = category.name;
+        this.cdr.detectChanges();
+      }
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('ไม่พบข้อมูลหมวดหมู่', err.message);
+    }
   }
 
   async loadMembers() {
@@ -37,8 +59,8 @@ export class MemberManagementSearchVM implements OnInit {
       const memberIds = new Set(this.currentMembers.map(m => m.user_id));
       this.availableEmployees = this.availableEmployees.filter(e => !memberIds.has(e.user_id));
       this.cdr.detectChanges();
-    } catch (error) {
-      console.error('Error loading members:', error);
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('โหลดข้อมูลสมาชิกไม่สำเร็จ', err.message);
     }
   }
 
@@ -54,8 +76,8 @@ export class MemberManagementSearchVM implements OnInit {
         this.currentMembers = this.currentMembers.filter(m => m.user_id !== id);
         this.loadMembers();
       }
-    } catch (error) {
-      console.error('Error removing member:', error);
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('ลบสมาชิกไม่สำเร็จ', err.message);
     }
   }
 
@@ -68,8 +90,8 @@ export class MemberManagementSearchVM implements OnInit {
         this.availableEmployees = this.availableEmployees.filter(e => e.user_id !== employee.user_id);
         this.cdr.detectChanges();
       }
-    } catch (error) {
-      console.error('Error adding member:', error);
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('เพิ่มสมาชิกไม่สำเร็จ', err.message);
     }
   }
 }

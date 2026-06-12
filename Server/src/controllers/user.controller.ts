@@ -1,12 +1,33 @@
 import { type NextFunction, type Response } from "express";
 import * as userService from "../services/user.service.js";
 import type { AuthenticatedRequest } from "../middleware/auth.middleware.js";
+import { ApiResponse } from "../module/app-models.js";
 
 export async function getUsers(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
     const companyId = req.user!.company_id;
     const users = await userService.getUsers(companyId);
-    res.status(200).json({ status: "success", data: users, message: "ดึงข้อมูลผู้ใช้งานสำเร็จ" });
+    res.status(200).json(ApiResponse.success(users, "ดึงข้อมูลผู้ใช้งานสำเร็จ"));
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getUsersByCategory(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const { categoryId } = req.params;
+    const users = await userService.getUserByCategory(categoryId as string);
+    res.status(200).json(ApiResponse.success(users, "ดึงข้อมูลผู้ใช้งานสำเร็จ"));
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getUsersByCompany(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const { companyId } = req.params;
+    const users = await userService.getUserByCompany(companyId as string);
+    res.status(200).json(ApiResponse.success(users, "ดึงข้อมูลผู้ใช้งานสำเร็จ"));
   } catch (error) {
     next(error);
   }
@@ -17,7 +38,7 @@ export async function getUserById(req: AuthenticatedRequest, res: Response, next
     const companyId = req.user!.company_id;
     const { id } = req.params;
     const user = await userService.getUserById(companyId, id as string);
-    res.status(200).json({ status: "success", data: user, message: "ดึงข้อมูลผู้ใช้งานสำเร็จ" });
+    res.status(200).json(ApiResponse.success(user, "ดึงข้อมูลผู้ใช้งานสำเร็จ"));
   } catch (error) {
     next(error);
   }
@@ -27,7 +48,7 @@ export async function saveUser(req: AuthenticatedRequest, res: Response, next: N
   try {
     const companyId = req.user!.company_id;
     const user = await userService.saveUser(companyId, req.body);
-    res.status(200).json({ status: "success", data: user, message: "บันทึกข้อมูลผู้ใช้งานสำเร็จ" });
+    res.status(200).json(ApiResponse.success(user, "บันทึกข้อมูลผู้ใช้งานสำเร็จ"));
   } catch (error) {
     next(error);
   }
@@ -38,7 +59,7 @@ export async function deleteUser(req: AuthenticatedRequest, res: Response, next:
     const companyId = req.user!.company_id;
     const { id } = req.params;
     await userService.deleteUser(companyId, id as string);
-    res.status(200).json({ status: "success", data: null, message: "ลบผู้ใช้งานสำเร็จ" });
+    res.status(200).json(ApiResponse.success(null, "ลบผู้ใช้งานสำเร็จ"));
   } catch (error) {
     next(error);
   }
@@ -48,13 +69,13 @@ export async function updateProfile(req: AuthenticatedRequest, res: Response, ne
   try {
     const companyId = req.user!.company_id;
     const { id } = req.params;
-    // ensure user can only update their own profile, unless they are admin (skipped full check for simplicity, normally we'd check req.user.user_id === id or role)
+    // ensure user can only update their own profile, unless they are admin
     if (req.user!.user_id !== id && req.user!.role !== 'CompanyAdmin') {
-       return res.status(403).json({ status: "error", message: "ไม่มีสิทธิ์แก้ไขโปรไฟล์นี้" });
+       return res.status(403).json(ApiResponse.error("ไม่มีสิทธิ์แก้ไขโปรไฟล์นี้"));
     }
 
     const profile = await userService.updateProfile(companyId, id as string, req.body);
-    res.status(200).json({ status: "success", data: profile, message: "อัปเดตโปรไฟล์สำเร็จ" });
+    res.status(200).json(ApiResponse.success(profile, "อัปเดตโปรไฟล์สำเร็จ"));
   } catch (error) {
     next(error);
   }

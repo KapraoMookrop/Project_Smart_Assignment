@@ -25,6 +25,59 @@ export async function getUserById(companyId: string, userId: string): Promise<Us
   return result.rows[0];
 }
 
+export async function getUserByCategory(categoryId: string): Promise<User[]> {
+  const result = await pool.query(
+    `SELECT 
+      u.user_id, 
+      u.company_id, 
+      u.username, 
+      u.email, 
+      u.role, 
+      u.full_name, 
+      u.phone, 
+      u.bio, 
+      u.profile_picture_url, 
+      u.is_active, 
+      u.last_login_at, 
+      u.created_at, u.updated_at,
+      uc.category_id, 
+      c.name as category_name
+    FROM sa.Users u
+    LFET JOIN sa.category_members cm ON u.user_id = cm.user_id
+    LEFT JOIN sa.categories c ON cm.category_id = c.category_id
+    WHERE cm.category_id = $1`,
+    [categoryId]
+  );
+
+  return result.rows;
+}
+
+export async function getUserByCompany(companyId: string): Promise<User[]> {
+  const result = await pool.query(
+    `SELECT 
+      u.user_id, 
+      u.company_id, 
+      u.username, 
+      u.email, 
+      u.role, 
+      u.full_name, 
+      u.phone, u.bio, 
+      u.profile_picture_url, 
+      u.is_active, 
+      u.last_login_at, 
+      u.created_at, 
+      u.updated_at,
+      cm.category_id,
+      c.name as category_name
+    FROM sa.Users u
+    LEFT JOIN sa.category_members cm ON u.user_id = cm.user_id
+    LEFT JOIN sa.categories c ON cm.category_id = c.category_id
+    WHERE u.company_id = $1 ORDER BY u.created_at DESC`,
+    [companyId]
+  );
+  return result.rows;
+}
+
 export async function saveUser(companyId: string, user: Partial<User>): Promise<User> {
   if (user.user_id) {
     // Update

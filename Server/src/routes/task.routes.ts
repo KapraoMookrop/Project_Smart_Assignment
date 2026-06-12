@@ -8,9 +8,9 @@ router.use(authenticateToken as any);
 
 router.get("/", taskController.getTasks as any);
 router.get("/:id", taskController.getTaskById as any);
-router.post("/", taskController.createTask as any);
-router.put("/:id", taskController.updateTask as any);
-router.delete("/:id", taskController.deleteTask as any);
+router.post("/save", taskController.createTask as any);
+router.post("/update/:id", taskController.updateTask as any);
+router.post("/delete/:id", taskController.deleteTask as any);
 
 router.post("/:id/claim", taskController.claimTask as any);
 
