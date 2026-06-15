@@ -26,6 +26,10 @@ export async function getTasks(companyId: string, filters: { categoryId?: string
     params.push(filters.assignedTo);
   }
 
+  if (!filters.categoryId && !filters.createdBy && !filters.assignedTo) {
+    query += " AND assigned_to IS NULL";
+  }
+
   query += " ORDER BY created_at DESC";
 
   const result = await pool.query(query, params);

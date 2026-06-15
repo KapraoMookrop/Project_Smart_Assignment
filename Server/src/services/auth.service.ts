@@ -9,7 +9,8 @@ import type { User } from "../module/app-models.js";
 export async function login(username: string, password: string):Promise<{ token: string; user: User }> {
   // Allow login by either username or email
   const result = await pool.query(
-    `SELECT * FROM sa.Users as u 
+    `SELECT u.*, cm.category_id
+    FROM sa.Users as u 
     LEFT JOIN 
       sa.Category_Members as cm ON 
     u.user_id = cm.user_id 
