@@ -5,21 +5,21 @@
     <button class="btn text-cyan p-2 rounded-circle hover-bg-navy" (click)="goBack()">
       <i class="bi bi-arrow-left fs-4"></i>
     </button>
-    <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5">Create Task</h1>
+    <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5">สร้างงานใหม่</h1>
   </header>
 
   <main class="container py-4" style="max-width: 800px; padding-bottom: 120px;">
     <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
       <!-- Task Title -->
       <div class="mb-4">
-        <label class="form-label text-white small fw-bold">หัวข้องาน (Task Title)</label>
+        <label class="form-label text-white small fw-bold">หัวข้องาน</label>
         <input type="text" class="form-control card-custom border-secondary p-3 text-white focus-cyan"
           placeholder="ระบุหัวข้องาน" name="title" [(ngModel)]="task.title" required>
       </div>
 
       <!-- Category -->
       <div class="mb-4">
-        <label class="form-label text-white small fw-bold">หมวดหมู่ (Category)</label>
+        <label class="form-label text-white small fw-bold">หมวดหมู่</label>
         <select class="form-select card-custom border-secondary p-3 text-white focus-cyan appearance-none"
           name="categoryId" [(ngModel)]="task.category_id" required>
           <option value="" disabled selected>เลือกหมวดหมู่</option>
@@ -31,7 +31,7 @@
 
       <!-- Priority -->
       <div class="mb-4">
-        <label class="form-label text-white small fw-bold mb-3">ความสำคัญ (Priority)</label>
+        <label class="form-label text-white small fw-bold mb-3">ความสำคัญ</label>
         <div class="row g-2">
           @for (p of priorities; track p.value) {
           <div class="col-6 col-md-3">
@@ -60,7 +60,7 @@
 
       <!-- Description -->
       <div class="mb-4">
-        <label class="form-label text-white small fw-bold">รายละเอียด (Description)</label>
+        <label class="form-label text-white small fw-bold">รายละเอียด</label>
         <textarea class="form-control card-custom border-secondary p-3 text-white focus-cyan" rows="4"
           placeholder="ระบุรายละเอียดของงาน..." name="description" [(ngModel)]="task.description"></textarea>
       </div>
@@ -76,3 +76,25 @@
     </button>
   </div>
 </div>
+
+<style>
+  .focus-cyan:focus {
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 0 1px var(--accent-cyan);
+  }
+
+  .focus-none:focus {
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .shadow-cyan {
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+  }
+
+  .btn-check:checked+label {
+    border-color: var(--accent-cyan) !important;
+    background-color: rgba(0, 242, 255, 0.1) !important;
+    color: var(--accent-cyan) !important;
+  }
+</style>

@@ -23,7 +23,11 @@
                 {{ task.category_id.substring(0, 8) }}
               </span>
               <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2 fw-bold">
-                {{ task.priority }}
+                @if (task.priority === 'Low') { ต่ำ }
+                @else if (task.priority === 'Medium') { ปานกลาง }
+                @else if (task.priority === 'High') { สูง }
+                @else if (task.priority === 'Urgent') { เร่งด่วน }
+                @else { {{ task.priority }} }
               </span>
             </div>
 
@@ -39,7 +43,7 @@
               </div>
               <div class="col-6">
                 <small class="text-white d-block text-uppercase fw-bold mb-2">วันที่สร้าง</small>
-                <span>{{ task.created_at | date:'medium' }}</span>
+                <span>{{ task.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
               </div>
             </div>
           </div>
@@ -65,9 +69,12 @@
               </div>
               <div class="d-flex justify-content-between py-2 border-bottom border-secondary border-opacity-25">
                 <span class="text-white">สถานะ:</span>
-                <span [ngClass]="task.status === 'Pending' ? 'text-warning' : 'text-success'" class="fw-bold d-flex align-items-center gap-2">
-                  <span class="pulse-dot" [ngClass]="task.status === 'Pending' ? 'bg-warning' : 'bg-success'"></span>
-                  {{ task.status }}
+                <span [ngClass]="task.status === 'Pending' ? 'text-warning' : (task.status === 'Done' ? 'text-success' : 'text-info')" class="fw-bold d-flex align-items-center gap-2">
+                  <span class="pulse-dot" [ngClass]="task.status === 'Pending' ? 'bg-warning' : (task.status === 'Done' ? 'bg-success' : 'bg-info')"></span>
+                  @if (task.status === 'Pending') { รอดำเนินการ }
+                  @else if (task.status === 'In Progress') { กำลังดำเนินการ }
+                  @else if (task.status === 'Done') { เสร็จสิ้น }
+                  @else { {{ task.status }} }
                 </span>
               </div>
               <div class="d-flex justify-content-between py-2">

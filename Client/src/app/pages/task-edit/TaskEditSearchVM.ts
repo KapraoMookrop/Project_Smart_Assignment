@@ -32,16 +32,16 @@ export class TaskEditSearchVM implements OnInit, AfterViewInit {
   flatpickrInstance: any;
 
   priorities = [
-    { value: TaskPriority.Low, label: 'Low' },
-    { value: TaskPriority.Medium, label: 'Medium' },
-    { value: TaskPriority.High, label: 'High' },
-    { value: TaskPriority.Urgent, label: 'Urgent' }
+    { value: TaskPriority.Low, label: 'ต่ำ' },
+    { value: TaskPriority.Medium, label: 'ปานกลาง' },
+    { value: TaskPriority.High, label: 'สูง' },
+    { value: TaskPriority.Urgent, label: 'เร่งด่วน' }
   ];
 
   statusOptions = [
-    { value: TaskStatus.Pending, label: 'รอดำเนินการ (Pending)' },
-    { value: TaskStatus.InProgress, label: 'กำลังดำเนินการ (In Progress)' },
-    { value: TaskStatus.Done, label: 'เสร็จสิ้น (Done)' }
+    { value: TaskStatus.Pending, label: 'รอดำเนินการ' },
+    { value: TaskStatus.InProgress, label: 'กำลังดำเนินการ' },
+    { value: TaskStatus.Done, label: 'เสร็จสิ้น' }
   ];
 
   constructor(

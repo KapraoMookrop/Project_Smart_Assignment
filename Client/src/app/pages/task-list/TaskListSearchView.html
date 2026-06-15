@@ -19,7 +19,10 @@
             <div class="card-body p-4 d-flex flex-column">
               <div class="d-flex justify-content-between align-items-start mb-3">
                 <span class="badge rounded-pill bg-cyan bg-opacity-10 text-cyan border border-cyan border-opacity-25 px-2 py-1 small fw-normal">
-                  {{ task.status }}
+                  @if (task.status === 'Pending') { รอดำเนินการ }
+                  @else if (task.status === 'In Progress') { กำลังดำเนินการ }
+                  @else if (task.status === 'Done') { เสร็จสิ้น }
+                  @else { {{ task.status }} }
                 </span>
                 <span class="text-white-50 small">{{ task.created_at | date:'dd/MM/yyyy' }}</span>
               </div>

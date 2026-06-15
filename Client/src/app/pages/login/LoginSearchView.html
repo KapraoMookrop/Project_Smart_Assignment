@@ -10,25 +10,25 @@
     <div class="card-body p-4 p-md-5 text-center">
       <img src="LOGO.png" alt="Logo" class="mb-4 bg-dark-navy p-2 rounded-3 border border-secondary shadow-sm" style="width: 80px; height: 80px;">
       <h1 class="h3 fw-bold text-white mb-2">TaskToGroup</h1>
-      <p class="text-white small mb-4">Intelligent routing for high-performing teams.</p>
+      <p class="text-white small mb-4">ระบบจัดการงานอัจฉริยะสำหรับทีมประสิทธิภาพสูง</p>
 
       <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="text-start">
         <!-- Email -->
         <div class="mb-4">
-          <label class="form-label text-white x-small fw-bold text-uppercase ls-wide">Email Address</label>
+          <label class="form-label text-white x-small fw-bold text-uppercase ls-wide">อีเมล (Email Address)</label>
           <div class="input-group card-custom border-secondary overflow-hidden">
             <span class="input-group-text bg-transparent border-0 text-white">
               <i class="bi bi-envelope"></i>
             </span>
             <input type="email" class="form-control bg-transparent border-0 text-white p-3 focus-none" 
-                   name="email" [(ngModel)]="loginData.email" placeholder="name@company.com" required>
+                   name="email" [(ngModel)]="loginData.email" placeholder="ระบุอีเมลของคุณ" required>
           </div>
         </div>
 
         <!-- Password -->
         <div class="mb-4">
           <div class="d-flex justify-content-between">
-            <label class="form-label text-white x-small fw-bold text-uppercase ls-wide">Password</label>
+            <label class="form-label text-white x-small fw-bold text-uppercase ls-wide">รหัสผ่าน (Password)</label>
             <a href="#" class="text-cyan text-decoration-none x-small fw-bold">ลืมรหัสผ่าน?</a>
           </div>
           <div class="input-group card-custom border-secondary overflow-hidden">
@@ -61,12 +61,12 @@
     <div class="card-footer bg-dark-navy bg-opacity-25 border-top border-secondary p-4 text-center">
       <p class="mb-0 text-white small">
         ยังไม่มีบัญชีผู้ใช้? 
-        <a href="#" class="text-cyan text-decoration-none fw-bold ms-1">ติดต่อผู้ดูแลระบบของคุณ</a>
+        <a href="https://www.facebook.com/chatchawan.taja" class="text-cyan text-decoration-none fw-bold ms-1">ติดต่อผู้ดูแลระบบ</a>
       </p>
     </div>
   </div>
 
   <div class="mt-4 text-center">
-    <p class="text-white x-small">Powered by Smart Assignment • v2.4.1</p>
+    <p class="text-white x-small">Powered by Smart Assignment</p>
   </div>
 </div>

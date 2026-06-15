@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://safe-trade-server.vercel.app/api',
+  apiUrl: 'https://project-smart-assignment.vercel.app/api',
 };

@@ -12,14 +12,14 @@
       <div class="card card-custom p-4 mb-4 shadow-sm">
         <!-- Task Title -->
         <div class="mb-4">
-          <label class="form-label text-white small fw-bold">หัวข้องาน (Task Title)</label>
+          <label class="form-label text-white small fw-bold">หัวข้องาน</label>
           <input type="text" class="form-control p-3 text-white focus-cyan" 
                  placeholder="ระบุหัวข้องาน" name="title" [(ngModel)]="task.title" required>
         </div>
 
         <!-- Category -->
         <div class="mb-4">
-          <label class="form-label text-white small fw-bold">หมวดหมู่ (Category)</label>
+          <label class="form-label text-white small fw-bold">หมวดหมู่</label>
           <select class="form-select p-3 text-white focus-cyan appearance-none" 
                   name="categoryId" [(ngModel)]="task.category_id" required>
             <option value="" disabled>เลือกหมวดหมู่</option>
@@ -31,7 +31,7 @@
 
         <!-- Priority -->
         <div class="mb-4">
-          <label class="form-label text-white small fw-bold mb-3">ความสำคัญ (Priority)</label>
+          <label class="form-label text-white small fw-bold mb-3">ความสำคัญ</label>
           <div class="row g-2">
             @for (p of priorities; track p.value) {
               <div class="col-6 col-md-3">
@@ -46,7 +46,7 @@
 
         <!-- Status -->
         <div class="mb-4">
-          <label class="form-label text-white small fw-bold">สถานะงาน (Status)</label>
+          <label class="form-label text-white small fw-bold">สถานะงาน</label>
           <select class="form-select p-3 text-white focus-cyan appearance-none" 
                   name="status" [(ngModel)]="task.status" required>
             @for (s of statusOptions; track s.value) {
@@ -57,7 +57,7 @@
 
         <!-- Deadline -->
         <div class="mb-4">
-          <label class="form-label text-white small fw-bold">วันที่สิ้นสุดงาน (Deadline)</label>
+          <label class="form-label text-white small fw-bold">วันที่สิ้นสุดงาน</label>
           <div class="input-group card-custom border-secondary overflow-hidden">
             <span class="input-group-text bg-transparent border-0 text-white">
               <i class="bi bi-calendar-event"></i>
@@ -69,7 +69,7 @@
 
         <!-- Description -->
         <div class="mb-4">
-          <label class="form-label text-white small fw-bold">รายละเอียด (Description)</label>
+          <label class="form-label text-white small fw-bold">รายละเอียด</label>
           <textarea class="form-control p-3 text-white focus-cyan" 
                     rows="5" placeholder="ระบุรายละเอียดของงาน..." name="description" [(ngModel)]="task.description"></textarea>
         </div>

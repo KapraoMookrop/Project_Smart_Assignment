@@ -33,10 +33,10 @@ export class TaskCreateSearchVM implements OnInit, AfterViewInit {
   flatpickrInstance: any;
 
   priorities = [
-    { value: 'Low', label: 'Low', colorClass: 'btn-outline-secondary' },
-    { value: 'Medium', label: 'Medium', colorClass: 'btn-outline-warning' },
-    { value: 'High', label: 'High', colorClass: 'btn-outline-orange' },
-    { value: 'Urgent', label: 'Urgent', colorClass: 'btn-outline-danger' }
+    { value: 'Low', label: 'ต่ำ', colorClass: 'btn-outline-secondary' },
+    { value: 'Medium', label: 'ปานกลาง', colorClass: 'btn-outline-warning' },
+    { value: 'High', label: 'สูง', colorClass: 'btn-outline-orange' },
+    { value: 'Urgent', label: 'เร่งด่วน', colorClass: 'btn-outline-danger' }
   ];
 
   constructor(

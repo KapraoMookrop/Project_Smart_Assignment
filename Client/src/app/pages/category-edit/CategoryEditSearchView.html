@@ -19,19 +19,19 @@
         <i class="bi {{ category.icon }} fs-1"></i>
       </div>
       <h2 class="h4 fw-bold">{{ category.name || 'ชื่อหมวดหมู่' }}</h2>
-      <p class="text-white-50 small">Preview appearance in dashboard</p>
+      <p class="text-white-50 small">ตัวอย่างการแสดงผลในหน้าแดชบอร์ด</p>
     </div>
 
     <form (ngSubmit)="saveCategory()" #categoryForm="ngForm">
       <div class="card card-custom p-4 mb-4">
         <div class="mb-4">
-          <label class="form-label text-white x-small fw-bold text-uppercase">ชื่อหมวดหมู่ (Category Name)</label>
+          <label class="form-label text-white x-small fw-bold text-uppercase">ชื่อหมวดหมู่</label>
           <input type="text" class="form-control p-3 text-white focus-cyan" 
                  name="name" [(ngModel)]="category.name" placeholder="ระบุชื่อหมวดหมู่ เช่น IT Support, Engineering" required>
         </div>
 
         <div class="mb-4">
-          <label class="form-label text-white x-small fw-bold text-uppercase mb-3">เลือกไอคอน (Select Icon)</label>
+          <label class="form-label text-white x-small fw-bold text-uppercase mb-3">เลือกไอคอน</label>
           <div class="row g-2">
             @for (icon of availableIcons; track icon) {
               <div class="col-3">
@@ -46,7 +46,7 @@
         </div>
 
         <div class="mb-2">
-          <label class="form-label text-white x-small fw-bold text-uppercase mb-3">เลือกสี (Select Color)</label>
+          <label class="form-label text-white x-small fw-bold text-uppercase mb-3">เลือกสี</label>
           <div class="d-flex flex-wrap gap-3">
             @for (color of availableColors; track color) {
               <div class="rounded-circle cursor-pointer transition-all color-swatch"

@@ -1,5 +1,9 @@
 {
   "appId": "com.smartassignment.app",
-  "appName": "Smart-Assignment",
-  "webDir": "dist/Task-Assignment/browser"
+  "appName": "Smart Assignment",
+  "webDir": "dist/Task-Assignment/browser",
+  "android": {
+    "iconPath": "assets/icon.png",
+    "useAdaptiveIcon": true
+  }
 }

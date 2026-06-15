@@ -27,51 +27,51 @@
         <!-- Form Fields -->
         <div class="vstack gap-4">
           <div>
-            <label class="form-label text-white x-small fw-bold text-uppercase">Full Name</label>
+            <label class="form-label text-white x-small fw-bold text-uppercase">ชื่อ-นามสกุล</label>
             <div class="input-group card-custom border-secondary px-2">
               <span class="input-group-text bg-transparent border-0 text-white">
                 <i class="bi bi-person"></i>
               </span>
               <input type="text" class="form-control bg-transparent border-0 text-white p-3 focus-none" 
-                     name="fullName" [(ngModel)]="user.full_name" placeholder="Enter your full name" required>
+                     name="fullName" [(ngModel)]="user.full_name" placeholder="ระบุชื่อ-นามสกุลของคุณ" required>
             </div>
           </div>
 
           <div>
-            <label class="form-label text-white x-small fw-bold text-uppercase">Email Address</label>
+            <label class="form-label text-white x-small fw-bold text-uppercase">อีเมล</label>
             <div class="input-group card-custom border-secondary px-2">
               <span class="input-group-text bg-transparent border-0 text-white">
                 <i class="bi bi-envelope"></i>
               </span>
               <input type="email" class="form-control bg-transparent border-0 text-white p-3 focus-none" 
-                     name="email" [(ngModel)]="user.email" placeholder="Enter your email address" required>
+                     name="email" [(ngModel)]="user.email" placeholder="ระบุอีเมลของคุณ" required>
             </div>
           </div>
 
           <div>
-            <label class="form-label text-white x-small fw-bold text-uppercase">Phone Number</label>
+            <label class="form-label text-white x-small fw-bold text-uppercase">เบอร์โทรศัพท์</label>
             <div class="input-group card-custom border-secondary px-2">
               <span class="input-group-text bg-transparent border-0 text-white">
                 <i class="bi bi-phone"></i>
               </span>
               <input type="tel" class="form-control bg-transparent border-0 text-white p-3 focus-none" 
-                     name="phone" [(ngModel)]="user.phone" placeholder="Enter your phone number">
+                     name="phone" [(ngModel)]="user.phone" placeholder="ระบุเบอร์โทรศัพท์ของคุณ">
             </div>
           </div>
 
           <div>
-            <label class="form-label text-white x-small fw-bold text-uppercase">Bio / Description</label>
+            <label class="form-label text-white x-small fw-bold text-uppercase">ข้อมูลแนะนำตัว / รายละเอียด</label>
             <textarea class="form-control card-custom border-secondary p-3 text-white focus-cyan" 
-                      name="bio" [(ngModel)]="user.bio" rows="4" placeholder="Briefly describe your role..."></textarea>
+                      name="bio" [(ngModel)]="user.bio" rows="4" placeholder="อธิบายบทบาทหรือข้อมูลเกี่ยวกับคุณสั้นๆ..."></textarea>
           </div>
         </div>
 
         <!-- Footer Actions -->
         <div class="d-flex flex-column-reverse flex-sm-row gap-3 mt-5 pt-4 border-top border-secondary">
-          <button type="button" class="btn btn-outline-secondary w-100 w-sm-auto px-4 py-3 fw-bold" (click)="goBack()">Cancel</button>
+          <button type="button" class="btn btn-outline-secondary w-100 w-sm-auto px-4 py-3 fw-bold" (click)="goBack()">ยกเลิก</button>
           <button type="submit" class="btn btn-cyan w-100 w-sm-auto flex-grow-1 px-4 py-3 fw-bold shadow-cyan d-flex align-items-center justify-content-center gap-2">
             <i class="bi bi-save-fill"></i>
-            Save Changes
+            บันทึกการเปลี่ยนแปลง
           </button>
         </div>
       </form>
