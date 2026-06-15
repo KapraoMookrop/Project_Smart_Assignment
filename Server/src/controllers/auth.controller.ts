@@ -25,7 +25,6 @@ export async function getCurrentUser(req: AuthenticatedRequest, res: Response, n
 
 export async function logout(req: Request, res: Response, next: NextFunction) {
   try {
-    // Skeleton for logout (Client side usually deletes token)
     res.status(200).json(ApiResponse.success(null, "ออกจากระบบสำเร็จ"));
   } catch (error) {
     next(error);
