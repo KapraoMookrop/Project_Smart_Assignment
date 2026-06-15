@@ -11,8 +11,16 @@ export class TaskApiService {
   private baseUrl = `${environment.apiUrl}/tasks`;
   constructor(private readonly http: HttpClient) {}
 
-  async getTasks(): Promise<Task[]> {
-    const observable = this.http.get<ApiResponse<Task[]>>(this.baseUrl);
+  async getTasks(filters?: { categoryId?: string, createdBy?: string, assignedTo?: string }): Promise<Task[]> {
+    let url = this.baseUrl;
+    if (filters) {
+      const params = new URLSearchParams();
+      if (filters.categoryId) params.append('categoryId', filters.categoryId);
+      if (filters.createdBy) params.append('createdBy', filters.createdBy);
+      if (filters.assignedTo) params.append('assignedTo', filters.assignedTo);
+      url += `?${params.toString()}`;
+    }
+    const observable = this.http.get<ApiResponse<Task[]>>(url);
     const response = await lastValueFrom(observable);
     return response.data;
   }

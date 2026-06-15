@@ -1,12 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/app-models';
 
 @Component({
   selector: 'app-profile-view',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './ProfileViewSearchView.html',
 })
 export class ProfileViewSearchVM implements OnInit {
@@ -25,5 +26,9 @@ export class ProfileViewSearchVM implements OnInit {
   async ngOnInit() {
     this.user = this.authService.currentUser();
     this.cdr.detectChanges();
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

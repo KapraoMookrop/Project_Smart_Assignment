@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { Task, User } from '../../models/app-models';
 import { RouterLink } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,8 +41,8 @@ export class DashboardSearchVM implements OnInit {
     try {
       this.newTasks = await this.taskApi.getTasks();
       this.cdr.detectChanges();
-    } catch (error) {
-      this.notification.error('โหลดข้อมูลไม่สำเร็จ');
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('โหลดข้อมูลไม่สำเร็จ', err.error?.message || err.message);
     }
   }
 
@@ -57,9 +58,8 @@ export class DashboardSearchVM implements OnInit {
             this.loadDashboardData();
           }
         }
-      } catch (error) {
-        this.notification.error('เกิดข้อผิดพลาด', 'ไม่สามารถรับงานได้ในขณะนี้');
-        console.error('Error claiming task:', error);
+      } catch (err: HttpErrorResponse | any) {
+        this.notification.error('เกิดข้อผิดพลาด', err.error?.message || err.message || 'ไม่สามารถรับงานได้ในขณะนี้');
       }
     }
   }

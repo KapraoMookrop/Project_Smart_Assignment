@@ -5,6 +5,8 @@ import { CategoryApiService } from '../../services/api/category-api.service';
 import { User, Category } from '../../models/app-models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -20,7 +22,8 @@ export class EmployeeListSearchVM implements OnInit {
     private authService: AuthService,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notification: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -32,8 +35,8 @@ export class EmployeeListSearchVM implements OnInit {
       const companyId = this.authService.currentUser()?.company_id;
       this.members = await this.userApi.getUsersByCompany(companyId!);
       this.cdr.detectChanges();
-    } catch (error) {
-      console.error('Error loading employee data:', error);
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('โหลดข้อมูลพนักงานไม่สำเร็จ', err.error?.message || err.message);
     }
   }
 
@@ -50,8 +53,8 @@ export class EmployeeListSearchVM implements OnInit {
       try {
         await this.userApi.deleteUser(id);
         this.loadData();
-      } catch (error) {
-        console.error('Error deleting member:', error);
+      } catch (err: HttpErrorResponse | any) {
+        this.notification.error('ลบไม่สำเร็จ', err.error?.message || err.message);
       }
     }
   }

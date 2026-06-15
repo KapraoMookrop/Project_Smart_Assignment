@@ -46,7 +46,7 @@ export class CategoryMemberEditSearchVM implements OnInit {
         this.cdr.detectChanges();
       }
     } catch (err: HttpErrorResponse | any) {
-      this.notification.error('ไม่พบข้อมูลหมวดหมู่', err.message);
+      this.notification.error('ไม่พบข้อมูลหมวดหมู่', err.error?.message || err.message);
     }
   }
 
@@ -60,7 +60,7 @@ export class CategoryMemberEditSearchVM implements OnInit {
       this.availableEmployees = this.availableEmployees.filter(e => !memberIds.has(e.user_id));
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
-      this.notification.error('โหลดข้อมูลสมาชิกไม่สำเร็จ', err.message);
+      this.notification.error('โหลดข้อมูลสมาชิกไม่สำเร็จ', err.error?.message || err.message);
     }
   }
 
@@ -70,20 +70,18 @@ export class CategoryMemberEditSearchVM implements OnInit {
 
   async removeMember(id: string) {
     try {
-      console.log(`Removing member ${id}...`);
       if (this.categoryId) {
         await this.categoryApi.removeMemberFromCategory(this.categoryId, id);
         this.currentMembers = this.currentMembers.filter(m => m.user_id !== id);
         this.loadMembers();
       }
     } catch (err: HttpErrorResponse | any) {
-      this.notification.error('ลบสมาชิกไม่สำเร็จ', err.message);
+      this.notification.error('ลบสมาชิกไม่สำเร็จ', err.error?.message || err.message);
     }
   }
 
   async addMember(employee: User) {
     try {
-      console.log(`Adding member ${employee.user_id}...`);
       if (this.categoryId) {
         await this.categoryApi.addMemberToCategory(this.categoryId, employee.user_id);
         this.currentMembers.push(employee);
@@ -91,7 +89,7 @@ export class CategoryMemberEditSearchVM implements OnInit {
         this.cdr.detectChanges();
       }
     } catch (err: HttpErrorResponse | any) {
-      this.notification.error('เพิ่มสมาชิกไม่สำเร็จ', err.message);
+      this.notification.error('เพิ่มสมาชิกไม่สำเร็จ', err.error?.message || err.message);
     }
   }
 }

@@ -5,6 +5,7 @@ import { CompanyApiService } from '../../services/api/company-api.service';
 import { NotificationService } from '../../services/notification.service';
 import { Company, PlanTier } from '../../models/app-models';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-company-edit',
@@ -46,8 +47,8 @@ export class CompanyEditSearchVM implements OnInit {
         this.company = data;
         this.cdr.detectChanges();
       }
-    } catch (error) {
-      this.notification.error('ไม่พบข้อมูล Tenant');
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('ไม่พบข้อมูล Tenant', err.error?.message || err.message);
       this.goBack();
     }
   }
@@ -63,7 +64,6 @@ export class CompanyEditSearchVM implements OnInit {
         return;
       }
 
-      console.log('Saving company changes:', this.company);
       await this.companyApi.saveCompany(this.company);
       this.notification.success(
         this.isEditMode ? 'บันทึกสำเร็จ' : 'สร้างบริษัทสำเร็จ', 
@@ -71,9 +71,8 @@ export class CompanyEditSearchVM implements OnInit {
       );
       this.cdr.detectChanges();
       this.goBack();
-    } catch (error) {
-      this.notification.error('บันทึกไม่สำเร็จ');
-      console.error('Error saving company:', error);
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('บันทึกไม่สำเร็จ', err.error?.message || err.message);
     }
   }
 }

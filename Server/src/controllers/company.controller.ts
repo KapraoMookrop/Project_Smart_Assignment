@@ -6,8 +6,7 @@ import { ApiResponse } from "../module/app-models.js";
 export async function getCompanies(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
     const role = req.user!.role;
-    const companyId = req.user!.company_id;
-    const companies = await companyService.getCompanies(role, companyId);
+    const companies = await companyService.getCompanies(role);
     res.status(200).json(ApiResponse.success(companies, "ดึงข้อมูลบริษัทสำเร็จ"));
   } catch (error) {
     next(error);

@@ -5,6 +5,7 @@ import { UserApiService } from '../../services/api/user-api.service';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { User } from '../../models/app-models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile-edit',
@@ -35,15 +36,13 @@ export class ProfileEditSearchVM implements OnInit {
   async saveProfile() {
     try {
       if (this.user) {
-        console.log('Saving profile:', this.user);
         await this.userApi.updateProfile(this.user.user_id, this.user);
         this.notification.success('สำเร็จ', 'แก้ไขข้อมูลส่วนตัวเรียบร้อยแล้ว');
         this.cdr.detectChanges();
         this.goBack();
       }
-    } catch (error) {
-      this.notification.error('เกิดข้อผิดพลาด', 'ไม่สามารถบันทึกข้อมูลได้');
-      console.error('Error saving profile:', error);
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('เกิดข้อผิดพลาด', err.error?.message || err.message || 'ไม่สามารถบันทึกข้อมูลได้');
     }
   }
 
@@ -54,7 +53,6 @@ export class ProfileEditSearchVM implements OnInit {
   handleFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
-      console.log('Profile picture selected:', file);
       // Logic สำหรับแสดงรูป Preview หรืออัปโหลด
     }
   }

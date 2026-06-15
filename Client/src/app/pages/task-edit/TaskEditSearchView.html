@@ -44,23 +44,34 @@
           </div>
         </div>
 
+        <!-- Status -->
+        <div class="mb-4">
+          <label class="form-label text-white small fw-bold">สถานะงาน (Status)</label>
+          <select class="form-select p-3 text-white focus-cyan appearance-none" 
+                  name="status" [(ngModel)]="task.status" required>
+            @for (s of statusOptions; track s.value) {
+              <option [value]="s.value">{{ s.label }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Deadline -->
+        <div class="mb-4">
+          <label class="form-label text-white small fw-bold">วันที่สิ้นสุดงาน (Deadline)</label>
+          <div class="input-group card-custom border-secondary overflow-hidden">
+            <span class="input-group-text bg-transparent border-0 text-white">
+              <i class="bi bi-calendar-event"></i>
+            </span>
+            <input type="text" #deadlinePicker class="form-control bg-transparent border-0 text-white p-3 focus-none"
+              placeholder="เลือกวันที่และเวลา" name="deadline" required>
+          </div>
+        </div>
+
         <!-- Description -->
         <div class="mb-4">
           <label class="form-label text-white small fw-bold">รายละเอียด (Description)</label>
           <textarea class="form-control p-3 text-white focus-cyan" 
                     rows="5" placeholder="ระบุรายละเอียดของงาน..." name="description" [(ngModel)]="task.description"></textarea>
-        </div>
-
-        <!-- Reward Points -->
-        <div class="mb-2">
-          <label class="form-label text-white small fw-bold">คะแนนรางวัล (Reward Points)</label>
-          <div class="input-group overflow-hidden border border-secondary rounded-3">
-            <span class="input-group-text bg-transparent border-0 text-warning">
-              <i class="bi bi-star-fill"></i>
-            </span>
-            <input type="number" class="form-control bg-transparent border-0 text-white p-3 focus-none" 
-                   placeholder="0" name="points" [(ngModel)]="task.reward_points">
-          </div>
         </div>
       </div>
 

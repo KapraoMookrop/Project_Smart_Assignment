@@ -1,6 +1,8 @@
 import pool from "../config/database.js";
 import { AppError } from "../utils/errors/AppError.js";
 import type { Company } from "../module/app-models.js";
+import bcrypt from 'bcrypt';
+import { UserRole } from "../module/app-models.js";
 
 export async function getCompanies(role: string): Promise<Company[]> {
   const sqlResult = await pool.query("SELECT * FROM sa.Companies ORDER BY created_at DESC");
@@ -52,13 +54,48 @@ export async function saveCompany(companyId: string, company: Partial<Company>, 
     if (role !== 'AppAdmin') {
       throw new AppError("ไม่มีสิทธิ์สร้างบริษัท", 403);
     }
-    const result = await pool.query(
-      `INSERT INTO sa.Companies (name, domain, plan_tier, is_active, internal_notes) 
-       VALUES ($1, $2, $3, $4, $5) 
-       RETURNING *`,
-      [company.name, company.domain, company.plan_tier, company.is_active, company.internal_notes]
-    );
-    return result.rows[0];
+
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+
+      // 1. Insert Company
+      const companyResult = await client.query(
+        `INSERT INTO sa.Companies (name, domain, plan_tier, is_active, internal_notes) 
+         VALUES ($1, $2, $3, $4, $5) 
+         RETURNING *`,
+        [company.name, company.domain, company.plan_tier, company.is_active, company.internal_notes]
+      );
+      const createdCompany = companyResult.rows[0];
+
+      // 2. Create Company Admin User
+      const defaultPassword = "password123";
+      const hashedPassword = await bcrypt.hash(defaultPassword, 10);
+      
+      // Use email as username if not provided
+      const username = company.email?.split('@')[0] || `admin_${createdCompany.company_id.substring(0, 5)}`;
+
+      await client.query(
+        `INSERT INTO sa.Users (company_id, username, email, password_hash, role, full_name, is_active, must_change_password) 
+         VALUES ($1, $2, $3, $4, $5, $6, true, true)`,
+        [
+          createdCompany.company_id, 
+          username, 
+          company.email, 
+          hashedPassword, 
+          UserRole.CompanyAdmin, 
+          `Admin ${company.name}`
+        ]
+      );
+
+      await client.query("COMMIT");
+      return createdCompany;
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
   }
 }
 

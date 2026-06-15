@@ -21,6 +21,14 @@
             <i class="bi bi-house-door fs-5"></i>
             <span class="fw-bold">ภาพรวม (Dashboard)</span>
           </a>
+          <a class="nav-link-sidebar d-flex align-items-center gap-3 px-3 py-3 rounded-3 transition-all" routerLink="/tasks/created" routerLinkActive="active-cyan-sidebar">
+            <i class="bi bi-plus-square fs-5"></i>
+            <span class="fw-bold">งานที่ฉันสร้าง</span>
+          </a>
+          <a class="nav-link-sidebar d-flex align-items-center gap-3 px-3 py-3 rounded-3 transition-all" routerLink="/tasks/my-tasks" routerLinkActive="active-cyan-sidebar">
+            <i class="bi bi-list-task fs-5"></i>
+            <span class="fw-bold">งานของฉัน</span>
+          </a>
         }
         
         @if (currentRole === UserRole.CompanyAdmin) {
@@ -69,6 +77,14 @@
           <a class="nav-link d-flex flex-column align-items-center" routerLink="/dashboard" routerLinkActive="active-cyan">
             <i class="bi bi-house-door fs-4"></i>
             <span class="x-small">ภาพรวม</span>
+          </a>
+          <a class="nav-link d-flex flex-column align-items-center" routerLink="/tasks/created" routerLinkActive="active-cyan">
+            <i class="bi bi-plus-square fs-4"></i>
+            <span class="x-small">งานที่สร้าง</span>
+          </a>
+          <a class="nav-link d-flex flex-column align-items-center" routerLink="/tasks/my-tasks" routerLinkActive="active-cyan">
+            <i class="bi bi-list-task fs-4"></i>
+            <span class="x-small">งานของฉัน</span>
           </a>
         }
 

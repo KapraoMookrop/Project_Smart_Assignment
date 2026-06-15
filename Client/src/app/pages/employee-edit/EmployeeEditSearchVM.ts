@@ -5,6 +5,7 @@ import { UserApiService } from '../../services/api/user-api.service';
 import { NotificationService } from '../../services/notification.service';
 import { User, UserRole } from '../../models/app-models';
 import { ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-employee-edit',
@@ -51,8 +52,8 @@ export class EmployeeEditSearchVM implements OnInit {
         this.user = data;
         this.cdr.detectChanges();
       }
-    } catch (error) {
-      this.notification.error('ไม่พบข้อมูลสมาชิก');
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('ไม่พบข้อมูลสมาชิก', err.error?.message || err.message);
       this.goBack();
     }
   }
@@ -71,10 +72,8 @@ export class EmployeeEditSearchVM implements OnInit {
       const userData = { ...this.user };
       if (!this.isEditMode) {
         (userData as any).password = this.password;
-        // In real app, we might need a specific "create user" endpoint or handle it in saveUser
       }
 
-      console.log('Saving user:', userData);
       await this.userApi.saveUser(userData);
       this.notification.success(
         this.isEditMode ? 'อัปเดตสำเร็จ' : 'สร้างสำเร็จ', 
@@ -82,9 +81,8 @@ export class EmployeeEditSearchVM implements OnInit {
       );
       this.cdr.detectChanges();
       this.goBack();
-    } catch (error) {
-      this.notification.error('บันทึกไม่สำเร็จ');
-      console.error('Error saving user:', error);
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('บันทึกไม่สำเร็จ', err.error?.message || err.message);
     }
   }
 }

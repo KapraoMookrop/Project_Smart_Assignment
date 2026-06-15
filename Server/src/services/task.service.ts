@@ -3,12 +3,32 @@ import { AppError } from "../utils/errors/AppError.js";
 import { TaskStatus } from "../module/app-models.js";
 import type { Task, TaskAttachment } from "../module/app-models.js";
 
-export async function getTasks(companyId: string, categoryId: string): Promise<Task[]> {
-  const result = await pool.query(
-    "SELECT * FROM sa.Tasks WHERE company_id = $1 AND category_id = $2 ORDER BY created_at DESC",
-    [companyId, categoryId]
-  );
+export async function getTasks(companyId: string, filters: { categoryId?: string, createdBy?: string, assignedTo?: string }): Promise<Task[]> {
+  let query = "SELECT * FROM sa.Tasks WHERE company_id = $1";
+  const params: any[] = [companyId];
+  let paramCount = 1;
 
+  if (filters.categoryId) {
+    paramCount++;
+    query += ` AND category_id = $${paramCount}`;
+    params.push(filters.categoryId);
+  }
+
+  if (filters.createdBy) {
+    paramCount++;
+    query += ` AND created_by = $${paramCount}`;
+    params.push(filters.createdBy);
+  }
+
+  if (filters.assignedTo) {
+    paramCount++;
+    query += ` AND assigned_to = $${paramCount}`;
+    params.push(filters.assignedTo);
+  }
+
+  query += " ORDER BY created_at DESC";
+
+  const result = await pool.query(query, params);
   return result.rows;
 }
 

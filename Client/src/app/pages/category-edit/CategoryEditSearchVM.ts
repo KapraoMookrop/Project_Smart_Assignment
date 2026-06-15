@@ -5,6 +5,7 @@ import { CategoryApiService } from '../../services/api/category-api.service';
 import { NotificationService } from '../../services/notification.service';
 import { Category } from '../../models/app-models';
 import { ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-category-edit',
@@ -54,8 +55,8 @@ export class CategoryEditSearchVM implements OnInit {
         this.category = data;
         this.cdr.detectChanges();
       }
-    } catch (error) {
-      this.notification.error('ไม่พบข้อมูลหมวดหมู่');
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('ไม่พบข้อมูลหมวดหมู่', err.error?.message || err.message);
       this.goBack();
     }
   }
@@ -71,7 +72,6 @@ export class CategoryEditSearchVM implements OnInit {
         return;
       }
 
-      console.log('Saving category:', this.category);
       await this.categoryApi.saveCategory(this.category);
       this.notification.success(
         this.isEditMode ? 'อัปเดตสำเร็จ' : 'สร้างสำเร็จ', 
@@ -79,9 +79,8 @@ export class CategoryEditSearchVM implements OnInit {
       );
       this.cdr.detectChanges();
       this.goBack();
-    } catch (error) {
-      this.notification.error('บันทึกไม่สำเร็จ');
-      console.error('Error saving category:', error);
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('บันทึกไม่สำเร็จ', err.error?.message || err.message);
     }
   }
 

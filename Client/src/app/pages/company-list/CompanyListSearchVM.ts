@@ -36,8 +36,8 @@ export class CompanyListSearchVM implements OnInit {
         );
       }
       this.cdr.detectChanges();
-    } catch (error: HttpErrorResponse | any) {
-      this.notification.error('โหลดข้อมูลไม่สำเร็จ', error.message);
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('โหลดข้อมูลไม่สำเร็จ', err.error?.message || err.message);
     }
   }
 
@@ -50,7 +50,7 @@ export class CompanyListSearchVM implements OnInit {
         this.notification.success('ลบสำเร็จ');
         this.cdr.detectChanges();
       } catch (err: HttpErrorResponse | any) {
-        this.notification.error('ลบไม่สำเร็จ', err.message);
+        this.notification.error('ลบไม่สำเร็จ', err.error?.message || err.message);
       }
     }
   }

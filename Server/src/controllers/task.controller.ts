@@ -6,8 +6,14 @@ import { ApiResponse } from "../module/app-models.js";
 export async function getTasks(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
     const companyId = req.user!.company_id;
-    const categoryId = req.user!.category_id;
-    const tasks = await taskService.getTasks(companyId, categoryId);
+    const { categoryId, createdBy, assignedTo } = req.query;
+    
+    const tasks = await taskService.getTasks(companyId, {
+      categoryId: categoryId as string,
+      createdBy: createdBy as string,
+      assignedTo: assignedTo as string
+    });
+    
     res.status(200).json(ApiResponse.success(tasks, "ดึงข้อมูลงานสำเร็จ"));
   } catch (error) {
     next(error);

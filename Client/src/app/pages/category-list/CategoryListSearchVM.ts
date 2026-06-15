@@ -41,7 +41,7 @@ export class CategoryListSearchVM implements OnInit {
       }
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
-      this.notification.error('โหลดข้อมูลไม่สำเร็จ', err.message);
+      this.notification.error('โหลดข้อมูลไม่สำเร็จ', err.error?.message || err.message);
     }
   }
 
@@ -54,7 +54,7 @@ export class CategoryListSearchVM implements OnInit {
         this.notification.success('ลบสำเร็จ', 'หมวดหมู่ถูกลบเรียบร้อยแล้ว');
         this.cdr.detectChanges();
       } catch (err: HttpErrorResponse | any) {
-        this.notification.error('ลบไม่สำเร็จ', err.message);
+        this.notification.error('ลบไม่สำเร็จ', err.error?.message || err.message);
       }
     }
   }

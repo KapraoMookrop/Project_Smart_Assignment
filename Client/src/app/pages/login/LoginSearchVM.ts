@@ -51,7 +51,6 @@ export class LoginSearchVM implements OnInit {
 
       this.isLoading = true;
       this.cdr.detectChanges();
-      console.log('Logging in with:', this.loginData);
 
       const response = await this.authApi.login({
         username: this.loginData.email,
@@ -71,7 +70,6 @@ export class LoginSearchVM implements OnInit {
       this.isLoading = false;
       this.cdr.detectChanges();
       this.notification.error('เข้าสู่ระบบล้มเหลว', err.error?.message || err.message || 'กรุณาตรวจสอบข้อมูลอีกครั้ง');
-      console.error('Login error:', err);
     }
   }
 }

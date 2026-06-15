@@ -5,6 +5,7 @@ import { TaskApiService } from '../../services/api/task-api.service';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { Task, User } from '../../models/app-models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-task-details',
@@ -48,17 +49,20 @@ export class TaskDetailsSearchVM implements OnInit {
     }
   }
 
+  canEdit(): boolean {
+    if (!this.task || !this.currentUser) return false;
+    return this.task.created_by === this.currentUser.user_id || this.task.assigned_to === this.currentUser.user_id;
+  }
+
   async loadTaskDetails(id: string) {
     try {
-      console.log(`Loading task details for ${id}...`);
       this.task = await this.taskApi.getTaskById(id);
       if (this.task && this.task.assigned_to) {
         this.isClaimed = true;
       }
       this.cdr.detectChanges();
-    } catch (error) {
-      this.notification.error('ไม่พบข้อมูลงาน');
-      console.error('Error loading task details:', error);
+    } catch (err: HttpErrorResponse | any) {
+      this.notification.error('ไม่พบข้อมูลงาน', err.error?.message || err.message);
     }
   }
 
@@ -79,11 +83,10 @@ export class TaskDetailsSearchVM implements OnInit {
         this.task.assigned_to = this.currentUser.user_id;
         this.notification.success('สำเร็จ', 'รับงานเรียบร้อยแล้ว ขอให้โชคดีกับการทำงาน!');
         this.cdr.detectChanges();
-      } catch (error) {
+      } catch (err: HttpErrorResponse | any) {
         this.isClaiming = false;
         this.cdr.detectChanges();
-        this.notification.error('เกิดข้อผิดพลาดในการรับงาน');
-        console.error('Error claiming task:', error);
+        this.notification.error('เกิดข้อผิดพลาดในการรับงาน', err.error?.message || err.message);
       }
     }
   }

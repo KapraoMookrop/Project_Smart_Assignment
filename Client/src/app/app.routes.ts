@@ -13,6 +13,7 @@ import { ProfileViewSearchVM } from './pages/profile-view/ProfileViewSearchVM';
 import { CategoryEditSearchVM } from './pages/category-edit/CategoryEditSearchVM';
 import { EmployeeEditSearchVM } from './pages/employee-edit/EmployeeEditSearchVM';
 import { TaskEditSearchVM } from './pages/task-edit/TaskEditSearchVM';
+import { TaskListSearchVM } from './pages/task-list/TaskListSearchVM';
 
 import { authGuard } from './guards/auth.guard';
 
@@ -24,8 +25,11 @@ export const routes: Routes = [
   { path: 'categories/:companyId', component: CategoryListSearchVM, canActivate: [authGuard] },
   { path: 'categories/edit/:id', component: CategoryEditSearchVM, canActivate: [authGuard] },
   { path: 'tasks/create', component: TaskCreateSearchVM, canActivate: [authGuard] },
+  { path: 'tasks/created', component: TaskListSearchVM, canActivate: [authGuard], data: { type: 'created' } },
+  { path: 'tasks/my-tasks', component: TaskListSearchVM, canActivate: [authGuard], data: { type: 'assigned' } },
   { path: 'tasks/:id', component: TaskDetailsSearchVM, canActivate: [authGuard] },
   { path: 'tasks/edit/:id', component: TaskEditSearchVM, canActivate: [authGuard] },
+  { path: 'tasks/details/:id', component: TaskDetailsSearchVM, canActivate: [authGuard] },
   { path: 'companies', component: CompanyListSearchVM, canActivate: [authGuard] },
   { path: 'companies/edit/:id', component: CompanyEditSearchVM, canActivate: [authGuard] },
   { path: 'members/:categoryId', component: CategoryMemberEditSearchVM, canActivate: [authGuard] },
