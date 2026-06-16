@@ -6,11 +6,12 @@ import { UserApiService } from '../../services/api/user-api.service';
 import { User } from '../../models/app-models';
 import { NotificationService } from '../../services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DisplayableUrlPipe } from '../../pipes/displayable-url.pipe';
 
 @Component({
   selector: 'app-category-member-edit',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DisplayableUrlPipe],
   templateUrl: './CategoryMemberEditSearchView.html',
 })
 export class CategoryMemberEditSearchVM implements OnInit {
@@ -46,7 +47,7 @@ export class CategoryMemberEditSearchVM implements OnInit {
         this.cdr.detectChanges();
       }
     } catch (err: HttpErrorResponse | any) {
-      this.notification.error('ไม่พบข้อมูลหมวดหมู่', err.error?.message || err.message);
+      this.notification.error('ไม่พบข้อมูลแผนก', err.error?.message || err.message);
     }
   }
 

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/app-models';
+import { DisplayableUrlPipe } from '../../pipes/displayable-url.pipe';
 
 @Component({
   selector: 'app-profile-view',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, DisplayableUrlPipe],
   templateUrl: './ProfileViewSearchView.html',
 })
 export class ProfileViewSearchVM implements OnInit {

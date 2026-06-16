@@ -5,8 +5,9 @@
       <div class="position-absolute top-0 start-50 translate-middle-x opacity-10 blur-150" style="width: 400px; height: 400px; background-color: var(--accent-cyan); filter: blur(100px); border-radius: 50%;"></div>
       
       <div class="position-relative z-1">
-        <div class="rounded-circle overflow-hidden border border-cyan border-3 shadow-cyan mx-auto mb-4" style="width: 120px; height: 110px;">
-          <img [src]="user.profile_picture_url || 'https://via.placeholder.com/120'" class="w-100 h-100 object-fit-cover" alt="Profile">
+        <div class="rounded-circle overflow-hidden border border-cyan border-3 shadow-cyan mx-auto mb-4" style="width: 120px; height: 120px;">
+          <img [src]="user.profile_picture_url | displayableUrl" class="w-100 h-100 object-fit-cover" 
+               referrerpolicy="no-referrer">
         </div>
         <h1 class="h3 fw-bold mb-1">{{ user.full_name }}</h1>
         <p class="text-cyan small fw-bold text-uppercase ls-wide mb-3">{{ user.role === 'CompanyAdmin' ? 'ผู้ดูแลระบบ' : 'พนักงาน' }} · {{ user.company_id.substring(0, 8) }}</p>

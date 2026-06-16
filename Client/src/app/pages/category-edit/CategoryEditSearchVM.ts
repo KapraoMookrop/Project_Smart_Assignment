@@ -56,7 +56,7 @@ export class CategoryEditSearchVM implements OnInit {
         this.cdr.detectChanges();
       }
     } catch (err: HttpErrorResponse | any) {
-      this.notification.error('ไม่พบข้อมูลหมวดหมู่', err.error?.message || err.message);
+      this.notification.error('ไม่พบข้อมูลแผนก', err.error?.message || err.message);
       this.goBack();
     }
   }
@@ -68,14 +68,14 @@ export class CategoryEditSearchVM implements OnInit {
   async saveCategory() {
     try {
       if (!this.category.name) {
-        this.notification.warning('กรุณากรอกชื่อหมวดหมู่');
+        this.notification.warning('กรุณากรอกชื่อแผนก');
         return;
       }
 
       await this.categoryApi.saveCategory(this.category);
       this.notification.success(
         this.isEditMode ? 'อัปเดตสำเร็จ' : 'สร้างสำเร็จ', 
-        `หมวดหมู่ "${this.category.name}" ถูกบันทึกเรียบร้อยแล้ว`
+        `แผนก "${this.category.name}" ถูกบันทึกเรียบร้อยแล้ว`
       );
       this.cdr.detectChanges();
       this.goBack();

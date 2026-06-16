@@ -12,20 +12,38 @@
       <form (ngSubmit)="saveProfile()" #profileForm="ngForm" class="card card-elevated p-4 p-md-5">
         <!-- Profile Picture Section -->
         <div class="text-center mb-5">
-          <div class="position-relative d-inline-block group cursor-pointer" (click)="triggerFileUpload()">
-            <div class="rounded-circle overflow-hidden border border-cyan border-2 shadow-cyan" style="width: 110px; height: 110px;">
-              <img [src]="user.profile_picture_url || 'https://via.placeholder.com/110'" class="w-100 h-100 object-fit-cover" alt="Avatar">
+          <div class="position-relative d-inline-block group">
+            <div class="rounded-circle overflow-hidden border border-cyan border-2 shadow-cyan" 
+                 [class.animate-pulse-slow]="user.profile_picture_url"
+                 style="width: 110px; height: 110px;">
+              <img [src]="user.profile_picture_url | displayableUrl" class="w-100 h-100 object-fit-cover" 
+                   referrerpolicy="no-referrer" (error)="$any($event.target).src = 'https://via.placeholder.com/110?text=Invalid+URL'">
             </div>
-            <div class="position-absolute top-100 start-100 translate-middle bg-cyan rounded-circle p-2 border border-dark shadow">
-              <i class="bi bi-camera-fill text-dark fs-6"></i>
-            </div>
-            <input type="file" id="profilePicInput" class="d-none" (change)="handleFileChange($event)" accept="image/*">
+            @if (user.profile_picture_url?.includes('drive.google.com')) {
+              <div class="position-absolute bottom-0 end-0 bg-dark rounded-circle p-1 shadow-sm border border-secondary" title="Google Drive Link">
+                <i class="bi bi-google text-cyan fs-xs"></i>
+              </div>
+            }
           </div>
-          <p class="text-white small mt-3 fw-bold text-uppercase ls-wide">แตะเพื่อเปลี่ยนรูปโปรไฟล์</p>
+          <p class="text-white small mt-3 fw-bold text-uppercase ls-wide">ตัวอย่างรูปโปรไฟล์</p>
         </div>
-
-        <!-- Form Fields -->
         <div class="vstack gap-4">
+          <div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <label class="form-label text-white x-small fw-bold text-uppercase mb-0">URL รูปโปรไฟล์ (Google Drive / Direct Link)</label>
+              <button type="button" class="btn btn-link text-cyan p-0 x-small text-decoration-none d-flex align-items-center gap-1" (click)="showDriveInfo()">
+                <i class="bi bi-info-circle"></i> วิธีใช้ Google Drive
+              </button>
+            </div>
+            <div class="input-group card-custom border-secondary px-2">
+              <span class="input-group-text bg-transparent border-0 text-white">
+                <i class="bi bi-link-45deg"></i>
+              </span>
+              <input type="text" class="form-control bg-transparent border-0 text-white p-3 focus-none" 
+                     name="profilePictureUrl" [(ngModel)]="user.profile_picture_url" placeholder="วางลิงค์รูปภาพที่นี่...">
+            </div>
+          </div>
+
           <div>
             <label class="form-label text-white x-small fw-bold text-uppercase">ชื่อ-นามสกุล</label>
             <div class="input-group card-custom border-secondary px-2">
@@ -63,6 +81,36 @@
             <label class="form-label text-white x-small fw-bold text-uppercase">ข้อมูลแนะนำตัว / รายละเอียด</label>
             <textarea class="form-control card-custom border-secondary p-3 text-white focus-cyan" 
                       name="bio" [(ngModel)]="user.bio" rows="4" placeholder="อธิบายบทบาทหรือข้อมูลเกี่ยวกับคุณสั้นๆ..."></textarea>
+          </div>
+
+          <!-- Password Change Section -->
+          <div class="border-top border-secondary pt-4 mt-2">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="h6 fw-bold text-cyan mb-0">เปลี่ยนรหัสผ่าน (Change Password)</h3>
+              <button type="button" class="btn btn-sm btn-outline-cyan rounded-pill px-3" (click)="togglePasswordSection()">
+                {{ showPasswordSection ? 'ยกเลิก' : 'เปลี่ยนรหัสผ่าน' }}
+              </button>
+            </div>
+
+            @if (showPasswordSection) {
+              <div class="vstack gap-3 animate-fade-in">
+                <div>
+                  <label class="form-label text-white x-small fw-bold text-uppercase">รหัสผ่านปัจจุบัน</label>
+                  <input type="password" class="form-control card-custom border-secondary p-3 text-white focus-cyan" 
+                         name="currentPassword" [(ngModel)]="passwords.currentPassword" placeholder="••••••••">
+                </div>
+                <div>
+                  <label class="form-label text-white x-small fw-bold text-uppercase">รหัสผ่านใหม่</label>
+                  <input type="password" class="form-control card-custom border-secondary p-3 text-white focus-cyan" 
+                         name="newPassword" [(ngModel)]="passwords.newPassword" placeholder="••••••••">
+                </div>
+                <div>
+                  <label class="form-label text-white x-small fw-bold text-uppercase">ยืนยันรหัสผ่านใหม่</label>
+                  <input type="password" class="form-control card-custom border-secondary p-3 text-white focus-cyan" 
+                         name="confirmPassword" [(ngModel)]="passwords.confirmPassword" placeholder="••••••••">
+                </div>
+              </div>
+            }
           </div>
         </div>
 

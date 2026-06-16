@@ -20,6 +20,11 @@ export class AuthService {
     this.currentUser.set(user);
   }
 
+  updateUserData(user: User): void {
+    localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+    this.currentUser.set(user);
+  }
+
   getToken(): string | null {
     if (typeof window !== 'undefined') {
       return localStorage.getItem(this.TOKEN_KEY);

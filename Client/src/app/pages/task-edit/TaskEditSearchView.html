@@ -19,10 +19,10 @@
 
         <!-- Category -->
         <div class="mb-4">
-          <label class="form-label text-white small fw-bold">หมวดหมู่</label>
+          <label class="form-label text-white small fw-bold">แผนก</label>
           <select class="form-select p-3 text-white focus-cyan appearance-none" 
                   name="categoryId" [(ngModel)]="task.category_id" required>
-            <option value="" disabled>เลือกหมวดหมู่</option>
+            <option value="" disabled>เลือกแผนก</option>
             @for (cat of categories; track cat.category_id) {
               <option [value]="cat.category_id">{{ cat.name }}</option>
             }

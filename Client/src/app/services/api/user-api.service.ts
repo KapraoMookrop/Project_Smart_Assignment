@@ -51,4 +51,9 @@ export class UserApiService {
     const response = await lastValueFrom(observable);
     return response.data;
   }
+
+  async changePassword(passwords: any): Promise<void> {
+    const observable = this.http.post<ApiResponse<void>>(`${this.baseUrl}/profile/change-password`, passwords);
+    await lastValueFrom(observable);
+  }
 }

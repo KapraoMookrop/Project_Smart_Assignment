@@ -6,11 +6,13 @@ import { NotificationService } from '../../services/notification.service';
 import { User, UserRole } from '../../models/app-models';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DisplayableUrlPipe } from '../../pipes/displayable-url.pipe';
+import { getDisplayableUrl } from '../../utils/url-helper';
 
 @Component({
   selector: 'app-employee-edit',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DisplayableUrlPipe],
   templateUrl: './EmployeeEditSearchView.html',
 })
 export class EmployeeEditSearchVM implements OnInit {
@@ -25,8 +27,8 @@ export class EmployeeEditSearchVM implements OnInit {
   password: string = ''; // For new user
 
   roles = [
-    { value: UserRole.User, label: 'Standard User' },
-    { value: UserRole.CompanyAdmin, label: 'Company Administrator' }
+    { value: UserRole.User, label: 'พนักงานทั่วไป (Standard User)' },
+    { value: UserRole.CompanyAdmin, label: 'ผู้ดูแลระบบ (Company Admin)' }
   ];
 
   constructor(
@@ -84,5 +86,20 @@ export class EmployeeEditSearchVM implements OnInit {
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('บันทึกไม่สำเร็จ', err.error?.message || err.message);
     }
+  }
+
+  showDriveInfo() {
+    this.notification.info(
+      'วิธีแชร์รูปจาก Google Drive',
+      `1. อัปโหลดรูปไปที่ Google Drive\n` +
+      `2. คลิกขวาที่รูป เลือก "แชร์" (Share)\n` +
+      `3. ปรับการเข้าถึงเป็น "ทุกคนที่มีลิงค์" (Anyone with the link)\n` +
+      `4. คัดลอกลิงค์มาวางในช่อง URL รูปโปรไฟล์`,
+      'ตกลง'
+    );
+  }
+
+  getDisplayableUrl(url: string | undefined): string {
+    return getDisplayableUrl(url);
   }
 }

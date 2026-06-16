@@ -7,11 +7,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../services/notification.service';
+import { DisplayableUrlPipe } from '../../pipes/displayable-url.pipe';
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DisplayableUrlPipe],
   templateUrl: './EmployeeListSearchView.html',
 })
 export class EmployeeListSearchVM implements OnInit {
@@ -49,10 +50,12 @@ export class EmployeeListSearchVM implements OnInit {
   }
 
   async deleteMember(id: string) {
-    if (confirm('คุณแน่ใจหรือไม่ว่าต้องการลบพนักงานนี้?')) {
+    const result = await this.notification.confirm('คุณแน่ใจหรือไม่?', 'ต้องการลบพนักงานนี้ใช่หรือไม่?');
+    if (result.isConfirmed) {
       try {
         await this.userApi.deleteUser(id);
         this.loadData();
+        this.cdr.detectChanges();
       } catch (err: HttpErrorResponse | any) {
         this.notification.error('ลบไม่สำเร็จ', err.error?.message || err.message);
       }

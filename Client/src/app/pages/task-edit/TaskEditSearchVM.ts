@@ -104,7 +104,7 @@ export class TaskEditSearchVM implements OnInit, AfterViewInit {
       this.categories = await this.categoryApi.getCategories();
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
-      this.notification.error('โหลดหมวดหมู่ไม่สำเร็จ', err.error?.message || err.message);
+      this.notification.error('โหลดแผนกไม่สำเร็จ', err.error?.message || err.message);
     }
   }
 

@@ -5,7 +5,7 @@
       <i class="bi bi-arrow-left fs-4"></i>
     </button>
     <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5">
-      {{ isEditMode ? 'แก้ไขหมวดหมู่' : 'เพิ่มหมวดหมู่ใหม่' }}
+      {{ isEditMode ? 'แก้ไขแผนก' : 'เพิ่มแผนกใหม่' }}
     </h1>
   </header>
 
@@ -18,16 +18,16 @@
            style="width: 80px; height: 80px;">
         <i class="bi {{ category.icon }} fs-1"></i>
       </div>
-      <h2 class="h4 fw-bold">{{ category.name || 'ชื่อหมวดหมู่' }}</h2>
+      <h2 class="h4 fw-bold">{{ category.name || 'ชื่อแผนก' }}</h2>
       <p class="text-white-50 small">ตัวอย่างการแสดงผลในหน้าแดชบอร์ด</p>
     </div>
 
     <form (ngSubmit)="saveCategory()" #categoryForm="ngForm">
       <div class="card card-custom p-4 mb-4">
         <div class="mb-4">
-          <label class="form-label text-white x-small fw-bold text-uppercase">ชื่อหมวดหมู่</label>
+          <label class="form-label text-white x-small fw-bold text-uppercase">ชื่อแผนก</label>
           <input type="text" class="form-control p-3 text-white focus-cyan" 
-                 name="name" [(ngModel)]="category.name" placeholder="ระบุชื่อหมวดหมู่ เช่น IT Support, Engineering" required>
+                 name="name" [(ngModel)]="category.name" placeholder="ระบุชื่อแผนก เช่น IT Support, Engineering" required>
         </div>
 
         <div class="mb-4">
@@ -64,7 +64,7 @@
         <button type="button" class="btn btn-outline-secondary w-100 w-sm-auto px-5 py-3 fw-bold" (click)="goBack()">ยกเลิก</button>
         <button type="submit" class="btn btn-cyan w-100 w-sm-auto flex-grow-1 px-5 py-3 fw-bold shadow-cyan d-flex align-items-center justify-content-center gap-2">
           <i class="bi bi-save-fill"></i>
-          {{ isEditMode ? 'บันทึกการแก้ไข' : 'สร้างหมวดหมู่' }}
+          {{ isEditMode ? 'บันทึกการแก้ไข' : 'สร้างแผนก' }}
         </button>
       </div>
     </form>

@@ -80,3 +80,20 @@ export async function updateProfile(req: AuthenticatedRequest, res: Response, ne
     next(error);
   }
 }
+
+export async function changePassword(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const companyId = req.user!.company_id;
+    const userId = req.user!.user_id;
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json(ApiResponse.error("กรุณาระบุรหัสผ่านปัจจุบันและรหัสผ่านใหม่"));
+    }
+
+    await userService.changePassword(companyId, userId, currentPassword, newPassword);
+    res.status(200).json(ApiResponse.success(null, "เปลี่ยนรหัสผ่านสำเร็จ"));
+  } catch (error) {
+    next(error);
+  }
+}

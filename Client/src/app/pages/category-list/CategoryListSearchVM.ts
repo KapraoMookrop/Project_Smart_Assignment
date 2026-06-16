@@ -46,12 +46,12 @@ export class CategoryListSearchVM implements OnInit {
   }
 
   async deleteCategory(id: string) {
-    const result = await this.notification.confirm('คุณแน่ใจหรือไม่?', 'ต้องการลบหมวดหมู่นี้ใช่หรือไม่?');
+    const result = await this.notification.confirm('คุณแน่ใจหรือไม่?', 'ต้องการลบแผนกนี้ใช่หรือไม่?');
     if (result.isConfirmed) {
       try {
         await this.categoryApi.deleteCategory(id);
         this.categories = this.categories.filter(c => c.category_id !== id);
-        this.notification.success('ลบสำเร็จ', 'หมวดหมู่ถูกลบเรียบร้อยแล้ว');
+        this.notification.success('ลบสำเร็จ', 'แผนกถูกลบเรียบร้อยแล้ว');
         this.cdr.detectChanges();
       } catch (err: HttpErrorResponse | any) {
         this.notification.error('ลบไม่สำเร็จ', err.error?.message || err.message);

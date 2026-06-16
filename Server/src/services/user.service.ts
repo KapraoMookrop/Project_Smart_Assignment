@@ -43,7 +43,7 @@ export async function getUserByCategory(categoryId: string): Promise<User[]> {
       uc.category_id, 
       c.name as category_name
     FROM sa.Users u
-    LFET JOIN sa.category_members cm ON u.user_id = cm.user_id
+    LEFT JOIN sa.category_members cm ON u.user_id = cm.user_id
     LEFT JOIN sa.categories c ON cm.category_id = c.category_id
     WHERE cm.category_id = $1`,
     [categoryId]
@@ -78,7 +78,7 @@ export async function getUserByCompany(companyId: string): Promise<User[]> {
   return result.rows;
 }
 
-export async function saveUser(companyId: string, user: Partial<User>): Promise<User> {
+export async function saveUser(companyId: string, user: Partial<User> & { password?: string }): Promise<User> {
   if (user.user_id) {
     // Update
     const result = await pool.query(
@@ -95,8 +95,8 @@ export async function saveUser(companyId: string, user: Partial<User>): Promise<
     return result.rows[0];
   } else {
     // Insert new user
-    const defaultPassword = "password123"; // In a real app, generate a random password or send invite link
-    const hashedPassword = await bcrypt.hash(defaultPassword, 10);
+    const passwordToUse = user.password || "password123";
+    const hashedPassword = await bcrypt.hash(passwordToUse, 10);
     
     const result = await pool.query(
       `INSERT INTO sa.Users (company_id, username, email, password_hash, role, full_name, phone, is_active, must_change_password) 
@@ -106,6 +106,34 @@ export async function saveUser(companyId: string, user: Partial<User>): Promise<
     );
     return result.rows[0];
   }
+}
+
+export async function changePassword(companyId: string, userId: string, currentPassword: string, newPassword: string): Promise<void> {
+  // Get current user to verify password
+  const result = await pool.query(
+    "SELECT password_hash FROM sa.Users WHERE company_id = $1 AND user_id = $2",
+    [companyId, userId]
+  );
+
+  if (result.rows.length === 0) {
+    throw new AppError("ไม่พบผู้ใช้งานนี้", 404);
+  }
+
+  const user = result.rows[0];
+  const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
+  
+  if (!isMatch) {
+    throw new AppError("รหัสผ่านปัจจุบันไม่ถูกต้อง", 400);
+  }
+
+  // Hash new password
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  // Update password
+  await pool.query(
+    "UPDATE sa.Users SET password_hash = $1, must_change_password = false WHERE company_id = $2 AND user_id = $3",
+    [hashedPassword, companyId, userId]
+  );
 }
 
 export async function deleteUser(companyId: string, userId: string): Promise<void> {
@@ -122,10 +150,10 @@ export async function deleteUser(companyId: string, userId: string): Promise<voi
 export async function updateProfile(companyId: string, userId: string, profile: Partial<User>): Promise<User> {
   const result = await pool.query(
     `UPDATE sa.Users 
-     SET full_name = $1, phone = $2, bio = $3 
-     WHERE company_id = $4 AND user_id = $5 
+     SET full_name = $1, phone = $2, bio = $3, profile_picture_url = $4 
+     WHERE company_id = $5 AND user_id = $6 
      RETURNING user_id, company_id, username, email, role, full_name, phone, bio, profile_picture_url, is_active`,
-    [profile.full_name, profile.phone, profile.bio, companyId, userId]
+    [profile.full_name, profile.phone, profile.bio, profile.profile_picture_url, companyId, userId]
   );
 
   if (result.rows.length === 0) {

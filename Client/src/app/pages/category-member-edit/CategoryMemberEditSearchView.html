@@ -4,7 +4,7 @@
     <button class="btn text-cyan p-2 rounded-circle hover-bg-navy" (click)="goBack()">
       <i class="bi bi-arrow-left fs-4"></i>
     </button>
-    <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5">Manage Members</h1>
+    <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5">จัดการสมาชิกในแผนก</h1>
   </header>
 
   <main class="flex-grow-1 overflow-auto">
@@ -13,14 +13,14 @@
       <div class="mb-4">
         <div class="d-flex align-items-center gap-2 mb-3">
           <span class="badge bg-secondary-bg border border-secondary text-cyan px-3 py-2 fw-normal">{{ categoryName }}</span>
-          <span class="text-white small">· Category Assignment</span>
+          <span class="text-white small">· การมอบหมายแผนก</span>
         </div>
         <div class="input-group card-custom border-secondary px-3 py-1 shadow-sm">
           <span class="input-group-text bg-transparent border-0 text-white">
             <i class="bi bi-search"></i>
           </span>
           <input type="text" class="form-control bg-transparent border-0 text-white focus-none" 
-                 placeholder="Search employees by name or role...">
+                 placeholder="ค้นหาพนักงานตามชื่อหรือบทบาท...">
         </div>
       </div>
 
@@ -32,9 +32,9 @@
               <div>
                 <h2 class="h6 fw-bold mb-0 d-flex align-items-center gap-2">
                   <i class="bi bi-shield-check text-success"></i>
-                  Current Members
+                  สมาชิกปัจจุบัน
                 </h2>
-                <small class="text-white">{{ currentMembers.length }} Active Members</small>
+                <small class="text-white">มีสมาชิก {{ currentMembers.length }} คน</small>
               </div>
             </div>
             <div class="card-body p-2 overflow-auto" style="max-height: 500px;">
@@ -43,7 +43,7 @@
                   <div class="list-group-item bg-transparent border-0 d-flex justify-content-between align-items-center p-3 rounded hover-bg-navy transition-all mb-1">
                     <div class="d-flex align-items-center gap-3">
                       @if (member.profile_picture_url) {
-                        <img [src]="member.profile_picture_url" class="rounded-circle border border-secondary" style="width: 40px; height: 40px; object-fit: cover;">
+                        <img [src]="member.profile_picture_url | displayableUrl" class="rounded-circle border border-secondary" style="width: 40px; height: 40px; object-fit: cover;">
                       } @else {
                         <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px;">
                           {{ member.full_name?.substring(0, 1) || 'U' }}
@@ -55,7 +55,7 @@
                       </div>
                     </div>
                     <button class="btn btn-outline-danger btn-sm px-3 rounded-pill border-opacity-50" (click)="removeMember(member.user_id)">
-                      <i class="bi bi-person-x me-1"></i> Remove
+                      <i class="bi bi-person-x me-1"></i> นำออก
                     </button>
                   </div>
                 }
@@ -71,12 +71,12 @@
               <div>
                 <h2 class="h6 fw-bold mb-0 d-flex align-items-center gap-2">
                   <i class="bi bi-person-search text-cyan"></i>
-                  Available Employees
+                  พนักงานที่ว่าง
                 </h2>
-                <small class="text-white">Suggested based on skills</small>
+                <small class="text-white">รายชื่อพนักงานที่สามารถเพิ่มเข้าแผนกได้</small>
               </div>
               <button class="btn btn-link text-cyan text-decoration-none btn-sm">
-                <i class="bi bi-filter"></i> Filter
+                <i class="bi bi-filter"></i> กรองข้อมูล
               </button>
             </div>
             <div class="card-body p-2 overflow-auto" style="max-height: 500px;">
@@ -85,7 +85,7 @@
                   <div class="list-group-item bg-transparent border-0 d-flex justify-content-between align-items-center p-3 rounded hover-bg-navy transition-all mb-1">
                     <div class="d-flex align-items-center gap-3">
                       @if (emp.profile_picture_url) {
-                        <img [src]="emp.profile_picture_url" class="rounded-circle border border-secondary" style="width: 40px; height: 40px; object-fit: cover;">
+                        <img [src]="emp.profile_picture_url | displayableUrl" class="rounded-circle border border-secondary" style="width: 40px; height: 40px; object-fit: cover;">
                       } @else {
                         <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px;">
                           {{ emp.full_name?.substring(0, 1) || 'E' }}
@@ -97,7 +97,7 @@
                       </div>
                     </div>
                     <button class="btn btn-cyan btn-sm px-4 rounded-pill fw-bold shadow-cyan" (click)="addMember(emp)">
-                      <i class="bi bi-person-plus me-1"></i> Add
+                      <i class="bi bi-person-plus me-1"></i> เพิ่มเข้า
                     </button>
                   </div>
                 }

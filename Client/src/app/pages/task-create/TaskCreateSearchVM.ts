@@ -99,7 +99,7 @@ export class TaskCreateSearchVM implements OnInit, AfterViewInit {
       this.categories = await this.categoryApi.getCategories();
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
-      this.notification.error('ไม่สามารถโหลดข้อมูลหมวดหมู่ได้', err.error?.message || err.message);
+      this.notification.error('ไม่สามารถโหลดข้อมูลแผนกได้', err.error?.message || err.message);
     }
   }
 
@@ -110,12 +110,12 @@ export class TaskCreateSearchVM implements OnInit, AfterViewInit {
   async onSubmit() {
     try {
       if (!this.task.title || !this.task.category_id) {
-        this.notification.warning('ข้อมูลไม่ครบถ้วน', 'กรุณากรอกหัวข้องานและเลือกหมวดหมู่');
+        this.notification.warning('ข้อมูลไม่ครบถ้วน', 'กรุณากรอกหัวข้องานและเลือกแผนก');
         return;
       }
 
       await this.taskApi.createTask(this.task);
-      this.notification.success('สร้างงานสำเร็จ', 'ระบบได้ทำการส่งแจ้งเตือนไปยังสมาชิกกลุ่มแล้ว');
+      this.notification.success('สร้างงานสำเร็จ', 'ระบบได้ทำการส่งแจ้งเตือนไปยังสมาชิกแผนกแล้ว');
       this.cdr.detectChanges();
       this.goBack();
     } catch (err: HttpErrorResponse | any) {

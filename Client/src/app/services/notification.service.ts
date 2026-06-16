@@ -34,6 +34,16 @@ export class NotificationService {
     });
   }
 
+  info(title: string, message: string = '', confirmText: string = 'ตกลง') {
+    return Swal.fire({
+      icon: 'info',
+      title: title,
+      html: message.replace(/\n/g, '<br>'),
+      confirmButtonText: confirmText,
+      confirmButtonColor: '#00F2FF',
+    });
+  }
+
   confirm(title: string, message: string = '', confirmText: string = 'ยืนยัน', cancelText: string = 'ยกเลิก') {
     return Swal.fire({
       title: title,
