@@ -39,8 +39,14 @@ export class DashboardSearchVM implements OnInit {
 
   async loadDashboardData() {
     try {
-      this.newTasks = await this.taskApi.getTasks();
+      const currentUser = this.authService.currentUser();
+      const filters: any = {
+        categoryId: currentUser?.category_id
+      };
+
+      this.newTasks = await this.taskApi.getTasks(filters);
       this.cdr.detectChanges();
+      
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('โหลดข้อมูลไม่สำเร็จ', err.error?.message || err.message);
     }

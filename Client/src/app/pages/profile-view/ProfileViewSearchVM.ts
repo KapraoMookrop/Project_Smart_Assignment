@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/app-models';
 import { DisplayableUrlPipe } from '../../pipes/displayable-url.pipe';
+import { AuthApiService } from '../../services/api/auth-api.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-profile-view',
@@ -13,18 +15,25 @@ import { DisplayableUrlPipe } from '../../pipes/displayable-url.pipe';
 })
 export class ProfileViewSearchVM implements OnInit {
   user: User | null = null;
-  userStats = {
-    completedTasks: 124,
-    points: 45200,
-    rank: 'Expert'
-  };
-
+  
   constructor(
     private authService: AuthService,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private authApiService: AuthApiService,
+    private cdr: ChangeDetectorRef,
+    private notification: NotificationService,
+  ) { }
 
   async ngOnInit() {
+    try {
+      const result = await this.authApiService.getCurrentUser();
+      this.user = result;
+      this.cdr.detectChanges();
+    } catch (error) {
+      this.notification.error('Failed to load user information');
+    }
+  }
+
+  async loadCurrentUser() {
     this.user = this.authService.currentUser();
     this.cdr.detectChanges();
   }

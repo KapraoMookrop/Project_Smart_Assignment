@@ -28,7 +28,7 @@ export class LoginSearchVM implements OnInit {
     private authService: AuthService,
     private notification: NotificationService,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Redirect if already logged in
@@ -60,11 +60,24 @@ export class LoginSearchVM implements OnInit {
       if (response.token) {
         // Save session globally
         this.authService.setSession(response.token, response.user);
-        
+
         this.isLoading = false;
         this.cdr.detectChanges();
         this.notification.success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
-        this.router.navigate(['/dashboard']);
+        switch (response.user.role) {
+          case 'CompanyAdmin':
+            this.router.navigate(['/categories']);
+            break;
+          case 'AppAdmin':
+            this.router.navigate(['/companies']);
+            break;
+          case 'User':
+            this.router.navigate(['/dashboard']);
+            break;
+          default:
+            this.router.navigate(['/dashboard']);
+            break;
+        }
       }
     } catch (err: HttpErrorResponse | any) {
       this.isLoading = false;

@@ -1,87 +1,119 @@
 <div class="bg-dark-navy min-vh-100 text-white">
   @if (user) {
-    <!-- Profile Header -->
-    <header class="bg-secondary-bg border-bottom border-secondary p-4 p-md-5 text-center position-relative overflow-hidden">
-      <div class="position-absolute top-0 start-50 translate-middle-x opacity-10 blur-150" style="width: 400px; height: 400px; background-color: var(--accent-cyan); filter: blur(100px); border-radius: 50%;"></div>
-      
-      <div class="position-relative z-1">
-        <div class="rounded-circle overflow-hidden border border-cyan border-3 shadow-cyan mx-auto mb-4" style="width: 120px; height: 120px;">
-          <img [src]="user.profile_picture_url | displayableUrl" class="w-100 h-100 object-fit-cover" 
-               referrerpolicy="no-referrer">
-        </div>
-        <h1 class="h3 fw-bold mb-1">{{ user.full_name }}</h1>
-        <p class="text-cyan small fw-bold text-uppercase ls-wide mb-3">{{ user.role === 'CompanyAdmin' ? 'ผู้ดูแลระบบ' : 'พนักงาน' }} · {{ user.company_id.substring(0, 8) }}</p>
-        
-        <div class="d-flex justify-content-center gap-3">
-          <button class="btn btn-cyan px-4 py-2 fw-bold rounded-pill shadow-sm" routerLink="/profile-edit">
-            <i class="bi bi-pencil-square me-2"></i> แก้ไขข้อมูลส่วนตัว
-          </button>
-          <button class="btn btn-outline-danger px-4 py-2 fw-bold rounded-pill" (click)="logout()">
-            <i class="bi bi-box-arrow-left me-2"></i> ออกจากระบบ
-          </button>
-        </div>
-      </div>
-    </header>
+  <!-- Profile Header -->
+  <header
+    class="bg-secondary-bg border-bottom border-secondary p-4 p-md-5 text-center position-relative overflow-hidden">
+    <!-- Glowing background gradient -->
+    <div class="position-absolute top-0 start-50 translate-middle-x opacity-10"
+      style="width: 400px; height: 400px; background-color: var(--accent-cyan); filter: blur(100px); border-radius: 50%;">
+    </div>
 
-    <main class="container py-4" style="max-width: 800px; padding-bottom: 100px;">
-      <!-- Stats Row -->
-      <div class="row g-3 mb-4">
-        <div class="col-4 text-center">
-          <div class="card card-custom p-3 border-0">
-            <h4 class="fw-bold text-cyan mb-0">{{ userStats.completedTasks }}</h4>
-            <small class="text-white x-small text-uppercase">งาน</small>
-          </div>
-        </div>
-        <div class="col-4 text-center">
-          <div class="card card-custom p-3 border-0">
-            <h4 class="fw-bold text-warning mb-0">{{ userStats.points | number }}</h4>
-            <small class="text-white x-small text-uppercase">คะแนน</small>
-          </div>
-        </div>
-        <div class="col-4 text-center">
-          <div class="card card-custom p-3 border-0">
-            <h4 class="fw-bold text-success mb-0">{{ userStats.rank }}</h4>
-            <small class="text-white x-small text-uppercase">อันดับ</small>
-          </div>
-        </div>
+    <div class="position-relative d-flex flex-column align-items-center gap-3 z-1">
+      <!-- Profile Image with transition and border glow -->
+      <div class="rounded-circle overflow-hidden border border-cyan border-3 shadow-cyan mx-auto transition-all hover-glow"
+        style="width: 120px; height: 120px;">
+        <img [src]="user.profile_picture_url | displayableUrl" class="w-100 h-100 object-fit-cover"
+          referrerpolicy="no-referrer" (error)="$any($event.target).src = 'https://via.placeholder.com/120?text=User'">
       </div>
 
-      <!-- About Section -->
-      <div class="card card-custom p-4 mb-4 border-0">
-        <h3 class="h6 fw-bold text-white mb-3 text-uppercase">เกี่ยวกับฉัน</h3>
-        <p class="mb-0 leading-relaxed">{{ user.bio || 'ไม่ได้ระบุข้อมูลแนะนำตัว' }}</p>
+      <!-- User Name -->
+      <h2 class="h3 fw-bold m-0 text-white">{{ user.full_name }}</h2>
+
+      <!-- Role & Department Badges -->
+      <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-2">
+        <span class="badge bg-dark-navy border border-secondary text-cyan px-3 py-2 rounded-pill fw-bold text-uppercase ls-wide x-small shadow-sm">
+          <i class="bi bi-shield-lock-fill me-1 text-cyan"></i>
+          {{ user.role === 'CompanyAdmin' ? 'ผู้ดูแลระบบ' : 'พนักงาน' }}
+        </span>
+        <span class="badge bg-surface-elevated border border-secondary text-white px-3 py-2 rounded-pill fw-semibold text-uppercase ls-wide x-small shadow-sm">
+          <i class="bi bi-briefcase-fill me-1 text-cyan"></i>
+          {{ user.category_name || 'ไม่ได้ระบุแผนก' }}
+        </span>
       </div>
 
-      <!-- Contact Info -->
-      <div class="card card-custom p-4 border-0">
-        <h3 class="h6 fw-bold text-white mb-4 text-uppercase">ข้อมูลการติดต่อ</h3>
-        <div class="vstack gap-4">
-          <div class="d-flex align-items-center gap-3">
-            <div class="rounded-circle bg-dark-navy p-2 border border-secondary">
-              <i class="bi bi-envelope-fill text-cyan"></i>
-            </div>
-            <div>
-              <small class="text-white d-block">อีเมล</small>
-              <span class="fw-bold">{{ user.email }}</span>
-            </div>
+      <!-- Actions -->
+      <div class="d-flex flex-wrap justify-content-center gap-3 mt-2">
+        <button class="btn btn-cyan px-4 py-2.5 fw-bold rounded-pill shadow-cyan transition-all hover-glow d-flex align-items-center gap-2" routerLink="/profile-edit">
+          <i class="bi bi-pencil-square"></i> แก้ไขข้อมูลส่วนตัว
+        </button>
+        <button class="btn btn-outline-danger px-4 py-2.5 fw-bold rounded-pill transition-all d-flex align-items-center gap-2" (click)="logout()">
+          <i class="bi bi-box-arrow-left"></i> ออกจากระบบ
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container py-4" style="max-width: 800px; padding-bottom: 100px;">
+    <!-- Stats Row -->
+    <div class="row g-3 mb-4">
+      <div class="col-4 text-center">
+        <div class="card card-custom p-3 border-0">
+          <h4 class="fw-bold text-success mb-0">{{ user.completed_tasks }}</h4>
+          <small class="text-white x-small text-uppercase">งานที่เสร็จสิ้น</small>
+        </div>
+      </div>
+      <div class="col-4 text-center">
+        <div class="card card-custom p-3 border-0">
+          <h4 class="fw-bold text-warning mb-0">{{ user.in_progress_tasks }}</h4>
+          <small class="text-white x-small text-uppercase">งานที่กำลังดำเนินการ</small>
+        </div>
+      </div>
+      <div class="col-4 text-center">
+        <div class="card card-custom p-3 border-0">
+          <h4 class="fw-bold text-cyan mb-0">{{ user.created_tasks }}</h4>
+          <small class="text-white x-small text-uppercase">งานที่สร้าง</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="card card-custom p-4 mb-4 border-0">
+      <h3 class="h6 fw-bold text-white mb-3 text-uppercase">เกี่ยวกับฉัน</h3>
+      <p class="mb-0 leading-relaxed">{{ user.bio || 'ไม่ได้ระบุข้อมูลแนะนำตัว' }}</p>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="card card-custom p-4 border-0">
+      <h3 class="h6 fw-bold text-white mb-4 text-uppercase">ข้อมูลการติดต่อ</h3>
+      <div class="vstack gap-4">
+        <div class="d-flex align-items-center gap-3">
+          <div
+            class="rounded-circle bg-dark-navy p-2 border border-secondary d-flex align-items-center justify-content-center"
+            style="height: 42px; width: 42px;">
+            <i class="bi bi-envelope-fill text-cyan"></i>
           </div>
-          <div class="d-flex align-items-center gap-3">
-            <div class="rounded-circle bg-dark-navy p-2 border border-secondary">
-              <i class="bi bi-phone-fill text-cyan"></i>
-            </div>
-            <div>
-              <small class="text-white d-block">เบอร์โทรศัพท์</small>
-              <span class="fw-bold">{{ user.phone }}</span>
-            </div>
+          <div>
+            <small class="text-white d-block">อีเมล</small>
+            <span class="fw-bold">{{ user.email }}</span>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <div
+            class="rounded-circle bg-dark-navy p-2 border border-secondary d-flex align-items-center justify-content-center"
+            style="height: 42px; width: 42px;">
+            <i class="bi bi-phone-fill text-cyan"></i>
+          </div>
+          <div>
+            <small class="text-white d-block">เบอร์โทรศัพท์</small>
+            <span class="fw-bold">{{ user.phone }}</span>
           </div>
         </div>
       </div>
-    </main>
+    </div>
+  </main>
   }
 </div>
 
 <style>
-  .ls-wide { letter-spacing: 0.1em; }
-  .x-small { font-size: 0.65rem; }
-  .shadow-cyan { box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); }
+  .ls-wide {
+    letter-spacing: 0.1em;
+  }
+
+  .x-small {
+    font-size: 0.65rem;
+  }
+
+  .shadow-cyan {
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+  }
 </style>

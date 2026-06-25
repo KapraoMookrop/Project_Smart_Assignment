@@ -3,7 +3,7 @@
     <div class="container-fluid p-4 d-flex flex-column flex-md-row">
       <!-- Hero Section -->
       <section class="mb-5">
-        <div class="card card-custom border-0 p-4 p-md-5 overflow-hidden position-relative"
+        <div class="card card-custom border-0 p-3 p-md-5 overflow-hidden position-relative"
           style="background: linear-gradient(135deg, #112240 0%, #0a192f 100%);">
           <div class="position-absolute top-0 end-0 bg-cyan opacity-10 blur-100"
             style="width: 200px; height: 200px; filter: blur(100px); border-radius: 50%;"></div>
@@ -13,9 +13,8 @@
 
           <div class="row g-4">
             <div class="col-md-4">
-              <div class="bg-dark-navy border border-secondary p-4 rounded-3 d-flex align-items-center">
-                <div class="rounded-circle bg-cyan bg-opacity-10 d-flex align-items-center justify-content-center me-3"
-                  style="width: 50px; height: 50px;">
+              <div class="bg-dark-navy border border-secondary p-3 p-md-4 rounded-3 d-flex align-items-center">
+                <div class="rounded-circle bg-cyan bg-opacity-10 circle-50 me-3">
                   <i class="bi bi-arrow-repeat text-cyan fs-4"></i>
                 </div>
                 <div>
@@ -25,10 +24,8 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="bg-dark-navy border border-secondary p-4 rounded-3 d-flex align-items-center">
-                <div
-                  class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center me-3"
-                  style="width: 50px; height: 50px;">
+              <div class="bg-dark-navy border border-secondary p-3 p-md-4 rounded-3 d-flex align-items-center">
+                <div class="rounded-circle bg-success bg-opacity-10 circle-50 me-3">
                   <i class="bi bi-check-circle-fill text-success fs-4"></i>
                 </div>
                 <div>
@@ -56,8 +53,9 @@
               <div class="bg-cyan" style="height: 5px; width: 100%;"></div>
               <div class="card-body p-4 d-flex flex-column">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                  <span class="badge rounded-pill py-2 px-3 fw-bold bg-cyan bg-opacity-10 text-cyan">
-                    {{ task.category_id.substring(0, 8) }}
+                  <span
+                    class="badge rounded-pill bg-cyan bg-opacity-10 text-cyan border border-cyan border-opacity-25 px-3 py-2 fw-bold">
+                    {{ task.category_name || 'ไม่ระบุหมวดหมู่' }}
                   </span>
                   <small class="text-white">{{ task.created_at | date:'dd/MM/yyyy' }}</small>
                 </div>
@@ -65,18 +63,29 @@
                 <p class="card-text text-white line-clamp-2 mb-4">{{ task.description }}</p>
 
                 <div class="mt-auto">
-                  <div class="d-flex align-items-center mb-4">
-                    <i class="bi bi-clock text-white me-2"></i>
-                    <small class="text-white">กำหนดส่ง: {{ task.deadline | date:'dd/MM/yyyy HH:mm' }}</small>
+                  <div class="d-flex align-items-center mb-4 justify-content-between">
+                    <div>
+                      <i class="bi bi-clock text-white me-2"></i>
+                      <small class="text-white">กำหนดส่ง: {{ task.deadline | date:'dd/MM/yyyy HH:mm' }}</small>
+                    </div>
+                    <div class="btn btn-sm rounded-pill" [ngClass]="task.status === 'Pending' ? 'btn-outline-warning text-warning' : (task.status === 'In Progress' ? ' btn-outline-info text-info' : 'btn-outline-success text-success')">
+                      @if(task.status === 'Pending') { รอดำเนินการ }
+                      @else if(task.status === 'In Progress') { กำลังดำเนินการ }
+                      @else if(task.status === 'Done') { เสร็จสิ้น }
+                    </div>
                   </div>
                   <div class="d-flex gap-2">
-                    <button class="btn btn-outline-cyan flex-grow-1 py-3" [routerLink]="['/tasks/details', task.task_id]">
+                    <button class="btn btn-outline-cyan flex-grow-1 py-2 py-md-3"
+                      [routerLink]="['/tasks/details', task.task_id]">
                       รายละเอียด
                     </button>
-                    <button class="btn btn-cyan flex-grow-1 py-3 d-flex align-items-center justify-content-center"
-                      (click)="claimTask(task.task_id)">
-                      <i class="bi bi-hand-index-thumb me-2 fs-5"></i> รับงานนี้
-                    </button>
+                    @if (task.status == "Pending") {
+                      <button 
+                        class="btn btn-cyan flex-grow-1 py-2 py-md-3 d-flex align-items-center justify-content-center"
+                        (click)="claimTask(task.task_id)">
+                        <i class="bi bi-hand-index-thumb me-2 fs-5"></i> รับงานนี้
+                      </button>
+                    }
                   </div>
                 </div>
               </div>

@@ -2,7 +2,7 @@
   <!-- Top Bar -->
   <header class="bg-secondary-bg border-bottom border-secondary d-flex align-items-center px-4 sticky-top"
     style="height: 64px;">
-    <button class="btn text-cyan p-2 rounded-circle hover-bg-navy" (click)="goBack()">
+    <button class="btn text-cyan btn-circle-40 hover-bg-navy" (click)="goBack()">
       <i class="bi bi-arrow-left fs-4"></i>
     </button>
     <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5">สร้างงานใหม่</h1>
@@ -37,7 +37,7 @@
           <div class="col-6 col-md-3">
             <input type="radio" class="btn-check" name="priority" [id]="p.value" [value]="p.value"
               [(ngModel)]="task.priority">
-            <label class="btn w-100 py-3 border-secondary card-custom text-white fw-bold transition-all"
+            <label class="btn w-100 py-2 py-md-3 border-secondary card-custom text-white fw-bold transition-all"
               [for]="p.value">
               {{ p.label }}
             </label>
@@ -69,8 +69,8 @@
 
   <!-- Bottom Action Bar -->
   <div class="container d-flex justify-content-center gap-3" style="max-width: 800px;">
-    <button class="btn btn-outline-secondary text-white px-4 py-3 fw-bold" (click)="goBack()">ยกเลิก</button>
-    <button class="btn btn-cyan px-4 py-3 fw-bold d-flex align-items-center gap-2" (click)="onSubmit()">
+    <button class="btn btn-outline-secondary text-white px-3 px-md-4 py-2 py-md-3 fw-bold" (click)="goBack()">ยกเลิก</button>
+    <button class="btn btn-cyan px-3 px-md-4 py-2 py-md-3 fw-bold d-flex align-items-center gap-2" (click)="onSubmit()">
       สร้างงาน
       <i class="bi bi-send-fill"></i>
     </button>
