@@ -53,7 +53,10 @@ export interface User {
   created_at?: Date;
   updated_at?: Date;
   category_id: string;
-  categoriy_name?: string;
+  category_name?: string;
+  completed_tasks?: number;
+  in_progress_tasks?: number;
+  created_tasks?: number;
 }
 
 export interface Category {
@@ -76,6 +79,7 @@ export interface Task {
   task_id: string;
   company_id: string;
   category_id: string;
+  category_name?: string;
   title: string;
   description?: string;
   priority: TaskPriority;

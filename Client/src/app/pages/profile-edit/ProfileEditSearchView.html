@@ -1,7 +1,7 @@
 <div class="bg-dark-navy min-vh-100 text-white">
   <!-- Top Bar -->
   <header class="bg-secondary-bg border-bottom border-secondary d-flex align-items-center px-4 sticky-top shadow-sm" style="height: 64px;">
-    <button class="btn text-cyan p-2 rounded-circle hover-bg-navy" (click)="goBack()">
+    <button class="btn text-cyan btn-circle-40 hover-bg-navy" (click)="goBack()">
       <i class="bi bi-arrow-left fs-4"></i>
     </button>
     <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5">แก้ไขข้อมูลส่วนตัว</h1>
@@ -10,22 +10,36 @@
   <main class="container py-5" style="max-width: 600px; padding-bottom: 100px;">
     @if (user) {
       <form (ngSubmit)="saveProfile()" #profileForm="ngForm" class="card card-elevated p-4 p-md-5">
-        <!-- Profile Picture Section -->
+        <!-- Profile Picture Preview & Info Section -->
         <div class="text-center mb-5">
-          <div class="position-relative d-inline-block group">
+          <div class="position-relative d-inline-block group transition-all">
             <div class="rounded-circle overflow-hidden border border-cyan border-2 shadow-cyan" 
                  [class.animate-pulse-slow]="user.profile_picture_url"
                  style="width: 110px; height: 110px;">
               <img [src]="user.profile_picture_url | displayableUrl" class="w-100 h-100 object-fit-cover" 
-                   referrerpolicy="no-referrer" (error)="$any($event.target).src = 'https://via.placeholder.com/110?text=Invalid+URL'">
+                   referrerpolicy="no-referrer" (error)="$any($event.target).src = 'https://via.placeholder.com/110?text=User'">
             </div>
             @if (user.profile_picture_url?.includes('drive.google.com')) {
-              <div class="position-absolute bottom-0 end-0 bg-dark rounded-circle p-1 shadow-sm border border-secondary" title="Google Drive Link">
+              <div class="position-absolute bottom-0 end-0 bg-secondary-bg rounded-circle p-1.5 shadow-sm border border-cyan" title="Google Drive Link">
                 <i class="bi bi-google text-cyan fs-xs"></i>
               </div>
             }
           </div>
-          <p class="text-white small mt-3 fw-bold text-uppercase ls-wide">ตัวอย่างรูปโปรไฟล์</p>
+          <!-- Live User Name Preview -->
+          <h2 class="h5 fw-bold text-white mt-3 mb-1">{{ user.full_name || 'ชื่อของคุณ' }}</h2>
+          
+          <!-- Role & Department Preview Badges -->
+          <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-2">
+            <span class="badge bg-dark-navy border border-secondary text-cyan px-2.5 py-1.5 rounded-pill fw-bold text-uppercase ls-wide x-small shadow-sm">
+              <i class="bi bi-shield-lock-fill me-1 text-cyan"></i>
+              {{ user.role === 'CompanyAdmin' ? 'ผู้ดูแลระบบ' : 'พนักงาน' }}
+            </span>
+            <span class="badge bg-surface-elevated border border-secondary text-white px-2.5 py-1.5 rounded-pill fw-semibold text-uppercase ls-wide x-small shadow-sm">
+              <i class="bi bi-briefcase-fill me-1 text-cyan"></i>
+              {{ user.category_name || 'ไม่ได้ระบุแผนก' }}
+            </span>
+          </div>
+          <p class="text-white-50 x-small mt-2 fw-medium text-uppercase ls-wide">ตัวอย่างรูปโปรไฟล์</p>
         </div>
         <div class="vstack gap-4">
           <div>

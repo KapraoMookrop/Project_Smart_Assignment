@@ -32,7 +32,7 @@ export class ProfileEditSearchVM implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.user = JSON.parse(JSON.stringify(this.authService.currentUser())); // Deep copy for editing
+    this.user = JSON.parse(JSON.stringify(this.authService.currentUser()));
     this.cdr.detectChanges();
   }
 

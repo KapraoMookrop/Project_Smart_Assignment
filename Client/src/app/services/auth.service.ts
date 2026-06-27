@@ -9,7 +9,6 @@ export class AuthService {
   private readonly TOKEN_KEY = 'token';
   private readonly USER_KEY = 'user_data';
 
-  // Use Signals for reactive global state (Angular 17+)
   currentUser = signal<User | null>(this.getStoredUser());
 
   constructor(private router: Router) {}

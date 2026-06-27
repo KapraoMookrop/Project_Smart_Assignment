@@ -2,7 +2,7 @@
   @if (task) {
     <!-- Top Bar -->
     <header class="bg-secondary-bg border-bottom border-secondary d-flex align-items-center px-4 sticky-top" style="height: 64px; z-index: 1050;">
-      <button class="btn text-cyan p-2 rounded-circle hover-bg-navy" (click)="goBack()">
+      <button class="btn text-cyan btn-circle-40 hover-bg-navy" (click)="goBack()">
         <i class="bi bi-arrow-left fs-4"></i>
       </button>
       <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5 truncate">รายละเอียดงาน: {{ task.title }}</h1>
@@ -20,7 +20,7 @@
             
             <div class="d-flex flex-wrap gap-2 mb-4">
               <span class="badge rounded-pill bg-cyan bg-opacity-10 text-cyan border border-cyan border-opacity-25 px-3 py-2 fw-bold">
-                {{ task.category_id.substring(0, 8) }}
+                {{ task.category_name || 'ไม่ระบุหมวดหมู่' }}
               </span>
               <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2 fw-bold">
                 @if (task.priority === 'Low') { ต่ำ }
@@ -38,22 +38,13 @@
               <div class="col-6">
                 <small class="text-white d-block text-uppercase fw-bold mb-2">ผู้สร้าง</small>
                 <div class="d-flex align-items-center">
-                  <span>{{ task.created_by.substring(0, 8) }}</span>
+                  <span>{{ task.created_by }}</span>
                 </div>
               </div>
               <div class="col-6">
                 <small class="text-white d-block text-uppercase fw-bold mb-2">วันที่สร้าง</small>
                 <span>{{ task.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
               </div>
-            </div>
-          </div>
-
-          <!-- Business Context Image -->
-          <div class="card card-custom border-0 overflow-hidden position-relative" style="height: 200px;">
-            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3_hA6sMCo61HR4AjISlQPPKocprzbjtKSjdXtyKpW5XuG-K_j7WOzNz3ywtMQM9R9-E1ImWcJZxDB_MHV69XRJvnWzhfGd3bB5M1D29JCeSPJJi6qX2WmQjCECacLX5Iflbx39Zhv34uEJpTUfwkVVf7CwsBngS7qlpH3JlQCUC8b9n0mmH1XcVEGuMH6SL6H-h3k_rUj4DDu705DXUAzQ100pcrBdThgt7fH00q0WM_elXVogPrRY22sr7tklxB4Pzyht3MB7_w" 
-                 class="w-100 h-100 object-fit-cover opacity-50" alt="Context">
-            <div class="position-absolute bottom-0 start-0 p-3 w-100 bg-gradient-dark">
-              <small class="text-cyan text-uppercase fw-bold ls-widest">บริบททางธุรกิจ</small>
             </div>
           </div>
         </div>
@@ -80,6 +71,10 @@
               <div class="d-flex justify-content-between py-2">
                 <span class="text-white">กำหนดส่ง:</span>
                 <span class="text-danger fw-bold">{{ task.deadline | date:'dd/MM/yyyy HH:mm' }}</span>
+              </div>
+              <div class="d-flex justify-content-between py-2">
+                <span class="text-white">ผู้รับงาน:</span>
+                <span class="text-white fw-bold">{{ task.assigned_to ?? 'ยังไม่มีผู้รับงาน' }}</span>
               </div>
             </div>
           </div>
