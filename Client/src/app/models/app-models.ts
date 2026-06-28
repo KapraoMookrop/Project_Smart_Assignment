@@ -54,6 +54,7 @@ export interface User {
   updated_at?: Date;
   category_id: string; 
   category_name?: string;
+  company_name?: string;
   completed_tasks?: number;
   in_progress_tasks?: number;
   created_tasks?: number;
@@ -126,4 +127,17 @@ export interface ApiResponse<T = any> {
   status: 'success' | 'error';
   data: T;
   message: string;
+}
+
+export interface CategorySearchPayload {
+  keyword?: string;
+}
+
+export interface CompanySearchPayload {
+  keyword?: string;
+}
+
+export interface UserSearchPayload {
+  keyword?: string;
+  is_from_member?: boolean;
 }

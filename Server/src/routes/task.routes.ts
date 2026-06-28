@@ -7,6 +7,7 @@ const router = Router();
 router.use(authenticateToken as any);
 
 router.get("/", taskController.getTasks as any);
+router.get("/user/:userId/stats", taskController.getUserTaskStats as any);
 router.get("/:id", taskController.getTaskById as any);
 router.post("/save", taskController.createTask as any);
 router.post("/update/:id", taskController.updateTask as any);

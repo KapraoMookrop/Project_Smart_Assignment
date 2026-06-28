@@ -6,8 +6,8 @@ const router = Router();
 
 router.use(authenticateToken as any);
 
-router.get("/", categoryController.getCategories as any);
-router.get("/company/:companyId", categoryController.getCategoriesByCompany as any);
+router.post("/search", categoryController.getCategories as any);
+router.post("/search/company/:companyId", categoryController.getCategoriesByCompany as any);
 router.get("/:id", categoryController.getCategoryById as any);
 router.post("/save", categoryController.saveCategory as any);
 router.post("/delete/:id", categoryController.deleteCategory as any);

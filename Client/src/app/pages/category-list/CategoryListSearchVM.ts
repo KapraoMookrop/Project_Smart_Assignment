@@ -6,6 +6,8 @@ import { Category, UserRole } from '../../models/app-models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-category-list',
@@ -16,6 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class CategoryListSearchVM implements OnInit {
   categories: Category[] = [];
   searchQuery: string = '';
+  searchSubject = new Subject<string>();
 
   constructor(
     private categoryApi: CategoryApiService,
@@ -28,17 +31,15 @@ export class CategoryListSearchVM implements OnInit {
 
   ngOnInit(): void {
     this.loadCategories();
+    this.searchSubject.pipe(debounceTime(1000)).subscribe(query => {
+      this.searchQuery = query;
+      this.loadCategories();
+    });
   }
 
   async loadCategories() {
     try {
-      this.categories = await this.categoryApi.getCategories();
-      
-      if (this.searchQuery) {
-        this.categories = this.categories.filter(c =>
-          c.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-        );
-      }
+      this.categories = await this.categoryApi.getCategories({ keyword: this.searchQuery });
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('โหลดข้อมูลไม่สำเร็จ', err.error?.message || err.message);
@@ -60,8 +61,7 @@ export class CategoryListSearchVM implements OnInit {
   }
 
   onSearchChange(event: any) {
-    this.searchQuery = event.target.value;
-    this.loadCategories();
+    this.searchSubject.next(event.target.value);
   }
 
   editCategory(id: string) {

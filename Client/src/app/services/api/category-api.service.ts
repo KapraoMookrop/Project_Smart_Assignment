@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Category, User, ApiResponse } from '../../models/app-models';
+import { Category, User, ApiResponse, CategorySearchPayload } from '../../models/app-models';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { lastValueFrom } from 'rxjs';
@@ -11,14 +11,14 @@ export class CategoryApiService {
   private baseUrl = `${environment.apiUrl}/categories`;
   constructor(private readonly http: HttpClient) {}
 
-  async getCategories(): Promise<Category[]> {
-    const observable = this.http.get<ApiResponse<Category[]>>(this.baseUrl);
+  async getCategories(payload?: CategorySearchPayload): Promise<Category[]> {
+    const observable = this.http.post<ApiResponse<Category[]>>(`${this.baseUrl}/search`, payload || {});
     const response = await lastValueFrom(observable);
     return response.data;
   }
 
-  async getCategoriesByCompany(companyId: string): Promise<Category[]> {
-    const observable = this.http.get<ApiResponse<Category[]>>(`${this.baseUrl}/company/${companyId}`);
+  async getCategoriesByCompany(companyId: string, payload?: CategorySearchPayload): Promise<Category[]> {
+    const observable = this.http.post<ApiResponse<Category[]>>(`${this.baseUrl}/search/company/${companyId}`, payload || {});
     const response = await lastValueFrom(observable);
     return response.data;
   }

@@ -6,7 +6,8 @@ import { ApiResponse } from "../module/app-models.js";
 export async function getCategories(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
     const companyId = req.user!.company_id;
-    const categories = await categoryService.getCategories(companyId);
+    const payload = req.body;
+    const categories = await categoryService.getCategories(companyId, payload);
     res.status(200).json(ApiResponse.success(categories, "ดึงข้อมูลหมวดหมู่สำเร็จ"));
   } catch (error) {
     next(error);
@@ -16,7 +17,8 @@ export async function getCategories(req: AuthenticatedRequest, res: Response, ne
 export async function getCategoriesByCompany(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
     const { companyId } = req.params;
-    const categories = await categoryService.getCategoriesByCompany(companyId as string);
+    const payload = req.body;
+    const categories = await categoryService.getCategoriesByCompany(companyId as string, payload);
     res.status(200).json(ApiResponse.success(categories, "ดึงข้อมูลหมวดหมู่สำเร็จ"));
   } catch (error) {
     next(error);

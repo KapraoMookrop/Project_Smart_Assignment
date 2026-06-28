@@ -17,9 +17,8 @@ export class DashboardSearchVM implements OnInit {
   userProfile: User | null = null;
 
   stats = {
-    inProgress: 3,
-    notifications: 5,
-    completed: 12
+    inProgress: 0,
+    completed: 0
   };
 
   newTasks: Task[] = [];
@@ -45,6 +44,11 @@ export class DashboardSearchVM implements OnInit {
       };
 
       this.newTasks = await this.taskApi.getTasks(filters);
+
+      if (currentUser?.user_id) {
+        this.stats = await this.taskApi.getUserTaskStats(currentUser.user_id);
+      }
+
       this.cdr.detectChanges();
       
     } catch (err: HttpErrorResponse | any) {

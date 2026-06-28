@@ -21,7 +21,9 @@
             <i class="bi bi-search"></i>
           </span>
           <input type="text" class="form-control bg-transparent border-0 text-white focus-none" 
-                 placeholder="ค้นหาสมาชิกด้วยชื่อ, บทบาท หรือแผนก...">
+                 placeholder="ค้นหาสมาชิกด้วยชื่อ, บทบาท หรือแผนก..."
+                 [value]="searchQuery"
+                 (input)="onSearchChange($event)">
         </div>
 
         <div class="row g-3">

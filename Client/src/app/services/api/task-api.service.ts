@@ -25,6 +25,12 @@ export class TaskApiService {
     return response.data;
   }
 
+  async getUserTaskStats(userId: string): Promise<{ inProgress: number, completed: number }> {
+    const observable = this.http.get<ApiResponse<{ inProgress: number, completed: number }>>(`${this.baseUrl}/user/${userId}/stats`);
+    const response = await lastValueFrom(observable);
+    return response.data;
+  }
+
   async getTaskById(taskId: string): Promise<Task> {
     const observable = this.http.get<ApiResponse<Task>>(`${this.baseUrl}/${taskId}`);
     const response = await lastValueFrom(observable);

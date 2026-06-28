@@ -46,6 +46,26 @@ export async function getTasks(companyId: string, filters: { categoryId?: string
   return result;
 }
 
+export async function getUserTaskStats(companyId: string, userId: string): Promise<{ inProgress: number, completed: number }> {
+  const query = `
+    SELECT 
+      CAST(COUNT(CASE WHEN status = $1 THEN 1 END) AS INTEGER) AS "inProgress",
+      CAST(COUNT(CASE WHEN status = $2 THEN 1 END) AS INTEGER) AS "completed"
+    FROM sa.Tasks
+    WHERE company_id = $3 AND assigned_to = $4
+  `;
+  const result = await pool.query(query, [TaskStatus.InProgress, TaskStatus.Done, companyId, userId]);
+  
+  if (result.rows.length > 0) {
+    return {
+      inProgress: result.rows[0].inProgress || 0,
+      completed: result.rows[0].completed || 0
+    };
+  }
+  
+  return { inProgress: 0, completed: 0 };
+}
+
 export async function getTaskById(companyId: string, taskId: string): Promise<Task> {
   const resultSql = await pool.query(
     `SELECT 

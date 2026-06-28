@@ -6,7 +6,8 @@ import { ApiResponse } from "../module/app-models.js";
 export async function getUsers(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
     const companyId = req.user!.company_id;
-    const users = await userService.getUsers(companyId);
+    const payload = req.body;
+    const users = await userService.getUsers(companyId, payload);
     res.status(200).json(ApiResponse.success(users, "ดึงข้อมูลผู้ใช้งานสำเร็จ"));
   } catch (error) {
     next(error);
@@ -16,7 +17,8 @@ export async function getUsers(req: AuthenticatedRequest, res: Response, next: N
 export async function getUsersByCategory(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
     const { categoryId } = req.params;
-    const users = await userService.getUserByCategory(categoryId as string);
+    const payload = req.body;
+    const users = await userService.getUsersByCategory(categoryId as string, payload);
     res.status(200).json(ApiResponse.success(users, "ดึงข้อมูลผู้ใช้งานสำเร็จ"));
   } catch (error) {
     next(error);
@@ -26,7 +28,8 @@ export async function getUsersByCategory(req: AuthenticatedRequest, res: Respons
 export async function getUsersByCompany(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
     const { companyId } = req.params;
-    const users = await userService.getUserByCompany(companyId as string);
+    const payload = req.body;
+    const users = await userService.getUsersByCompany(companyId as string, payload);
     res.status(200).json(ApiResponse.success(users, "ดึงข้อมูลผู้ใช้งานสำเร็จ"));
   } catch (error) {
     next(error);

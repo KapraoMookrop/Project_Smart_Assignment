@@ -20,6 +20,19 @@ export async function getTasks(req: AuthenticatedRequest, res: Response, next: N
   }
 }
 
+export async function getUserTaskStats(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const companyId = req.user!.company_id;
+    const { userId } = req.params;
+    
+    const stats = await taskService.getUserTaskStats(companyId, userId as string);
+    
+    res.status(200).json(ApiResponse.success(stats, "ดึงข้อมูลสถิติงานสำเร็จ"));
+  } catch (error) {
+    next(error);
+  }
+}
+
 export async function getTaskById(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
     const companyId = req.user!.company_id;

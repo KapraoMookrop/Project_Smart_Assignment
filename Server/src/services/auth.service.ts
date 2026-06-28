@@ -65,15 +65,17 @@ export async function login(username: string, password: string):Promise<{ token:
 
 export async function getCurrentUser(userId: string): Promise<User> {
   const result = await pool.query(`SELECT 
-    *, 
+    u.*, 
     (SELECT COUNT(*) FROM sa.Tasks WHERE assigned_to = u.user_id AND status = 'Done') as completed_tasks,
     (SELECT COUNT(*) FROM sa.Tasks WHERE assigned_to = u.user_id AND status = 'In Progress') as in_progress_tasks,
     (SELECT COUNT(*) FROM sa.Tasks WHERE created_by = u.user_id) as created_tasks,
     c.name as category_name,
-    cm.category_id as category_id
+    cm.category_id as category_id,
+    comp.name as company_name
     FROM sa.Users as u 
     LEFT JOIN sa.Category_Members as cm ON u.user_id = cm.user_id
     LEFT JOIN sa.Categories as c ON cm.category_id = c.category_id
+    LEFT JOIN sa.Companies as comp ON u.company_id = comp.company_id
     WHERE u.user_id = $1`, [userId]);
   if (result.rows.length === 0) {
      throw new AppError("ไม่พบข้อมูลผู้ใช้งาน", 404);
@@ -94,6 +96,7 @@ export async function getCurrentUser(userId: string): Promise<User> {
     is_active: userRow.is_active,
     category_id: userRow.category_id,
     category_name: userRow.category_name,
+    company_name: userRow.company_name,
     completed_tasks: userRow.completed_tasks ?? 0,
     in_progress_tasks: userRow.in_progress_tasks ?? 0,
     created_tasks: userRow.created_tasks ?? 0

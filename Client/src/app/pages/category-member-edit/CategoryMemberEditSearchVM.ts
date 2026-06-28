@@ -3,7 +3,7 @@ import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CategoryApiService } from '../../services/api/category-api.service';
 import { UserApiService } from '../../services/api/user-api.service';
-import { User } from '../../models/app-models';
+import { User, UserSearchPayload } from '../../models/app-models';
 import { NotificationService } from '../../services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DisplayableUrlPipe } from '../../pipes/displayable-url.pipe';
@@ -56,7 +56,13 @@ export class CategoryMemberEditSearchVM implements OnInit {
       if (this.categoryId) {
         this.currentMembers = await this.categoryApi.getCategoryMembers(this.categoryId);
       }
-      this.availableEmployees = await this.userApi.getUsers();
+
+      const rq = {
+        is_from_member: true
+      } as UserSearchPayload;
+      this.availableEmployees = await this.userApi.getUsers(rq);
+
+
       const memberIds = new Set(this.currentMembers.map(m => m.user_id));
       this.availableEmployees = this.availableEmployees.filter(e => !memberIds.has(e.user_id));
       this.cdr.detectChanges();

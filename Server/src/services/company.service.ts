@@ -3,9 +3,20 @@ import { AppError } from "../utils/errors/AppError.js";
 import type { Company } from "../module/app-models.js";
 import bcrypt from 'bcrypt';
 import { UserRole } from "../module/app-models.js";
+import type { CompanySearchPayload } from "../module/app-models.js";
 
-export async function getCompanies(role: string): Promise<Company[]> {
-  const sqlResult = await pool.query("SELECT * FROM sa.Companies ORDER BY created_at DESC");
+export async function getCompanies(role: string, payload?: CompanySearchPayload): Promise<Company[]> {
+  let query = "SELECT * FROM sa.Companies";
+  const params: any[] = [];
+  
+  if (payload?.keyword) {
+    query += " WHERE name ILIKE $1";
+    params.push(`%${payload.keyword}%`);
+  }
+  
+  query += " ORDER BY created_at DESC";
+  const sqlResult = await pool.query(query, params);
+  
   const countEmployee = await pool.query(
     `SELECT company_id, 
       COUNT(*) as employees_count 

@@ -2,13 +2,24 @@ import pool from "../config/database.js";
 import bcrypt from "bcrypt";
 import { AppError } from "../utils/errors/AppError.js";
 import { UserRole } from "../module/app-models.js";
-import type { User } from "../module/app-models.js";
+import type { User, UserSearchPayload } from "../module/app-models.js";
 
-export async function getUsers(companyId: string): Promise<User[]> {
-  const result = await pool.query(
-    "SELECT user_id, company_id, username, email, role, full_name, phone, bio, profile_picture_url, is_active, last_login_at, created_at, updated_at FROM sa.Users WHERE company_id = $1 ORDER BY created_at DESC",
-    [companyId]
-  );
+export async function getUsers(companyId: string, payload?: UserSearchPayload): Promise<User[]> {
+  let query = "SELECT user_id, company_id, username, email, role, full_name, phone, bio, profile_picture_url, is_active, last_login_at, created_at, updated_at FROM sa.Users WHERE company_id = $1";
+  const params: any[] = [companyId];
+
+  if (payload?.keyword) {
+    query += " AND (full_name ILIKE $2 OR email ILIKE $2)";
+    params.push(`%${payload.keyword}%`);
+  }
+
+  if (payload?.is_from_member) {
+    query += " AND role = 'User' AND user_id NOT IN (SELECT user_id FROM sa.category_members WHERE category_id IS NOT NULL)";
+  }
+
+  query += " ORDER BY created_at DESC";
+  
+  const result = await pool.query(query, params);
   return result.rows;
 }
 
@@ -25,9 +36,8 @@ export async function getUserById(companyId: string, userId: string): Promise<Us
   return result.rows[0];
 }
 
-export async function getUserByCategory(categoryId: string): Promise<User[]> {
-  const result = await pool.query(
-    `SELECT 
+export async function getUsersByCategory(categoryId: string, payload?: UserSearchPayload): Promise<User[]> {
+  let query = `SELECT 
       u.user_id, 
       u.company_id, 
       u.username, 
@@ -45,16 +55,20 @@ export async function getUserByCategory(categoryId: string): Promise<User[]> {
     FROM sa.Users u
     LEFT JOIN sa.category_members cm ON u.user_id = cm.user_id
     LEFT JOIN sa.categories c ON cm.category_id = c.category_id
-    WHERE cm.category_id = $1`,
-    [categoryId]
-  );
+    WHERE cm.category_id = $1`;
+  const params: any[] = [categoryId];
 
+  if (payload?.keyword) {
+    query += " AND (u.full_name ILIKE $2 OR u.email ILIKE $2)";
+    params.push(`%${payload.keyword}%`);
+  }
+
+  const result = await pool.query(query, params);
   return result.rows;
 }
 
-export async function getUserByCompany(companyId: string): Promise<User[]> {
-  const result = await pool.query(
-    `SELECT 
+export async function getUsersByCompany(companyId: string, payload?: UserSearchPayload): Promise<User[]> {
+  let query = `SELECT 
       u.user_id, 
       u.company_id, 
       u.username, 
@@ -72,9 +86,17 @@ export async function getUserByCompany(companyId: string): Promise<User[]> {
     FROM sa.Users u
     LEFT JOIN sa.category_members cm ON u.user_id = cm.user_id
     LEFT JOIN sa.categories c ON cm.category_id = c.category_id
-    WHERE u.company_id = $1 ORDER BY u.created_at DESC`,
-    [companyId]
-  );
+    WHERE u.company_id = $1 AND u.role = 'User'`;
+  const params: any[] = [companyId];
+
+  if (payload?.keyword) {
+    query += " AND (u.full_name ILIKE $2 OR u.email ILIKE $2)";
+    params.push(`%${payload.keyword}%`);
+  }
+
+  query += " ORDER BY u.created_at DESC";
+
+  const result = await pool.query(query, params);
   return result.rows;
 }
 

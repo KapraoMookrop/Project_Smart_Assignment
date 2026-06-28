@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Company, ApiResponse } from '../../models/app-models';
+import { Company, ApiResponse, CompanySearchPayload } from '../../models/app-models';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { lastValueFrom } from 'rxjs';
@@ -11,8 +11,8 @@ export class CompanyApiService {
   private baseUrl = `${environment.apiUrl}/companies`;
   constructor(private readonly http: HttpClient) {}
 
-  async getCompanies(): Promise<Company[]> {
-    const observable = this.http.get<ApiResponse<Company[]>>(this.baseUrl);
+  async getCompanies(payload?: CompanySearchPayload): Promise<Company[]> {
+    const observable = this.http.post<ApiResponse<Company[]>>(`${this.baseUrl}/search`, payload || {});
     const response = await lastValueFrom(observable);
     return response.data;
   }

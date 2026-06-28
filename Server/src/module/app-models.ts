@@ -54,6 +54,7 @@ export interface User {
   updated_at?: Date;
   category_id: string;
   category_name?: string;
+  company_name?: string;
   completed_tasks?: number;
   in_progress_tasks?: number;
   created_tasks?: number;
@@ -140,4 +141,17 @@ export class ApiResponse<T = any> {
   static error(message: string = "Error", data: any = null): ApiResponse<null> {
     return new ApiResponse("error", data, message);
   }
+}
+
+export interface CategorySearchPayload {
+  keyword?: string;
+}
+
+export interface CompanySearchPayload {
+  keyword?: string;
+}
+
+export interface UserSearchPayload {
+  keyword?: string;
+  is_from_member?: boolean;
 }

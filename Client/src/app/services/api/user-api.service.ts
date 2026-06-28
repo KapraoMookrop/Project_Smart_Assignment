@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User, ApiResponse } from '../../models/app-models';
+import { User, ApiResponse, UserSearchPayload } from '../../models/app-models';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { lastValueFrom } from 'rxjs';
@@ -11,8 +11,8 @@ export class UserApiService {
   private baseUrl = `${environment.apiUrl}/users`;
   constructor(private readonly http: HttpClient) {}
 
-  async getUsers(): Promise<User[]> {
-    const observable = this.http.get<ApiResponse<User[]>>(this.baseUrl);
+  async getUsers(payload?: UserSearchPayload): Promise<User[]> {
+    const observable = this.http.post<ApiResponse<User[]>>(`${this.baseUrl}/search`, payload || {});
     const response = await lastValueFrom(observable);
     return response.data;
   }
@@ -23,14 +23,14 @@ export class UserApiService {
     return response.data;
   }
 
-  async getUsersByCategory(categoryId: string): Promise<User[]> {
-    const observable = this.http.get<ApiResponse<User[]>>(`${this.baseUrl}/category/${categoryId}`);
+  async getUsersByCategory(categoryId: string, payload?: UserSearchPayload): Promise<User[]> {
+    const observable = this.http.post<ApiResponse<User[]>>(`${this.baseUrl}/search/category/${categoryId}`, payload || {});
     const response = await lastValueFrom(observable);
     return response.data;
   }
 
-  async getUsersByCompany(companyId: string): Promise<User[]> {
-    const observable = this.http.get<ApiResponse<User[]>>(`${this.baseUrl}/company/${companyId}`);
+  async getUsersByCompany(companyId: string, payload?: UserSearchPayload): Promise<User[]> {
+    const observable = this.http.post<ApiResponse<User[]>>(`${this.baseUrl}/search/company/${companyId}`, payload || {});
     const response = await lastValueFrom(observable);
     return response.data;
   }

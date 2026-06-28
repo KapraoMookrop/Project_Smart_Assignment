@@ -8,6 +8,8 @@ import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../services/notification.service';
 import { DisplayableUrlPipe } from '../../pipes/displayable-url.pipe';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee-list',
@@ -17,6 +19,8 @@ import { DisplayableUrlPipe } from '../../pipes/displayable-url.pipe';
 })
 export class EmployeeListSearchVM implements OnInit {
   members: User[] = [];
+  searchQuery: string = '';
+  searchSubject = new Subject<string>();
 
   constructor(
     private userApi: UserApiService,
@@ -29,16 +33,24 @@ export class EmployeeListSearchVM implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+    this.searchSubject.pipe(debounceTime(1000)).subscribe(query => {
+      this.searchQuery = query;
+      this.loadData();
+    });
   }
 
   async loadData() {
     try {
       const companyId = this.authService.currentUser()?.company_id;
-      this.members = await this.userApi.getUsersByCompany(companyId!);
+      this.members = await this.userApi.getUsersByCompany(companyId!, { keyword: this.searchQuery });
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('โหลดข้อมูลพนักงานไม่สำเร็จ', err.error?.message || err.message);
     }
+  }
+
+  onSearchChange(event: any) {
+    this.searchSubject.next(event.target.value);
   }
 
   async addMember() {

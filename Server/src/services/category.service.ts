@@ -1,20 +1,34 @@
 import pool from "../config/database.js";
 import { AppError } from "../utils/errors/AppError.js";
-import type { Category, User } from "../module/app-models.js";
+import type { Category, User, CategorySearchPayload } from "../module/app-models.js";
 
-export async function getCategories(companyId: string): Promise<Category[]> {
-  const result = await pool.query(
-    "SELECT * FROM sa.Categories WHERE company_id = $1 ORDER BY created_at DESC",
-    [companyId]
-  );
+export async function getCategories(companyId: string, payload?: CategorySearchPayload): Promise<Category[]> {
+  let query = "SELECT * FROM sa.Categories WHERE company_id = $1";
+  const params: any[] = [companyId];
+  
+  if (payload?.keyword) {
+    query += " AND name ILIKE $2";
+    params.push(`%${payload.keyword}%`);
+  }
+  
+  query += " ORDER BY created_at DESC";
+  
+  const result = await pool.query(query, params);
   return result.rows;
 }
 
-export async function getCategoriesByCompany(companyId: string): Promise<Category[]> {
-  const result = await pool.query(
-    "SELECT * FROM sa.Categories WHERE company_id = $1 ORDER BY created_at DESC",
-    [companyId]
-  );
+export async function getCategoriesByCompany(companyId: string, payload?: CategorySearchPayload): Promise<Category[]> {
+  let query = "SELECT * FROM sa.Categories WHERE company_id = $1";
+  const params: any[] = [companyId];
+  
+  if (payload?.keyword) {
+    query += " AND name ILIKE $2";
+    params.push(`%${payload.keyword}%`);
+  }
+  
+  query += " ORDER BY created_at DESC";
+  
+  const result = await pool.query(query, params);
   return result.rows;
 }
 

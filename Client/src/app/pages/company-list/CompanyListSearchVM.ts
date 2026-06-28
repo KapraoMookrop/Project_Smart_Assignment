@@ -5,6 +5,8 @@ import { CompanyApiService } from '../../services/api/company-api.service';
 import { NotificationService } from '../../services/notification.service';
 import { Company } from '../../models/app-models';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-company-list',
@@ -15,6 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class CompanyListSearchVM implements OnInit {
   companies: Company[] = [];
   searchQuery: string = '';
+  searchSubject = new Subject<string>();
 
   constructor(
     private companyApi: CompanyApiService,
@@ -25,16 +28,15 @@ export class CompanyListSearchVM implements OnInit {
 
   ngOnInit(): void {
     this.loadCompanies();
+    this.searchSubject.pipe(debounceTime(1000)).subscribe(query => {
+      this.searchQuery = query;
+      this.loadCompanies();
+    });
   }
 
   async loadCompanies() {
     try {
-      this.companies = await this.companyApi.getCompanies();
-      if (this.searchQuery) {
-        this.companies = this.companies.filter(c =>
-          c.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-        );
-      }
+      this.companies = await this.companyApi.getCompanies({ keyword: this.searchQuery });
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('โหลดข้อมูลไม่สำเร็จ', err.error?.message || err.message);
@@ -56,8 +58,7 @@ export class CompanyListSearchVM implements OnInit {
   }
 
   onSearchChange(event: any) {
-    this.searchQuery = event.target.value;
-    this.loadCompanies();
+    this.searchSubject.next(event.target.value);
   }
 
   editCompany(id: string) {
