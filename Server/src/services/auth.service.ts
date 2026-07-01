@@ -12,15 +12,16 @@ export async function login(username: string, password: string):Promise<{ token:
     `SELECT 
       u.*, 
       cm.category_id,
-      c.name as category_name
+      c.name as category_name,
+      comp.is_active as company_is_active
     FROM sa.Users as u 
     LEFT JOIN 
-      sa.Category_Members as cm ON 
-    u.user_id = cm.user_id 
+      sa.Category_Members as cm ON u.user_id = cm.user_id 
     LEFT JOIN 
-      sa.Categories as c ON 
-    cm.category_id = c.category_id
-      WHERE u.username = $1 OR u.email = $1`,
+      sa.Categories as c ON cm.category_id = c.category_id
+    LEFT JOIN 
+      sa.Companies as comp ON u.company_id = comp.company_id
+    WHERE u.username = $1 OR u.email = $1`,
     [username]
   );
 
@@ -32,6 +33,10 @@ export async function login(username: string, password: string):Promise<{ token:
 
   if (!userRow.is_active) {
     throw new AppError("บัญชีผู้ใช้งานนี้ถูกระงับการใช้งาน", 403);
+  }
+
+  if (!userRow.company_is_active) {
+    throw new AppError("บัญชีบริษัท/องค์กรของคุณถูกระงับการใช้งานชั่วคราว", 403);
   }
 
   const isPasswordValid = await bcrypt.compare(password, userRow.password_hash);

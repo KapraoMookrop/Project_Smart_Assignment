@@ -38,7 +38,12 @@ export async function getCompanyById(userCompanyId: string, companyId: string, r
   }
   
   const result = await pool.query(
-    "SELECT * FROM sa.Companies WHERE company_id = $1",
+    `SELECT c.*, u.email 
+     FROM sa.Companies c
+     LEFT JOIN sa.Users u ON c.company_id = u.company_id AND u.role = 'CompanyAdmin'
+     WHERE c.company_id = $1
+     ORDER BY u.created_at ASC
+     LIMIT 1`,
     [companyId]
   );
   if (result.rows.length === 0) {

@@ -43,12 +43,12 @@ export class CompanyListSearchVM implements OnInit {
     }
   }
 
-  async deleteCompany(id: string) {
-    const result = await this.notification.confirm('ยืนยันการลบ', `คุณแน่ใจหรือไม่ว่าต้องการลบ Tenant ${id}?`);
+  async deleteCompany(company: Company) {
+    const result = await this.notification.confirm('ยืนยันการลบ', `คุณแน่ใจหรือไม่ว่าต้องการลบ <br/> บริษัท ${company.name}?`);
     if (result.isConfirmed) {
       try {
-        await this.companyApi.deleteCompany(id);
-        this.companies = this.companies.filter(c => c.company_id !== id);
+        await this.companyApi.deleteCompany(company.company_id);
+        this.companies = this.companies.filter(c => c.company_id !== company.company_id);
         this.notification.success('ลบสำเร็จ');
         this.cdr.detectChanges();
       } catch (err: HttpErrorResponse | any) {
