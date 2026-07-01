@@ -24,7 +24,6 @@ export class TaskEditSearchVM implements OnInit, AfterViewInit {
     category_id: '',
     priority: TaskPriority.Medium,
     description: '',
-    reward_points: 0,
     status: TaskStatus.Pending,
     deadline: undefined
   };

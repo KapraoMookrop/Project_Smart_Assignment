@@ -8,18 +8,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE SCHEMA IF NOT EXISTS sa;
 
 -- 1. Companies (Tenants / Organization Heads)
--- This table now includes login credentials for the initial Company Admin (Owner)
 CREATE TABLE sa.Companies (
     company_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(150) NOT NULL,
     domain VARCHAR(100) UNIQUE, -- Unique domain/identifier for the tenant
-    
-    -- Authentication fields for the "Head of Company" (Created by App Admin)
-    username VARCHAR(100) UNIQUE,
-    email VARCHAR(255) UNIQUE,
-    password_hash VARCHAR(255),
-    must_change_password BOOLEAN DEFAULT TRUE,
-    last_login_at TIMESTAMP WITH TIME ZONE,
     
     plan_tier VARCHAR(50) DEFAULT 'Starter', -- 'Starter', 'Pro', 'Enterprise'
     is_active BOOLEAN DEFAULT TRUE,
@@ -77,8 +69,6 @@ CREATE TABLE sa.Tasks (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     priority VARCHAR(50) DEFAULT 'Medium', -- 'Low', 'Medium', 'High', 'Urgent'
-    reward_points INT DEFAULT 0,
-    estimated_duration VARCHAR(100), -- e.g., '4 hours', '1 day'
     assigned_to UUID REFERENCES sa.Users(user_id) ON DELETE SET NULL,
     status VARCHAR(50) DEFAULT 'Pending', -- 'Pending', 'In Progress', 'Done'
     created_by UUID NOT NULL REFERENCES sa.Users(user_id) ON DELETE CASCADE,
@@ -98,35 +88,12 @@ CREATE TABLE sa.Task_Attachments (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- 7. Notifications
-CREATE TABLE sa.Notifications (
-    notification_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES sa.Users(user_id) ON DELETE CASCADE,
-    task_id UUID REFERENCES sa.Tasks(task_id) ON DELETE CASCADE,
-    type VARCHAR(100),
-    message TEXT NOT NULL,
-    is_read BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-
--- 8. Activity_Logs (Audit Trail / Feed)
-CREATE TABLE sa.Activity_Logs (
-    log_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    company_id UUID NOT NULL REFERENCES sa.Companies(company_id) ON DELETE CASCADE,
-    user_id UUID REFERENCES sa.Users(user_id) ON DELETE SET NULL,
-    action VARCHAR(100) NOT NULL,
-    details JSONB,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-
 -- Indexes for Performance & Multi-tenancy Isolation
 CREATE INDEX idx_users_company ON sa.Users(company_id);
 CREATE INDEX idx_categories_company ON sa.Categories(company_id);
 CREATE INDEX idx_tasks_company ON sa.Tasks(company_id);
 CREATE INDEX idx_tasks_category ON sa.Tasks(category_id);
 CREATE INDEX idx_tasks_assigned_to ON sa.Tasks(assigned_to);
-CREATE INDEX idx_notifications_user_read ON sa.Notifications(user_id, is_read);
-CREATE INDEX idx_activity_logs_company ON sa.Activity_Logs(company_id);
 
 -- Trigger for updated_at
 CREATE OR REPLACE FUNCTION sa.update_updated_at_column()

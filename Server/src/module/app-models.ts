@@ -27,7 +27,6 @@ export interface Company {
   company_id: string;
   name: string;
   domain?: string;
-  username?: string;
   email?: string;
   plan_tier: PlanTier;
   is_active: boolean;
@@ -84,8 +83,6 @@ export interface Task {
   title: string;
   description?: string;
   priority: TaskPriority;
-  reward_points: number;
-  estimated_duration?: string;
   assigned_to?: string;
   status: TaskStatus;
   created_by: string;
@@ -104,24 +101,6 @@ export interface TaskAttachment {
   created_at?: Date;
 }
 
-export interface Notification {
-  notification_id: string;
-  user_id: string;
-  task_id?: string;
-  type?: string;
-  message: string;
-  is_read: boolean;
-  created_at?: Date;
-}
-
-export interface ActivityLog {
-  log_id: string;
-  company_id: string;
-  user_id?: string;
-  action: string;
-  details?: any;
-  created_at?: Date;
-}
 
 export class ApiResponse<T = any> {
   status: "success" | "error";
