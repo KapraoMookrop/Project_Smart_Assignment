@@ -107,29 +107,13 @@ export async function createTask(companyId: string, task: Partial<Task>, userId:
 
     // Insert Task
     const taskResult = await client.query(
-      `INSERT INTO sa.Tasks (company_id, category_id, title, description, priority, reward_points, estimated_duration, created_by, deadline) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+      `INSERT INTO sa.Tasks (company_id, category_id, title, description, priority, created_by, deadline) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7) 
        RETURNING *`,
-      [companyId, task.category_id, task.title, task.description, task.priority, task.reward_points || 0, task.estimated_duration, userId, task.deadline]
+      [companyId, task.category_id, task.title, task.description, task.priority, userId, task.deadline]
     );
 
     const createdTask = taskResult.rows[0];
-
-    // Notification Logic
-    // Create notifications for all users in the category
-    const membersResult = await client.query(
-      `SELECT user_id FROM sa.Category_Members WHERE category_id = $1`,
-      [task.category_id]
-    );
-
-    const members = membersResult.rows;
-    for (const member of members) {
-      await client.query(
-        `INSERT INTO sa.Notifications (user_id, task_id, type, message) 
-         VALUES ($1, $2, $3, $4)`,
-        [member.user_id, createdTask.task_id, 'NewTask', `มีงานใหม่: ${createdTask.title}`]
-      );
-    }
 
     await client.query("COMMIT");
     return createdTask;
@@ -144,10 +128,10 @@ export async function createTask(companyId: string, task: Partial<Task>, userId:
 export async function updateTask(companyId: string, taskId: string, task: Partial<Task>): Promise<Task> {
   const result = await pool.query(
     `UPDATE sa.Tasks 
-     SET title = $1, description = $2, priority = $3, reward_points = $4, estimated_duration = $5, status = $6, deadline = $7 
-     WHERE company_id = $8 AND task_id = $9 
+     SET title = $1, description = $2, priority = $3, status = $4, deadline = $5 
+     WHERE company_id = $6 AND task_id = $7 
      RETURNING *`,
-    [task.title, task.description, task.priority, task.reward_points, task.estimated_duration, task.status, task.deadline, companyId, taskId]
+    [task.title, task.description, task.priority, task.status, task.deadline, companyId, taskId]
   );
 
   if (result.rows.length === 0) {

@@ -1,6 +1,7 @@
 <div class="bg-dark-navy min-vh-100 text-white">
   <!-- Top Bar -->
-  <header class="bg-secondary-bg border-bottom border-secondary d-flex align-items-center px-4 sticky-top shadow-sm" style="height: 64px;">
+  <header class="bg-secondary-bg border-bottom border-secondary d-flex align-items-center px-4 sticky-top shadow-sm"
+    style="height: 64px;">
     <button class="btn text-cyan btn-circle-40 hover-bg-navy" (click)="goBack()">
       <i class="bi bi-arrow-left fs-4"></i>
     </button>
@@ -15,7 +16,8 @@
         {{ isEditMode ? 'แก้ไขรายละเอียดผู้เช่า' : 'สร้างองค์กร' }}
       </h2>
       <p class="text-white">
-        {{ isEditMode ? 'จัดการการตั้งค่าและข้อมูลพื้นฐานสำหรับองค์กรนี้' : 'ตั้งค่าพื้นที่ทำงานของบริษัทใหม่และผู้ดูแลระบบหลัก' }}
+        {{ isEditMode ? 'จัดการการตั้งค่าและข้อมูลพื้นฐานสำหรับองค์กรนี้' :
+        'ตั้งค่าพื้นที่ทำงานของบริษัทใหม่และผู้ดูแลระบบหลัก' }}
       </p>
     </div>
 
@@ -26,22 +28,23 @@
           <i class="bi bi-building fs-5"></i>
           ข้อมูลองค์กร
         </h3>
-        
+
         <div class="mb-4">
           <label class="form-label text-white x-small fw-bold text-uppercase">ชื่อบริษัท</label>
-          <input type="text" class="form-control p-3 text-white focus-cyan" 
-                 name="name" [(ngModel)]="company.name" placeholder="ระบุชื่อองค์กร" required>
+          <input type="text" class="form-control p-3 text-white focus-cyan" name="name" [(ngModel)]="company.name"
+            placeholder="ระบุชื่อองค์กร" required>
         </div>
 
         @if (isEditMode) {
-          <div class="mb-4">
-            <label class="form-label text-white x-small fw-bold text-uppercase d-flex justify-content-between">
-              <span>ไอดีผู้เช่า / โดเมน</span>
-              <span class="badge bg-secondary-bg border border-secondary text-white px-2 py-1" style="font-size: 0.6rem;">อ่านอย่างเดียว</span>
-            </label>
-            <input type="text" class="form-control p-3 text-white border-secondary" 
-                   [value]="company.company_id" readonly style="background-color: rgba(142, 145, 150, 0.05) !important; cursor: not-allowed;">
-          </div>
+        <div class="mb-4">
+          <label class="form-label text-white x-small fw-bold text-uppercase d-flex justify-content-between">
+            <span>ไอดีบริษัท</span>
+            <span class="badge bg-secondary-bg border border-secondary text-white px-2 py-1"
+              style="font-size: 0.6rem;">อ่านอย่างเดียว</span>
+          </label>
+          <input type="text" class="form-control p-3 text-white border-secondary" [value]="company.company_id" readonly
+            style="background-color: rgba(142, 145, 150, 0.05) !important; cursor: not-allowed;">
+        </div>
         }
 
         <div class="mb-4">
@@ -56,21 +59,24 @@
         <div class="d-flex justify-content-between align-items-center py-3 border-top border-secondary mt-2">
           <div>
             <label class="form-label text-white x-small fw-bold text-uppercase mb-1 d-block">สถานะผู้เช่า</label>
-            <span [ngClass]="company.is_active ? 'text-success' : 'text-warning'" class="small d-flex align-items-center gap-2">
-              <span class="rounded-circle" [ngClass]="company.is_active ? 'bg-success' : 'bg-warning'" style="width: 8px; height: 8px;"></span>
+            <span [ngClass]="company.is_active ? 'text-success' : 'text-warning'"
+              class="small d-flex align-items-center gap-2">
+              <span class="rounded-circle" [ngClass]="company.is_active ? 'bg-success' : 'bg-warning'"
+                style="width: 8px; height: 8px;"></span>
               {{ company.is_active ? 'ใช้งานอยู่' : 'ปิดใช้งาน' }}
             </span>
           </div>
           <div class="form-check form-switch fs-4">
-            <input class="form-check-input bg-secondary border-secondary custom-switch" type="checkbox" 
-                   name="isActive" [(ngModel)]="company.is_active" role="switch">
+            <input class="form-check-input bg-secondary border-secondary custom-switch" type="checkbox" name="isActive"
+              [(ngModel)]="company.is_active" role="switch">
           </div>
         </div>
       </div>
 
       <!-- Administration & Details -->
-      <!-- <div class="card card-custom p-4 mb-4">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center border-bottom border-secondary pb-3 mb-4 gap-3">
+      <div class="card card-custom p-4 mb-4">
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center border-bottom border-secondary pb-3 mb-4 gap-3">
           <h3 class="h6 fw-bold text-cyan mb-0 d-flex align-items-center gap-2">
             <i class="bi bi-shield-lock fs-5"></i>
             การจัดการและรายละเอียด
@@ -83,18 +89,19 @@
             <span class="input-group-text bg-transparent border-0 text-white">
               <i class="bi bi-envelope"></i>
             </span>
-            <input type="email" class="form-control bg-transparent border-0 text-white p-3 focus-none" 
-                   name="adminEmail" [(ngModel)]="company.email" placeholder="admin@company.com" required>
+            <input type="email" class="form-control bg-transparent border-0 text-white p-3 focus-none" name="adminEmail"
+              [(ngModel)]="company.email" placeholder="admin@company.com" required [disabled]="isEditMode"
+              [style.backgroundColor]="isEditMode ? 'rgba(142, 145, 150, 0.05) !important' : ''">
           </div>
-          <small class="text-white mt-1 d-block" style="font-size: 0.7rem;">ผู้ใช้นี้มีสิทธิ์ควบคุมองค์กรทั้งหมด รหัสผ่านเริ่มต้นจะถูกส่งไปยังอีเมลนี้</small>
+          <small class="text-white mt-1 d-block" style="font-size: 0.7rem;">ผู้ใช้นี้มีสิทธิ์ควบคุมองค์กรทั้งหมด</small>
         </div>
 
         <div class="mb-2">
           <label class="form-label text-white x-small fw-bold text-uppercase">บันทึกภายใน</label>
-          <textarea class="form-control p-3 text-white focus-cyan" rows="4" 
-                    name="notes" [(ngModel)]="company.internal_notes" placeholder="เพิ่มรายละเอียดภายใน..."></textarea>
+          <textarea class="form-control p-3 text-white focus-cyan" rows="4" name="notes"
+            [(ngModel)]="company.internal_notes" placeholder="เพิ่มรายละเอียดภายใน..."></textarea>
         </div>
-      </div> -->
+      </div>
 
       <!-- Action Buttons -->
       <div class="d-flex flex-column-reverse flex-md-row justify-content-end gap-3 pt-3">
@@ -108,14 +115,25 @@
 </div>
 
 <style>
-  .x-small { font-size: 0.7rem; letter-spacing: 0.05em; }
+  .x-small {
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+
   .focus-cyan:focus {
     border-color: var(--accent-cyan) !important;
     box-shadow: 0 0 0 1px var(--accent-cyan);
   }
-  .focus-none:focus { box-shadow: none; background: transparent; }
-  .shadow-cyan { box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); }
-  
+
+  .focus-none:focus {
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .shadow-cyan {
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+  }
+
   .custom-switch:checked {
     background-color: var(--status-done) !important;
     border-color: var(--status-done) !important;

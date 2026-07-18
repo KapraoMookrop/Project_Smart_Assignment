@@ -131,6 +131,15 @@ p, span, div {
 }
 
 /* SweetAlert2 Theme Override */
+html.swal2-shown,
+body.swal2-shown {
+  overflow-y: auto !important;
+}
+
+body.swal2-shown {
+  padding-right: 0px !important;
+}
+
 .swal2-popup {
   background-color: var(--secondary-bg) !important;
   color: var(--text-main) !important;

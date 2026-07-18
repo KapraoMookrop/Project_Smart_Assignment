@@ -24,7 +24,6 @@ export class TaskCreateSearchVM implements OnInit, AfterViewInit {
     category_id: '',
     priority: undefined,
     description: '',
-    reward_points: 0,
     status: undefined,
     deadline: undefined
   };

@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
   providedIn: 'root'
 })
 export class NotificationService {
-  
+
   success(title: string, message: string = '') {
     return Swal.fire({
       icon: 'success',
@@ -47,7 +47,7 @@ export class NotificationService {
   confirm(title: string, message: string = '', confirmText: string = 'ยืนยัน', cancelText: string = 'ยกเลิก') {
     return Swal.fire({
       title: title,
-      text: message,
+      html: message,
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: confirmText,
