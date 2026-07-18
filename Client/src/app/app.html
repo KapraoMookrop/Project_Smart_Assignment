@@ -8,7 +8,7 @@
   }
 
   <!-- Main Content Area -->
-  <div class="content-wrapper flex-grow-1 w-100">
+  <div class="content-wrapper flex-grow-1 w-100" [class.logged-in]="authService.isLoggedIn()">
     <router-outlet></router-outlet>
   </div>
 
@@ -64,9 +64,11 @@
     min-height: 100vh;
   }
   .content-wrapper {
+    min-width: 0; 
+  }
+  .content-wrapper.logged-in {
     /* Extra padding at bottom for all devices to prevent content being covered by fixed navbar */
     padding-bottom: 75px; 
-    min-width: 0; 
   }
   
   /* Mobile Bottom Nav Styles */
