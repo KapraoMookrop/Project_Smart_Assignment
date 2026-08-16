@@ -8,15 +8,15 @@ import type { CompanySearchPayload } from "../module/app-models.js";
 export async function getCompanies(role: string, payload?: CompanySearchPayload): Promise<Company[]> {
   let query = "SELECT * FROM sa.Companies";
   const params: any[] = [];
-  
+
   if (payload?.keyword) {
     query += " WHERE name ILIKE $1";
     params.push(`%${payload.keyword}%`);
   }
-  
+
   query += " ORDER BY created_at DESC";
   const sqlResult = await pool.query(query, params);
-  
+
   const countEmployee = await pool.query(
     `SELECT company_id, 
       COUNT(*) as employees_count 
@@ -34,9 +34,9 @@ export async function getCompanies(role: string, payload?: CompanySearchPayload)
 
 export async function getCompanyById(userCompanyId: string, companyId: string, role: string): Promise<Company> {
   if (role !== 'AppAdmin' && userCompanyId !== companyId) {
-     throw new AppError("ไม่มีสิทธิ์เข้าถึงข้อมูลบริษัทนี้", 403);
+    throw new AppError("ไม่มีสิทธิ์เข้าถึงข้อมูลบริษัทนี้", 403);
   }
-  
+
   const result = await pool.query(
     `SELECT c.*, u.email 
      FROM sa.Companies c
@@ -87,7 +87,7 @@ export async function saveCompany(companyId: string, company: Partial<Company>, 
       // 2. Create Company Admin User
       const defaultPassword = "password123";
       const hashedPassword = await bcrypt.hash(defaultPassword, 10);
-      
+
       // Use email as username if not provided
       const username = company.email?.split('@')[0] || `admin_${createdCompany.company_id.substring(0, 5)}`;
 
@@ -95,11 +95,11 @@ export async function saveCompany(companyId: string, company: Partial<Company>, 
         `INSERT INTO sa.Users (company_id, username, email, password_hash, role, full_name, is_active, must_change_password) 
          VALUES ($1, $2, $3, $4, $5, $6, true, true)`,
         [
-          createdCompany.company_id, 
-          username, 
-          company.email, 
-          hashedPassword, 
-          UserRole.CompanyAdmin, 
+          createdCompany.company_id,
+          username,
+          company.email,
+          hashedPassword,
+          UserRole.CompanyAdmin,
           `Admin ${company.name}`
         ]
       );

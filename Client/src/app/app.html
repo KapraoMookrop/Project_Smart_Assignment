@@ -1,10 +1,10 @@
 <div class="app-container d-flex flex-column">
   <!-- Global Loader -->
   @if (loading$ | async) {
-    <div class="global-loader">
-      <div class="spinner-cyan"></div>
-      <p class="loader-text">กำลังโหลดข้อมูล...</p>
-    </div>
+  <div class="global-loader">
+    <div class="spinner-cyan"></div>
+    <p class="loader-text">กำลังโหลดข้อมูล...</p>
+  </div>
   }
 
   <!-- Main Content Area -->
@@ -14,48 +14,55 @@
 
   <!-- Global Bottom Navbar (All Devices) -->
   @if (authService.isLoggedIn()) {
-    <nav class="navbar fixed-bottom border-top border-secondary py-1 shadow-lg" 
-         style="z-index: 2000; background-color: #040911 !important;">
-      <div class="container-fluid justify-content-around px-0" style="max-width: 800px; margin: 0 auto;">
-        @if (currentRole === UserRole.User) {
-          <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/dashboard" routerLinkActive="active-cyan">
-            <i class="bi bi-house-door fs-5"></i>
-            <span class="x-small">ภาพรวม</span>
-          </a>
-          <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/tasks/created" routerLinkActive="active-cyan">
-            <i class="bi bi-plus-square fs-5"></i>
-            <span class="x-small">งานที่สร้าง</span>
-          </a>
-          <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/tasks/my-tasks" routerLinkActive="active-cyan">
-            <i class="bi bi-list-task fs-5"></i>
-            <span class="x-small">งานของฉัน</span>
-          </a>
-        }
+  <nav class="navbar fixed-bottom border-top border-secondary py-1 shadow-lg"
+    style="z-index: 2000; background-color: #040911 !important;">
+    <div class="container-fluid justify-content-around px-0" style="max-width: 800px; margin: 0 auto;">
+      @if (currentRole === UserRole.User) {
+      <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/dashboard"
+        routerLinkActive="active-cyan">
+        <i class="bi bi-house-door fs-5"></i>
+        <span class="x-small">ภาพรวม</span>
+      </a>
+      <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/tasks/created"
+        routerLinkActive="active-cyan">
+        <i class="bi bi-plus-square fs-5"></i>
+        <span class="x-small">งานที่สร้าง</span>
+      </a>
+      <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/tasks/my-tasks"
+        routerLinkActive="active-cyan">
+        <i class="bi bi-list-task fs-5"></i>
+        <span class="x-small">งานของฉัน</span>
+      </a>
+      }
 
-        @if (currentRole === UserRole.CompanyAdmin) {
-          <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/categories" routerLinkActive="active-cyan">
-            <i class="bi bi-grid fs-5"></i>
-            <span class="x-small">แผนก</span>
-          </a>
-          <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/employees" routerLinkActive="active-cyan">
-            <i class="bi bi-people fs-5"></i>
-            <span class="x-small">พนักงาน</span>
-          </a>
-        }
+      @if (currentRole === UserRole.CompanyAdmin) {
+      <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/categories"
+        routerLinkActive="active-cyan">
+        <i class="bi bi-grid fs-5"></i>
+        <span class="x-small">แผนก</span>
+      </a>
+      <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/employees"
+        routerLinkActive="active-cyan">
+        <i class="bi bi-people fs-5"></i>
+        <span class="x-small">พนักงาน</span>
+      </a>
+      }
 
-        @if (currentRole === UserRole.AppAdmin) {
-          <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/companies" routerLinkActive="active-cyan">
-            <i class="bi bi-building fs-5"></i>
-            <span class="x-small">บริษัท</span>
-          </a>
-        }
+      @if (currentRole === UserRole.AppAdmin) {
+      <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/companies"
+        routerLinkActive="active-cyan">
+        <i class="bi bi-building fs-5"></i>
+        <span class="x-small">บริษัท</span>
+      </a>
+      }
 
-        <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/profile" routerLinkActive="active-cyan">
-          <i class="bi bi-person fs-5"></i>
-          <span class="x-small">โปรไฟล์</span>
-        </a>
-      </div>
-    </nav>
+      <a class="nav-link d-flex flex-column align-items-center py-1" routerLink="/profile"
+        routerLinkActive="active-cyan">
+        <i class="bi bi-person fs-5"></i>
+        <span class="x-small">โปรไฟล์</span>
+      </a>
+    </div>
+  </nav>
   }
 </div>
 
@@ -63,14 +70,16 @@
   .app-container {
     min-height: 100vh;
   }
+
   .content-wrapper {
-    min-width: 0; 
+    min-width: 0;
   }
+
   .content-wrapper.logged-in {
     /* Extra padding at bottom for all devices to prevent content being covered by fixed navbar */
-    padding-bottom: 75px; 
+    padding-bottom: 75px;
   }
-  
+
   /* Mobile Bottom Nav Styles */
   .nav-link {
     color: #ffffff;
@@ -79,19 +88,24 @@
     flex: 1;
     text-align: center;
   }
+
   .nav-link:hover {
     color: #00f2ff;
   }
+
   .active-cyan {
     color: #00f2ff !important;
   }
+
   .active-cyan i {
     color: #00f2ff !important;
   }
+
   .x-small {
     font-size: 0.7rem;
     font-weight: 500;
   }
+
   .shadow-cyan {
     box-shadow: 0 4px 15px rgba(0, 242, 255, 0.4);
   }

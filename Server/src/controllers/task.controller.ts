@@ -7,13 +7,13 @@ export async function getTasks(req: AuthenticatedRequest, res: Response, next: N
   try {
     const companyId = req.user!.company_id;
     const { categoryId, createdBy, assignedTo } = req.query;
-    
+
     const tasks = await taskService.getTasks(companyId, {
       categoryId: categoryId as string,
       createdBy: createdBy as string,
       assignedTo: assignedTo as string
     });
-    
+
     res.status(200).json(ApiResponse.success(tasks, "ดึงข้อมูลงานสำเร็จ"));
   } catch (error) {
     next(error);
@@ -24,9 +24,9 @@ export async function getUserTaskStats(req: AuthenticatedRequest, res: Response,
   try {
     const companyId = req.user!.company_id;
     const { userId } = req.params;
-    
+
     const stats = await taskService.getUserTaskStats(companyId, userId as string);
-    
+
     res.status(200).json(ApiResponse.success(stats, "ดึงข้อมูลสถิติงานสำเร็จ"));
   } catch (error) {
     next(error);

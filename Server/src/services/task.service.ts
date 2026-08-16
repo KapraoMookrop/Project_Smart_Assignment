@@ -55,14 +55,14 @@ export async function getUserTaskStats(companyId: string, userId: string): Promi
     WHERE company_id = $3 AND assigned_to = $4
   `;
   const result = await pool.query(query, [TaskStatus.InProgress, TaskStatus.Done, companyId, userId]);
-  
+
   if (result.rows.length > 0) {
     return {
       inProgress: result.rows[0].inProgress || 0,
       completed: result.rows[0].completed || 0
     };
   }
-  
+
   return { inProgress: 0, completed: 0 };
 }
 

@@ -9,7 +9,7 @@ import { lastValueFrom } from 'rxjs';
 })
 export class TaskApiService {
   private baseUrl = `${environment.apiUrl}/tasks`;
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
   async getTasks(filters?: { categoryId?: string, createdBy?: string, assignedTo?: string }): Promise<Task[]> {
     let url = this.baseUrl;

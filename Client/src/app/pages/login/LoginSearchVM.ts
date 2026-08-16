@@ -33,7 +33,7 @@ export class LoginSearchVM implements OnInit {
   ngOnInit(): void {
     // Redirect if already logged in
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/dashboard']);
+      this.authService.redirectBasedOnRole();
     }
   }
 
@@ -64,20 +64,7 @@ export class LoginSearchVM implements OnInit {
         this.isLoading = false;
         this.cdr.detectChanges();
         this.notification.success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับเข้าสู่ระบบ');
-        switch (response.user.role) {
-          case 'CompanyAdmin':
-            this.router.navigate(['/categories']);
-            break;
-          case 'AppAdmin':
-            this.router.navigate(['/companies']);
-            break;
-          case 'User':
-            this.router.navigate(['/dashboard']);
-            break;
-          default:
-            this.router.navigate(['/dashboard']);
-            break;
-        }
+        this.authService.redirectBasedOnRole(response.user.role);
       }
     } catch (err: HttpErrorResponse | any) {
       this.isLoading = false;

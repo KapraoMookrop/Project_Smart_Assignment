@@ -50,7 +50,7 @@ export class DashboardSearchVM implements OnInit {
       }
 
       this.cdr.detectChanges();
-      
+
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('โหลดข้อมูลไม่สำเร็จ', err.error?.message || err.message);
     }
