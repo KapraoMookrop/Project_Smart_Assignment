@@ -9,7 +9,7 @@ import { lastValueFrom } from 'rxjs';
 })
 export class CompanyApiService {
   private baseUrl = `${environment.apiUrl}/companies`;
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
   async getCompanies(payload?: CompanySearchPayload): Promise<Company[]> {
     const observable = this.http.post<ApiResponse<Company[]>>(`${this.baseUrl}/search`, payload || {});

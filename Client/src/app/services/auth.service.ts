@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { User } from '../models/app-models';
+import { User, UserRole } from '../models/app-models';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -41,6 +41,22 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  redirectBasedOnRole(role?: UserRole): void {
+    const userRole = role || this.currentUser()?.role;
+    switch (userRole) {
+      case UserRole.CompanyAdmin:
+        this.router.navigate(['/categories']);
+        break;
+      case UserRole.AppAdmin:
+        this.router.navigate(['/companies']);
+        break;
+      case UserRole.User:
+      default:
+        this.router.navigate(['/dashboard']);
+        break;
+    }
   }
 
   logout(): void {
