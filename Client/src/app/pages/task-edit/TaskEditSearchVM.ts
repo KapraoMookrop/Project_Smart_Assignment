@@ -22,7 +22,7 @@ export class TaskEditSearchVM implements OnInit, AfterViewInit {
   task: Partial<Task> = {
     title: '',
     category_id: '',
-    priority: TaskPriority.Medium,
+    priority: null as unknown as TaskPriority,
     description: '',
     status: TaskStatus.Pending,
     deadline: undefined
@@ -52,7 +52,7 @@ export class TaskEditSearchVM implements OnInit, AfterViewInit {
     private notification: NotificationService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');

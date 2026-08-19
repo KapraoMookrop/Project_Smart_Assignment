@@ -9,7 +9,7 @@ import { lastValueFrom } from 'rxjs';
 })
 export class CategoryApiService {
   private baseUrl = `${environment.apiUrl}/categories`;
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
   async getCategories(payload?: CategorySearchPayload, skipLoader: boolean = false): Promise<Category[]> {
     const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
@@ -50,12 +50,14 @@ export class CategoryApiService {
     return response.data;
   }
 
-  async addMemberToCategory(categoryId: string, userId: string): Promise<void> {
-    const observable = this.http.post<ApiResponse<void>>(`${this.baseUrl}/${categoryId}/members/add/${userId}`, {});
+  async addMemberToCategory(categoryId: string, userId: string, skipLoader: boolean = false): Promise<void> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.post<ApiResponse<void>>(`${this.baseUrl}/${categoryId}/members/add/${userId}`, {}, { headers });
     await lastValueFrom(observable);
   }
 
-  async removeMemberFromCategory(categoryId: string, userId: string): Promise<void> {
+  async removeMemberFromCategory(categoryId: string, userId: string, skipLoader: boolean = false): Promise<void> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
     const observable = this.http.post<ApiResponse<void>>(`${this.baseUrl}/${categoryId}/members/remove/${userId}`, {});
     await lastValueFrom(observable);
   }

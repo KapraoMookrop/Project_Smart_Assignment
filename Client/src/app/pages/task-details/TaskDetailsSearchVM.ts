@@ -44,7 +44,7 @@ export class TaskDetailsSearchVM implements OnInit {
     private authService: AuthService,
     private notification: NotificationService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.currentUser = this.authService.currentUser();

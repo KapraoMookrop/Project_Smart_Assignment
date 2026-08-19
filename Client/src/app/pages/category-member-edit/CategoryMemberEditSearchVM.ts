@@ -16,8 +16,8 @@ import { DisplayableUrlPipe } from '../../pipes/displayable-url.pipe';
 })
 export class CategoryMemberEditSearchVM implements OnInit {
   categoryName: string = '';
-  categoryId: string = ''; 
-  
+  categoryId: string = '';
+
   currentMembers: User[] = [];
   availableEmployees: User[] = [];
   isLoading = false;
@@ -43,7 +43,7 @@ export class CategoryMemberEditSearchVM implements OnInit {
     private userApi: UserApiService,
     private cdr: ChangeDetectorRef,
     private notification: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('categoryId');
@@ -102,7 +102,7 @@ export class CategoryMemberEditSearchVM implements OnInit {
   async removeMember(id: string) {
     try {
       if (this.categoryId) {
-        await this.categoryApi.removeMemberFromCategory(this.categoryId, id);
+        await this.categoryApi.removeMemberFromCategory(this.categoryId, id, false);
         this.currentMembers = this.currentMembers.filter(m => m.user_id !== id);
         this.loadMembers();
       }
@@ -114,7 +114,7 @@ export class CategoryMemberEditSearchVM implements OnInit {
   async addMember(employee: User) {
     try {
       if (this.categoryId) {
-        await this.categoryApi.addMemberToCategory(this.categoryId, employee.user_id);
+        await this.categoryApi.addMemberToCategory(this.categoryId, employee.user_id, false);
         this.currentMembers.push(employee);
         this.availableEmployees = this.availableEmployees.filter(e => e.user_id !== employee.user_id);
         this.cdr.detectChanges();
