@@ -19,6 +19,14 @@ export class CategoryListSearchVM implements OnInit {
   categories: Category[] = [];
   searchQuery: string = '';
   searchSubject = new Subject<string>();
+  isLoading = false;
+
+  dummyCategories: Category[] = Array(3).fill({
+    category_id: 'loading-id',
+    name: 'กำลังโหลดชื่อแผนก...',
+    icon: 'bi-grid',
+    color_accent: '#00f2ff'
+  });
 
   constructor(
     private categoryApi: CategoryApiService,
@@ -38,11 +46,16 @@ export class CategoryListSearchVM implements OnInit {
   }
 
   async loadCategories() {
+    this.isLoading = true;
+    this.cdr.detectChanges();
     try {
-      this.categories = await this.categoryApi.getCategories({ keyword: this.searchQuery });
+      this.categories = await this.categoryApi.getCategories({ keyword: this.searchQuery }, true);
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('โหลดข้อมูลไม่สำเร็จ', err.error?.message || err.message);
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 

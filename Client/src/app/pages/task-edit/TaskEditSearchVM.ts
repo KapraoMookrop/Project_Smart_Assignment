@@ -43,6 +43,8 @@ export class TaskEditSearchVM implements OnInit, AfterViewInit {
     { value: TaskStatus.Done, label: 'เสร็จสิ้น' }
   ];
 
+  isLoading = false;
+
   constructor(
     private location: Location,
     private taskApi: TaskApiService,
@@ -54,9 +56,16 @@ export class TaskEditSearchVM implements OnInit, AfterViewInit {
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    await this.loadCategories();
-    if (id) {
-      await this.loadTask(id);
+    this.isLoading = true;
+    this.cdr.detectChanges();
+    try {
+      await Promise.all([
+        this.loadCategories(true),
+        id ? this.loadTask(id, true) : Promise.resolve()
+      ]);
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 
@@ -98,18 +107,18 @@ export class TaskEditSearchVM implements OnInit, AfterViewInit {
     });
   }
 
-  async loadCategories() {
+  async loadCategories(skipLoader: boolean = false) {
     try {
-      this.categories = await this.categoryApi.getCategories();
+      this.categories = await this.categoryApi.getCategories(undefined, skipLoader);
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('โหลดแผนกไม่สำเร็จ', err.error?.message || err.message);
     }
   }
 
-  async loadTask(id: string) {
+  async loadTask(id: string, skipLoader: boolean = false) {
     try {
-      const data = await this.taskApi.getTaskById(id);
+      const data = await this.taskApi.getTaskById(id, skipLoader);
       if (data) {
         this.task = data;
         if (this.task.deadline && this.flatpickrInstance) {

@@ -21,6 +21,15 @@ export class EmployeeListSearchVM implements OnInit {
   members: User[] = [];
   searchQuery: string = '';
   searchSubject = new Subject<string>();
+  isLoading = false;
+
+  dummyMembers: User[] = Array(4).fill({
+    user_id: 'loading-id',
+    full_name: 'กำลังโหลดพนักงาน...',
+    role: 'User',
+    category_name: 'แผนกกำลังโหลด...',
+    profile_picture_url: ''
+  });
 
   constructor(
     private userApi: UserApiService,
@@ -40,12 +49,17 @@ export class EmployeeListSearchVM implements OnInit {
   }
 
   async loadData() {
+    this.isLoading = true;
+    this.cdr.detectChanges();
     try {
       const companyId = this.authService.currentUser()?.company_id;
-      this.members = await this.userApi.getUsersByCompany(companyId!, { keyword: this.searchQuery });
+      this.members = await this.userApi.getUsersByCompany(companyId!, { keyword: this.searchQuery }, true);
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('โหลดข้อมูลพนักงานไม่สำเร็จ', err.error?.message || err.message);
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 

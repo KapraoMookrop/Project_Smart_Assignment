@@ -15,6 +15,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class DashboardSearchVM implements OnInit {
   userProfile: User | null = null;
+  isLoading = false;
 
   stats = {
     inProgress: 0,
@@ -23,6 +24,16 @@ export class DashboardSearchVM implements OnInit {
 
   newTasks: Task[] = [];
   activities: any[] = [];
+
+  dummyTasks: Task[] = Array(3).fill({
+    task_id: 'loading-id',
+    title: 'กำลังโหลดข้อมูลงาน...',
+    description: 'รายละเอียดของงานกำลังถูกโหลด กรุณารอสักครู่เพื่อแสดงข้อมูลจริงในแผนกของคุณ',
+    status: 'Pending',
+    created_at: new Date().toISOString(),
+    deadline: new Date().toISOString(),
+    category_name: 'แผนก...'
+  });
 
   constructor(
     private taskApi: TaskApiService,
@@ -37,22 +48,29 @@ export class DashboardSearchVM implements OnInit {
   }
 
   async loadDashboardData() {
+    this.isLoading = true;
+    this.cdr.detectChanges();
     try {
       const currentUser = this.authService.currentUser();
       const filters: any = {
         categoryId: currentUser?.category_id
       };
 
-      this.newTasks = await this.taskApi.getTasks(filters);
+      const tasksPromise = this.taskApi.getTasks(filters, true);
+      const statsPromise = currentUser?.user_id 
+        ? this.taskApi.getUserTaskStats(currentUser.user_id, true) 
+        : Promise.resolve({ inProgress: 0, completed: 0 });
 
-      if (currentUser?.user_id) {
-        this.stats = await this.taskApi.getUserTaskStats(currentUser.user_id);
-      }
-
+      const [tasks, stats] = await Promise.all([tasksPromise, statsPromise]);
+      this.newTasks = tasks;
+      this.stats = stats;
       this.cdr.detectChanges();
 
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('โหลดข้อมูลไม่สำเร็จ', err.error?.message || err.message);
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TaskApiService } from '../../services/api/task-api.service';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
-import { Task, User } from '../../models/app-models';
+import { Task, User, TaskPriority, TaskStatus } from '../../models/app-models';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -16,9 +16,25 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class TaskDetailsSearchVM implements OnInit {
   task: Task | null = null;
   currentUser: User | null = null;
+  isLoading = false;
 
   isClaiming: boolean = false;
   isClaimed: boolean = false;
+
+  dummyTask: Task = {
+    task_id: 'loading-id',
+    company_id: 'loading-company-id',
+    title: 'กำลังโหลดรายละเอียดงาน...',
+    description: 'รายละเอียดงานกำลังอยู่ในขั้นตอนการดึงข้อมูลจากระบบหลักเพื่อแสดงผลการทำงาน กรุณารอสักครู่เพื่อแสดงข้อมูลรายละเอียดงานทั้งหมด',
+    category_id: 'loading',
+    category_name: 'แผนก...',
+    priority: TaskPriority.Medium,
+    status: TaskStatus.Pending,
+    deadline: new Date(),
+    created_at: new Date(),
+    created_by: 'กำลังโหลด...',
+    assigned_to: 'กำลังโหลด...'
+  };
 
   constructor(
     private location: Location,
@@ -35,8 +51,9 @@ export class TaskDetailsSearchVM implements OnInit {
     const taskId = this.route.snapshot.paramMap.get('id');
     if (taskId) {
       this.loadTaskDetails(taskId);
+    } else {
+      this.cdr.detectChanges();
     }
-    this.cdr.detectChanges();
   }
 
   goBack() {
@@ -50,19 +67,26 @@ export class TaskDetailsSearchVM implements OnInit {
   }
 
   canEdit(): boolean {
-    if (!this.task || !this.currentUser) return false;
+    if (!this.task || !this.currentUser || this.isLoading) return false;
     return this.task.created_by === this.currentUser.user_id || this.task.assigned_to === this.currentUser.user_id;
   }
 
   async loadTaskDetails(id: string) {
+    this.isLoading = true;
+    this.task = this.dummyTask;
+    this.cdr.detectChanges();
     try {
-      this.task = await this.taskApi.getTaskById(id);
+      this.task = await this.taskApi.getTaskById(id, true);
       if (this.task && this.task.assigned_to) {
         this.isClaimed = true;
       }
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('ไม่พบข้อมูลงาน', err.error?.message || err.message);
+      this.task = null;
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 

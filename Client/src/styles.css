@@ -217,6 +217,78 @@ body.swal2-shown {
   letter-spacing: 1px;
 }
 
+/* Skeleton Shimmer Loading */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.is-loading {
+  position: relative;
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+.is-loading h1,
+.is-loading h2,
+.is-loading h3,
+.is-loading h4,
+.is-loading h5,
+.is-loading h6,
+.is-loading p,
+.is-loading span,
+.is-loading small,
+.is-loading strong,
+.is-loading .badge,
+.is-loading .btn,
+.is-loading .rounded-circle,
+.is-loading .rounded-3:not(.card-custom):not(.card),
+.is-loading .circle-50,
+.is-loading .circle-40,
+.is-loading img,
+.is-loading i {
+  position: relative;
+  color: transparent !important;
+  background-image: linear-gradient(90deg, #1b263b 25%, #2a3d5e 50%, #1b263b 75%) !important;
+  background-size: 200% 100% !important;
+  background-position: 200% 0;
+  animation: skeleton-shimmer 1.5s infinite linear !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  border-radius: 4px !important;
+  min-height: 12px;
+}
+
+.is-loading .rounded-circle,
+.is-loading .circle-50,
+.is-loading .circle-40,
+.is-loading img.rounded-circle {
+  border-radius: 50% !important;
+}
+
+.is-loading i::before,
+.is-loading i::after {
+  visibility: hidden !important;
+}
+
+.is-loading .btn,
+.is-loading .badge {
+  display: inline-block;
+  min-width: 80px;
+  height: 28px;
+}
+
+.is-loading .card-custom,
+.is-loading.card-custom {
+  box-shadow: none !important;
+  transform: none !important;
+  border-color: rgba(142, 145, 150, 0.1) !important;
+}
+
 /* Responsive Utilities and Overrides */
 @media (max-width: 991.98px) {
   .display-5 { font-size: 1.75rem; }

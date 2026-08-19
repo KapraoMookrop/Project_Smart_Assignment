@@ -32,8 +32,8 @@
             </div>
             <div class="card-body p-2 overflow-auto" style="max-height: 500px;">
               <div class="list-group list-group-flush">
-                @for (member of currentMembers; track member.user_id) {
-                  <div class="list-group-item bg-transparent border-0 d-flex justify-content-between align-items-center p-3 rounded hover-bg-navy transition-all mb-1">
+                @for (member of (isLoading ? dummyCurrentMembers : currentMembers); track member.user_id || $index) {
+                  <div class="list-group-item bg-transparent border-0 d-flex justify-content-between align-items-center p-3 rounded hover-bg-navy transition-all mb-1" [class.is-loading]="isLoading">
                     <div class="d-flex align-items-center gap-3">
                       @if (member.profile_picture_url) {
                         <img [src]="member.profile_picture_url | displayableUrl" class="rounded-circle border border-secondary" style="width: 40px; height: 40px; object-fit: cover;">
@@ -70,8 +70,8 @@
             </div>
             <div class="card-body p-2 overflow-auto" style="max-height: 500px;">
               <div class="list-group list-group-flush">
-                @for (emp of availableEmployees; track emp.user_id) {
-                  <div class="list-group-item bg-transparent border-0 d-flex justify-content-between align-items-center p-3 rounded hover-bg-navy transition-all mb-1">
+                @for (emp of (isLoading ? dummyAvailableEmployees : availableEmployees); track emp.user_id || $index) {
+                  <div class="list-group-item bg-transparent border-0 d-flex justify-content-between align-items-center p-3 rounded hover-bg-navy transition-all mb-1" [class.is-loading]="isLoading">
                     <div class="d-flex align-items-center gap-3">
                       @if (emp.profile_picture_url) {
                         <img [src]="emp.profile_picture_url | displayableUrl" class="rounded-circle border border-secondary" style="width: 40px; height: 40px; object-fit: cover;">

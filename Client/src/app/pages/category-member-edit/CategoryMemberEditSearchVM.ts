@@ -20,6 +20,21 @@ export class CategoryMemberEditSearchVM implements OnInit {
   
   currentMembers: User[] = [];
   availableEmployees: User[] = [];
+  isLoading = false;
+
+  dummyCurrentMembers: User[] = Array(2).fill({
+    user_id: 'loading-member-id',
+    full_name: 'กำลังโหลดข้อมูลพนักงาน...',
+    role: 'User',
+    profile_picture_url: ''
+  });
+
+  dummyAvailableEmployees: User[] = Array(2).fill({
+    user_id: 'loading-employee-id',
+    full_name: 'กำลังโหลดข้อมูลพนักงาน...',
+    role: 'User',
+    profile_picture_url: ''
+  });
 
   constructor(
     private location: Location,
@@ -52,22 +67,31 @@ export class CategoryMemberEditSearchVM implements OnInit {
   }
 
   async loadMembers() {
+    this.isLoading = true;
+    this.cdr.detectChanges();
     try {
+      let membersPromise = Promise.resolve([] as User[]);
       if (this.categoryId) {
-        this.currentMembers = await this.categoryApi.getCategoryMembers(this.categoryId);
+        membersPromise = this.categoryApi.getCategoryMembers(this.categoryId, true);
       }
 
       const rq = {
         is_from_member: true
       } as UserSearchPayload;
-      this.availableEmployees = await this.userApi.getUsers(rq);
+      const employeesPromise = this.userApi.getUsers(rq, true);
 
+      const [members, employees] = await Promise.all([membersPromise, employeesPromise]);
+      this.currentMembers = members;
+      this.availableEmployees = employees;
 
       const memberIds = new Set(this.currentMembers.map(m => m.user_id));
       this.availableEmployees = this.availableEmployees.filter(e => !memberIds.has(e.user_id));
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('โหลดข้อมูลสมาชิกไม่สำเร็จ', err.error?.message || err.message);
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 

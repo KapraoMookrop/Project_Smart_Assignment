@@ -18,6 +18,16 @@ export class TaskListSearchVM implements OnInit {
   currentUser: User | null = null;
   listType: 'created' | 'assigned' = 'created';
   title: string = '';
+  isLoading = false;
+
+  dummyTasks: Task[] = Array(3).fill({
+    task_id: 'loading-id',
+    title: 'กำลังโหลดข้อมูลงาน...',
+    description: 'รายละเอียดและเนื้อหาของงานกำลังอยู่ในขั้นตอนการดึงข้อมูลจากระบบหลักเพื่อแสดงผล',
+    status: 'Pending',
+    created_at: new Date().toISOString(),
+    deadline: new Date().toISOString()
+  });
 
   constructor(
     private taskApi: TaskApiService,
@@ -38,6 +48,8 @@ export class TaskListSearchVM implements OnInit {
   }
 
   async loadTasks() {
+    this.isLoading = true;
+    this.cdr.detectChanges();
     try {
       if (!this.currentUser) return;
 
@@ -48,10 +60,13 @@ export class TaskListSearchVM implements OnInit {
         filters.assignedTo = this.currentUser.user_id;
       }
 
-      this.tasks = await this.taskApi.getTasks(filters);
+      this.tasks = await this.taskApi.getTasks(filters, true);
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('โหลดข้อมูลไม่สำเร็จ', err.error?.message || err.message);
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 

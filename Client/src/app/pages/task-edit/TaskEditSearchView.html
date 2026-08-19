@@ -7,7 +7,7 @@
     <h1 class="h5 fw-bold text-center flex-grow-1 mb-0 pe-5">แก้ไขรายละเอียดงาน</h1>
   </header>
 
-  <main class="container py-4" style="max-width: 800px; padding-bottom: 100px;">
+  <main class="container py-4" style="max-width: 800px; padding-bottom: 100px;" [class.is-loading]="isLoading">
     <form (ngSubmit)="saveTask()" #taskForm="ngForm">
       <div class="card card-custom p-4 mb-4 shadow-sm">
         <!-- Task Title -->

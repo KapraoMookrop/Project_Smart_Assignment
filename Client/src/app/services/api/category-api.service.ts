@@ -11,20 +11,23 @@ export class CategoryApiService {
   private baseUrl = `${environment.apiUrl}/categories`;
   constructor(private readonly http: HttpClient) {}
 
-  async getCategories(payload?: CategorySearchPayload): Promise<Category[]> {
-    const observable = this.http.post<ApiResponse<Category[]>>(`${this.baseUrl}/search`, payload || {});
+  async getCategories(payload?: CategorySearchPayload, skipLoader: boolean = false): Promise<Category[]> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.post<ApiResponse<Category[]>>(`${this.baseUrl}/search`, payload || {}, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }
 
-  async getCategoriesByCompany(companyId: string, payload?: CategorySearchPayload): Promise<Category[]> {
-    const observable = this.http.post<ApiResponse<Category[]>>(`${this.baseUrl}/search/company/${companyId}`, payload || {});
+  async getCategoriesByCompany(companyId: string, payload?: CategorySearchPayload, skipLoader: boolean = false): Promise<Category[]> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.post<ApiResponse<Category[]>>(`${this.baseUrl}/search/company/${companyId}`, payload || {}, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }
 
-  async getCategoryById(categoryId: string): Promise<Category> {
-    const observable = this.http.get<ApiResponse<Category>>(`${this.baseUrl}/${categoryId}`);
+  async getCategoryById(categoryId: string, skipLoader: boolean = false): Promise<Category> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.get<ApiResponse<Category>>(`${this.baseUrl}/${categoryId}`, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }
@@ -40,8 +43,9 @@ export class CategoryApiService {
     await lastValueFrom(observable);
   }
 
-  async getCategoryMembers(categoryId: string): Promise<User[]> {
-    const observable = this.http.get<ApiResponse<User[]>>(`${this.baseUrl}/${categoryId}/members`);
+  async getCategoryMembers(categoryId: string, skipLoader: boolean = false): Promise<User[]> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.get<ApiResponse<User[]>>(`${this.baseUrl}/${categoryId}/members`, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }

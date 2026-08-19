@@ -11,26 +11,30 @@ export class UserApiService {
   private baseUrl = `${environment.apiUrl}/users`;
   constructor(private readonly http: HttpClient) {}
 
-  async getUsers(payload?: UserSearchPayload): Promise<User[]> {
-    const observable = this.http.post<ApiResponse<User[]>>(`${this.baseUrl}/search`, payload || {});
+  async getUsers(payload?: UserSearchPayload, skipLoader: boolean = false): Promise<User[]> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.post<ApiResponse<User[]>>(`${this.baseUrl}/search`, payload || {}, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }
 
-  async getUserById(userId: string): Promise<User> {
-    const observable = this.http.get<ApiResponse<User>>(`${this.baseUrl}/${userId}`);
+  async getUserById(userId: string, skipLoader: boolean = false): Promise<User> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.get<ApiResponse<User>>(`${this.baseUrl}/${userId}`, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }
 
-  async getUsersByCategory(categoryId: string, payload?: UserSearchPayload): Promise<User[]> {
-    const observable = this.http.post<ApiResponse<User[]>>(`${this.baseUrl}/search/category/${categoryId}`, payload || {});
+  async getUsersByCategory(categoryId: string, payload?: UserSearchPayload, skipLoader: boolean = false): Promise<User[]> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.post<ApiResponse<User[]>>(`${this.baseUrl}/search/category/${categoryId}`, payload || {}, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }
 
-  async getUsersByCompany(companyId: string, payload?: UserSearchPayload): Promise<User[]> {
-    const observable = this.http.post<ApiResponse<User[]>>(`${this.baseUrl}/search/company/${companyId}`, payload || {});
+  async getUsersByCompany(companyId: string, payload?: UserSearchPayload, skipLoader: boolean = false): Promise<User[]> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.post<ApiResponse<User[]>>(`${this.baseUrl}/search/company/${companyId}`, payload || {}, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }

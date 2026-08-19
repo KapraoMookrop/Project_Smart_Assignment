@@ -18,6 +18,15 @@ export class CompanyListSearchVM implements OnInit {
   companies: Company[] = [];
   searchQuery: string = '';
   searchSubject = new Subject<string>();
+  isLoading = false;
+
+  dummyCompanies: Company[] = Array(3).fill({
+    company_id: 'loading-id',
+    name: 'กำลังโหลดชื่อบริษัท...',
+    is_active: true,
+    employees_count: 0,
+    plan_tier: 'โหลดแพ็กเกจ...'
+  });
 
   constructor(
     private companyApi: CompanyApiService,
@@ -35,11 +44,16 @@ export class CompanyListSearchVM implements OnInit {
   }
 
   async loadCompanies() {
+    this.isLoading = true;
+    this.cdr.detectChanges();
     try {
-      this.companies = await this.companyApi.getCompanies({ keyword: this.searchQuery });
+      this.companies = await this.companyApi.getCompanies({ keyword: this.searchQuery }, true);
       this.cdr.detectChanges();
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('โหลดข้อมูลไม่สำเร็จ', err.error?.message || err.message);
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 

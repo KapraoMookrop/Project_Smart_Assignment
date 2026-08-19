@@ -6,6 +6,13 @@ import { finalize } from 'rxjs';
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   const loadingService = inject(LoadingService);
   
+  // Check if we should skip the global loader
+  if (req.headers.has('X-Skip-Loader')) {
+    const cleanHeaders = req.headers.delete('X-Skip-Loader');
+    const newReq = req.clone({ headers: cleanHeaders });
+    return next(newReq);
+  }
+
   // Show loader on request
   loadingService.show();
 

@@ -23,6 +23,8 @@ export class CompanyEditSearchVM implements OnInit {
   };
   isEditMode: boolean = false;
 
+  isLoading = false;
+
   constructor(
     private location: Location,
     private companyApi: CompanyApiService,
@@ -41,8 +43,10 @@ export class CompanyEditSearchVM implements OnInit {
   }
 
   async loadCompany(id: string) {
+    this.isLoading = true;
+    this.cdr.detectChanges();
     try {
-      const data = await this.companyApi.getCompanyById(id);
+      const data = await this.companyApi.getCompanyById(id, true);
       if (data) {
         this.company = data;
         this.cdr.detectChanges();
@@ -50,6 +54,9 @@ export class CompanyEditSearchVM implements OnInit {
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('ไม่พบข้อมูล Tenant', err.error?.message || err.message);
       this.goBack();
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 

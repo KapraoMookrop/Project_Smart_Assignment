@@ -11,7 +11,7 @@ export class TaskApiService {
   private baseUrl = `${environment.apiUrl}/tasks`;
   constructor(private readonly http: HttpClient) { }
 
-  async getTasks(filters?: { categoryId?: string, createdBy?: string, assignedTo?: string }): Promise<Task[]> {
+  async getTasks(filters?: { categoryId?: string, createdBy?: string, assignedTo?: string }, skipLoader: boolean = false): Promise<Task[]> {
     let url = this.baseUrl;
     if (filters) {
       const params = new URLSearchParams();
@@ -20,19 +20,22 @@ export class TaskApiService {
       if (filters.assignedTo) params.append('assignedTo', filters.assignedTo);
       url += `?${params.toString()}`;
     }
-    const observable = this.http.get<ApiResponse<Task[]>>(url);
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.get<ApiResponse<Task[]>>(url, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }
 
-  async getUserTaskStats(userId: string): Promise<{ inProgress: number, completed: number }> {
-    const observable = this.http.get<ApiResponse<{ inProgress: number, completed: number }>>(`${this.baseUrl}/user/${userId}/stats`);
+  async getUserTaskStats(userId: string, skipLoader: boolean = false): Promise<{ inProgress: number, completed: number }> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.get<ApiResponse<{ inProgress: number, completed: number }>>(`${this.baseUrl}/user/${userId}/stats`, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }
 
-  async getTaskById(taskId: string): Promise<Task> {
-    const observable = this.http.get<ApiResponse<Task>>(`${this.baseUrl}/${taskId}`);
+  async getTaskById(taskId: string, skipLoader: boolean = false): Promise<Task> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.get<ApiResponse<Task>>(`${this.baseUrl}/${taskId}`, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }

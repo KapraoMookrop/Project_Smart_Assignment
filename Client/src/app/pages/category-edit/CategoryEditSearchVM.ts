@@ -20,6 +20,7 @@ export class CategoryEditSearchVM implements OnInit {
     color_accent: '#00F2FF'
   };
   isEditMode: boolean = false;
+  isLoading = false;
 
   availableIcons = [
     'bi-grid', 'bi-gear', 'bi-megaphone', 'bi-cart', 'bi-headset', 
@@ -49,8 +50,10 @@ export class CategoryEditSearchVM implements OnInit {
   }
 
   async loadCategory(id: string) {
+    this.isLoading = true;
+    this.cdr.detectChanges();
     try {
-      const data = await this.categoryApi.getCategoryById(id);
+      const data = await this.categoryApi.getCategoryById(id, true);
       if (data) {
         this.category = data;
         this.cdr.detectChanges();
@@ -58,6 +61,9 @@ export class CategoryEditSearchVM implements OnInit {
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('ไม่พบข้อมูลแผนก', err.error?.message || err.message);
       this.goBack();
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 

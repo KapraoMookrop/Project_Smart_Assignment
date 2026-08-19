@@ -31,6 +31,8 @@ export class EmployeeEditSearchVM implements OnInit {
     { value: UserRole.CompanyAdmin, label: 'ผู้ดูแลระบบ (Company Admin)' }
   ];
 
+  isLoading = false;
+
   constructor(
     private location: Location,
     private userApi: UserApiService,
@@ -48,8 +50,10 @@ export class EmployeeEditSearchVM implements OnInit {
   }
 
   async loadUser(id: string) {
+    this.isLoading = true;
+    this.cdr.detectChanges();
     try {
-      const data = await this.userApi.getUserById(id);
+      const data = await this.userApi.getUserById(id, true);
       if (data) {
         this.user = data;
         this.cdr.detectChanges();
@@ -57,6 +61,9 @@ export class EmployeeEditSearchVM implements OnInit {
     } catch (err: HttpErrorResponse | any) {
       this.notification.error('ไม่พบข้อมูลสมาชิก', err.error?.message || err.message);
       this.goBack();
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 

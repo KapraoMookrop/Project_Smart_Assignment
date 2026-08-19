@@ -26,8 +26,9 @@ export class AuthApiService {
     await lastValueFrom(observable);
   }
 
-  async getCurrentUser(): Promise<User> {
-    const observable = this.http.get<ApiResponse<User>>(`${this.baseUrl}/me`);
+  async getCurrentUser(skipLoader: boolean = false): Promise<User> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.get<ApiResponse<User>>(`${this.baseUrl}/me`, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }

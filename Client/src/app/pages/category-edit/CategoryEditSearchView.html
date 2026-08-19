@@ -9,7 +9,7 @@
     </h1>
   </header>
 
-  <main class="container py-4" style="max-width: 600px; padding-bottom: 100px;">
+  <main class="container py-4" style="max-width: 600px; padding-bottom: 100px;" [class.is-loading]="isLoading">
     <div class="mb-4 text-center">
       <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" 
            [style.background-color]="category.color_accent + '22'" 

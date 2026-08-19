@@ -11,14 +11,16 @@ export class CompanyApiService {
   private baseUrl = `${environment.apiUrl}/companies`;
   constructor(private readonly http: HttpClient) { }
 
-  async getCompanies(payload?: CompanySearchPayload): Promise<Company[]> {
-    const observable = this.http.post<ApiResponse<Company[]>>(`${this.baseUrl}/search`, payload || {});
+  async getCompanies(payload?: CompanySearchPayload, skipLoader: boolean = false): Promise<Company[]> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.post<ApiResponse<Company[]>>(`${this.baseUrl}/search`, payload || {}, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }
 
-  async getCompanyById(companyId: string): Promise<Company> {
-    const observable = this.http.get<ApiResponse<Company>>(`${this.baseUrl}/${companyId}`);
+  async getCompanyById(companyId: string, skipLoader: boolean = false): Promise<Company> {
+    const headers: Record<string, string> = skipLoader ? { 'X-Skip-Loader': 'true' } : {};
+    const observable = this.http.get<ApiResponse<Company>>(`${this.baseUrl}/${companyId}`, { headers });
     const response = await lastValueFrom(observable);
     return response.data;
   }
